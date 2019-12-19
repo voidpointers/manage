@@ -13,7 +13,7 @@ class Receipt extends Model
 {
     public function transaction()
     {
-        return $this->hasMany('Receipt\Entities\transaction', 'receipt_id', 'receipt_id');
+        return $this->hasMany('Receipt\Entities\Transaction', 'receipt_id', 'receipt_id');
     }
 
     public function consignee()
