@@ -23,9 +23,8 @@ class ReceiptsController extends Controller
     public function lists()
     {
         $receipts = $this->repository->with(['consignee', 'transaction'])->paginate(30);
-        return $receipts;
 
-        return $this->response->collection(
+        return $this->response->paginator(
             $receipts,
             new ReceiptTransformer,
             ['key' => 'receipt']
