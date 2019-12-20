@@ -213,7 +213,7 @@ return [
     'defaultFormat' => env('API_DEFAULT_FORMAT', 'json'),
 
     'formats' => [
-        'json' => Api\Format\Json::class,
+        'json' => Api\Fractal\Json::class,
     ],
 
     'formatsOptions' => [

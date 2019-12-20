@@ -20,6 +20,9 @@ class ReceiptsController extends Controller
         $this->repository = $repository;
     }
 
+    /**
+     * 获取列表
+     */
     public function lists()
     {
         $receipts = $this->repository->with(['consignee', 'transaction'])->paginate(30);
@@ -29,5 +32,13 @@ class ReceiptsController extends Controller
             new ReceiptTransformer,
             ['key' => 'receipt']
         );
+    }
+
+    /**
+     * 订单发货
+     */
+    public function delivery()
+    {
+        $status = '';
     }
 }

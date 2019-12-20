@@ -1,6 +1,6 @@
 <?php
 
-namespace Api\Format;
+namespace Api\Fractal;
 
 use Dingo\Api\Http\Response\Format\Format;
 use Dingo\Api\Http\Response\Format\JsonOptionalFormatting;
