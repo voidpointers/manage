@@ -29,8 +29,7 @@ class ReceiptsController extends Controller
 
         return $this->response->paginator(
             $receipts,
-            new ReceiptTransformer,
-            ['key' => 'receipt']
+            new ReceiptTransformer
         );
     }
 
