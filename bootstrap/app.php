@@ -81,6 +81,7 @@ $app->register(App\Providers\AuthServiceProvider::class);
 $app->register(App\Providers\EventServiceProvider::class);
 $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 $app->register(Dingo\Api\Provider\LumenServiceProvider::class);
+$app->register(\Voidpointers\Yunexpress\Provider\LumenServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------

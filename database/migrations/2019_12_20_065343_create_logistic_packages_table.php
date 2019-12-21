@@ -14,10 +14,10 @@ class CreateLogisticsTable extends Migration
      */
     public function up()
     {
-        Schema::create('logistics', function (Blueprint $table) {
+        Schema::create('logistic_packages', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('receipt_id')->default(0)->comment('收据ID');
             $table->bigInteger('consignee_id')->default()->comment('收货人');
+            $table->bigInteger('receipt_id')->default(0)->comment('收据ID');
             $table->string('provider', 32)->default('')->comment('物流商');
             $table->string('channel', 64)->default('')->comment('物流商渠道');
             $table->string('tacking_code')->default('')->comment('运单号');
@@ -26,7 +26,7 @@ class CreateLogisticsTable extends Migration
             $table->integer('update_time')->default(0)->comment('更新时间');
         });
 
-        DB::statement("ALTER TABLE `receipts` comment '订单收据'"); // 表注释
+        DB::statement("ALTER TABLE `logistic_packages` comment '物流包裹'"); // 表注释
     }
 
     /**

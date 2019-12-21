@@ -12,5 +12,6 @@
 */
 
 $router->get('/', function () use ($router) {
+    return config('yunexpress');
     return $router->app->version();
 });

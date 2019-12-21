@@ -27,7 +27,7 @@ class CreateReceiptConsigneesTable extends Migration
             $table->string('formatted_address')->default('')->comment('送货地址的本地格式地址');
         });
 
-        DB::statement("ALTER TABLE `receipt_consignees` comment '订单联系人'"); // 表注释
+        DB::statement("ALTER TABLE `receipt_consignees` comment '收货人'"); // 表注释
     }
 
     /**
