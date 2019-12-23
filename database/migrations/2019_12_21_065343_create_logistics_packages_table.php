@@ -17,7 +17,6 @@ class CreateLogisticsTable extends Migration
         Schema::create('logistic_packages', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('consignee_id')->default()->comment('收货人');
-            $table->bigInteger('receipt_id')->default(0)->comment('收据ID');
             $table->string('provider', 32)->default('')->comment('物流商');
             $table->string('channel', 64)->default('')->comment('物流商渠道');
             $table->string('tacking_code')->default('')->comment('运单号');

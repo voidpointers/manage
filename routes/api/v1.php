@@ -16,4 +16,10 @@ $api->version('v1', [], function ($api) {
             $api->get('logout', 'AuthorizationsController@logout');
         });
     });
+    $api->group([
+        'namespace' => 'Api\Package\V1\Controllers',
+        'prefix' => 'packages',
+    ], function ($api) {
+        $api->get('track/info/{order_number}', 'LogisticsController@trackInfo');
+    });
 });
