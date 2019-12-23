@@ -28,7 +28,7 @@ class ReceiptsController extends Controller
     {
         $where = [];
 
-        if ($request->has('status')) {
+        if ($request->get('status', 0) > 0) {
             $where['status'] = $request->get('status');
         }
 
