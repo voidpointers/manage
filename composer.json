@@ -29,7 +29,10 @@
             "Api\\": "app/Api",
             "Receipt\\": "app/Receipt",
             "Voidpointers\\Yunexpress\\": "packages/voidpointers/yunexpress/src"
-        }
+        },
+        "files": [
+            "bootstrap/helpers.php"
+        ]
     },
     "autoload-dev": {
         "classmap": [

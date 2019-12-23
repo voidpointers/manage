@@ -4,6 +4,7 @@ namespace Api\Receipt\V1\Controllers;
 
 use Api\Controller;
 use Api\Receipt\V1\Transforms\ReceiptTransformer;
+use Dingo\Api\Http\Request;
 use Receipt\Repositories\ReceiptRepository;
 
 /**
@@ -23,21 +24,23 @@ class ReceiptsController extends Controller
     /**
      * 获取列表
      */
-    public function lists()
+    public function lists(Request $request)
     {
-        $receipts = $this->repository->with(['consignee', 'transaction'])->paginate(30);
+        $where = [];
+
+        if ($request->has('status')) {
+            $where['status'] = $request->get('status');
+        }
+
+        $receipts = $this->repository
+            ->scopeQuery(function ($query) use ($where) {
+                return $query->where($where);
+            })
+            ->with(['consignee', 'transaction'])->paginate(30);
 
         return $this->response->paginator(
             $receipts,
             new ReceiptTransformer
         );
-    }
-
-    /**
-     * 订单发货
-     */
-    public function delivery()
-    {
-        $status = '';
     }
 }

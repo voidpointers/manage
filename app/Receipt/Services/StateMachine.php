@@ -12,9 +12,12 @@ class StateMachine
         'follow',
         'customize',
         'pack',
+        'stockout',
         'delivery',
+        'cancel',
         'receive',
         'complete',
+        'close',
     ];
 
     protected $receiptRepository;

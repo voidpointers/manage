@@ -17,7 +17,7 @@ class LogisticsController
     )
     {
         $this->client = new \Voidpointers\Yunexpress\Client();
-        $this->receiptRepository = $receiptRepository;
+        $this->receiptRepository = $packageRepository;
     }
 
     public function createOrder(Request $request)
