@@ -16,6 +16,7 @@ class CreateReceiptsTable extends Migration
     {
         Schema::create('receipts', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('receipt_sn')->unsigned()->default('')->comment('收据唯一编号');
             $table->integer('shop_id')->unsigned()->default(0)->comment('店铺ID');
             $table->bigInteger('etsy_receipt_id')->unsigned()->default(0)->comment('Etsy收据ID');
             $table->tinyInteger('type')->unsigned()->default(0)->comment('类型');
@@ -44,6 +45,7 @@ class CreateReceiptsTable extends Migration
             $table->integer('create_time')->unsigned()->default(0)->comment('创建时间');
             $table->integer('update_time')->unsigned()->default(0)->comment('更新时间');
             $table->integer('complete_time')->unsigned()->default(0)->comment('完成时间');
+            $table->unique('receipt_sn', 'uk_receipt_sn');
         });
 
         DB::statement("ALTER TABLE `receipts` comment '订单收据'"); // 表注释

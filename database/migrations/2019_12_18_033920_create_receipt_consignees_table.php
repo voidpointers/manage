@@ -16,7 +16,7 @@ class CreateReceiptConsigneesTable extends Migration
     {
         Schema::create('receipt_consignees', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('receipt_id')->unsigned()->default(0)->comment('主表ID');
+            $table->bigInteger('receipt_sn')->unsigned()->default('')->comment('收据编号');
             $table->integer('country_id')->unsigned()->default(0)->comment('国家ID');
             $table->string('name')->default('')->comment('收件人名');
             $table->string('state', 32)->default('')->comment('州');
