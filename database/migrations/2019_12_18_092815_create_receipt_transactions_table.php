@@ -16,21 +16,20 @@ class CreateReceiptTransactionsTable extends Migration
     {
         Schema::create('receipt_transactions', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('receipt_id')->unsigned()->default()->comment('收据ID');
-            $table->bigInteger('transaction_id')->unsigned()->default()->comment('交易ID');
-            $table->bigInteger('listing_id')->unsigned()->default()->comment('商品ID');
+            $table->bigInteger('receipt_id')->unsigned()->default(0)->comment('收据ID');
+            $table->bigInteger('transaction_id')->unsigned()->default(0)->comment('交易ID');
+            $table->bigInteger('listing_id')->unsigned()->default(0)->comment('商品ID');
             $table->string('title', 128)->default('')->comment('标题');
             $table->string('alias')->default('')->comment('别名');
             $table->string('etsy_sku', 64)->default()->comment('Etsy sku');
             $table->string('local_sku', 64)->default()->comment('本地sku');
-            $table->string('image', 128)->default('')->comment('图片地址');
+            $table->string('image_id', 128)->default('')->comment('图片ID');
             $table->mediumInteger('quantity')->unsigned()->default(0)->comment('数量');
             $table->decimal('price', 12, 2)->unsigned()->default(0)->comment('单价');
             $table->json('attributes')->comment('商品属性');
             $table->string('description', 255)->default('')->comment('描述');
-            $table->integer('pay_time')->unsigned()->default(0)->comment('支付时间');
-            $table->integer('ship_time')->unsigned()->default(0)->comment('发货时间');
-            $table->unique('receipt_id', 'uk_receipt_id');
+            $table->integer('paid_tsz')->unsigned()->default(0)->comment('支付时间');
+            $table->integer('shipped_tsz')->unsigned()->default(0)->comment('发货时间');
         });
 
         DB::statement("ALTER TABLE `receipt_transactions` comment '订单交易列表'"); // 表注释

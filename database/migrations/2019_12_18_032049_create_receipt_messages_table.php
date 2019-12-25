@@ -17,8 +17,10 @@ class CreateReceiptMessagesTable extends Migration
         Schema::create('receipt_messages', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('receipt_id')->default(0)->unsigned()->comment('收据ID');
-            $table->string('seller_msg')->comment('卖家消息');
-            $table->string('buyer_msg')->comment('买家消息');
+            $table->string('seller_msg')->default('')->comment('卖家消息');
+            $table->string('seller_msg_zh')->default('')->comment('卖家消息');
+            $table->string('buyer_msg')->default('')->comment('买家消息');
+            $table->string('remark')->default('')->comment('订单备注');
             $table->unique('receipt_id', 'uk_receipt_id');
         });
 

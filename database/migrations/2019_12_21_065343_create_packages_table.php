@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 
-class CreateLogisticsTable extends Migration
+class CreatePackagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,9 @@ class CreateLogisticsTable extends Migration
      */
     public function up()
     {
-        Schema::create('logistic_packages', function (Blueprint $table) {
+        Schema::create('packages', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('package_sn')->default(0)->comment('包裹编号');
             $table->bigInteger('consignee_id')->default()->comment('收货人');
             $table->string('provider', 32)->default('')->comment('物流商');
             $table->string('channel', 64)->default('')->comment('物流商渠道');
@@ -25,7 +26,7 @@ class CreateLogisticsTable extends Migration
             $table->integer('update_time')->default(0)->comment('更新时间');
         });
 
-        DB::statement("ALTER TABLE `logistic_packages` comment '物流包裹'"); // 表注释
+        DB::statement("ALTER TABLE `packages` comment '物流包裹'"); // 表注释
     }
 
     /**
@@ -35,6 +36,6 @@ class CreateLogisticsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('logistics');
+        Schema::dropIfExists('packages');
     }
 }
