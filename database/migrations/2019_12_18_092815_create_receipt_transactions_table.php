@@ -16,13 +16,14 @@ class CreateReceiptTransactionsTable extends Migration
     {
         Schema::create('receipt_transactions', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('etsy_receipt_id')->unsigned()->default(0)->comment('Etsy收据ID');
             $table->bigInteger('receipt_sn')->unsigned()->default(0)->comment('收据编号');
             $table->bigInteger('transaction_id')->unsigned()->default(0)->comment('交易ID');
             $table->bigInteger('listing_id')->unsigned()->default(0)->comment('商品ID');
             $table->string('title', 128)->default('')->comment('标题');
             $table->string('alias')->default('')->comment('别名');
-            $table->string('etsy_sku', 64)->default()->comment('Etsy sku');
-            $table->string('local_sku', 64)->default()->comment('本地sku');
+            $table->string('etsy_sku', 64)->default('')->comment('Etsy sku');
+            $table->string('local_sku', 64)->default('')->comment('本地sku');
             $table->string('image_id', 128)->default('')->comment('图片ID');
             $table->mediumInteger('quantity')->unsigned()->default(0)->comment('数量');
             $table->decimal('price', 12, 2)->unsigned()->default(0)->comment('单价');
