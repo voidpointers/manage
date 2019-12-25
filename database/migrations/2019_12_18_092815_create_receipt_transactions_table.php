@@ -16,8 +16,8 @@ class CreateReceiptTransactionsTable extends Migration
     {
         Schema::create('receipt_transactions', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('transaction_id')->unsigned()->default()->comment('交易ID');
             $table->bigInteger('receipt_id')->unsigned()->default()->comment('收据ID');
+            $table->bigInteger('transaction_id')->unsigned()->default()->comment('交易ID');
             $table->bigInteger('listing_id')->unsigned()->default()->comment('商品ID');
             $table->string('title', 128)->default('')->comment('标题');
             $table->string('alias')->default('')->comment('别名');
@@ -30,6 +30,7 @@ class CreateReceiptTransactionsTable extends Migration
             $table->string('description', 255)->default('')->comment('描述');
             $table->integer('pay_time')->unsigned()->default(0)->comment('支付时间');
             $table->integer('ship_time')->unsigned()->default(0)->comment('发货时间');
+            $table->unique('receipt_id', 'uk_receipt_id');
         });
 
         DB::statement("ALTER TABLE `receipt_transactions` comment '订单交易列表'"); // 表注释
