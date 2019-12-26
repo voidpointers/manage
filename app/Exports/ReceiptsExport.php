@@ -7,9 +7,7 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Excel;
-use PhpOffice\PhpSpreadsheet\Shared\Date;
-use Receipt\Entties\Receipt;
-use Receipt\Repositories\ReceiptRepository;
+use Receipt\Entities\Transaction;
 
 class ReceiptsExport implements FromCollection, WithHeadings, WithMapping, ShouldAutoSize
 {
@@ -36,13 +34,18 @@ class ReceiptsExport implements FromCollection, WithHeadings, WithMapping, Shoul
     */
     public function collection()
     {
-        return Receipt::with('transaction')->get();
+        return Transaction::with('receipt')->get();
     }
 
     public function headings(): array
     {
         return [
-            '订单号',
+            'Etsy订单号',
+            'Etsy SKU',
+            '库存属性',
+            '库存SKU',
+            '购买数量',
+            '订单状态',
             '下单时间'
         ];
     }
@@ -55,14 +58,14 @@ class ReceiptsExport implements FromCollection, WithHeadings, WithMapping, Shoul
         // This example will return 3 rows.
         // First row will have 2 column, the next 2 will have 1 column
         return [
-            [
-                $receipt->etsy_receipt_id,
-                // Date::dateTimeToExcel($receipt->creation_tsz),
-                $receipt->creation_tsz
-            ],
-            [
-                $receipt->transaction->first()->etsy_sku,
-            ],
+            $receipt->etsy_receipt_id,
+            $receipt->etsy_sku,
+            $receipt->attributes,
+            $receipt->local_sku,
+            $receipt->quantity,
+            $receipt->receipt->status,
+            $receipt->receipt->creation_tsz
+            // Date::dateTimeToExcel($receipt->creation_tsz),
         ];
     }
 }
