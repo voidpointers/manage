@@ -10,6 +10,7 @@
         "dingo/api": "^2.4",
         "guzzlehttp/guzzle": "^6.5",
         "laravel/lumen-framework": "5.8.*",
+        "maatwebsite/excel": "^3.1",
         "prettus/l5-repository": "^2.6",
         "tymon/jwt-auth": "1.0.0-rc.4",
         "vlucas/phpdotenv": "^3.3"

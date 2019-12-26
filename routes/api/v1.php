@@ -8,6 +8,7 @@ $api->version('v1', [], function ($api) {
         'prefix' => 'receipts',
     ], function ($api) {
         $api->get('lists', 'ReceiptsController@lists');
+        $api->get('export', 'ReceiptsController@export');
         $api->group([
             'middleware' => 'api.auth'
         ], function ($api) {

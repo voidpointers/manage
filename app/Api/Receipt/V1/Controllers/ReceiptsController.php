@@ -4,7 +4,9 @@ namespace Api\Receipt\V1\Controllers;
 
 use Api\Controller;
 use Api\Receipt\V1\Transforms\ReceiptTransformer;
+use App\Exports\ReceiptsExport;
 use Dingo\Api\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use Receipt\Repositories\ReceiptRepository;
 
 /**
@@ -42,5 +44,10 @@ class ReceiptsController extends Controller
             $receipts,
             new ReceiptTransformer
         );
+    }
+
+    public function export()
+    {
+        return Excel::download(new ReceiptsExport, 'receipts.xlsx');
     }
 }
