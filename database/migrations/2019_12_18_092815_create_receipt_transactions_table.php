@@ -20,8 +20,7 @@ class CreateReceiptTransactionsTable extends Migration
             $table->bigInteger('receipt_sn')->unsigned()->default(0)->comment('收据编号');
             $table->bigInteger('transaction_id')->unsigned()->default(0)->comment('交易ID');
             $table->bigInteger('listing_id')->unsigned()->default(0)->comment('商品ID');
-            $table->string('title', 128)->default('')->comment('标题');
-            $table->string('alias')->default('')->comment('别名');
+            $table->string('title')->default('')->comment('标题');
             $table->string('etsy_sku', 64)->default('')->comment('Etsy sku');
             $table->string('local_sku', 64)->default('')->comment('本地sku');
             $table->string('image')->default('')->comment('图片地址');
