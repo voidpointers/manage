@@ -36,9 +36,9 @@ class CreateReceiptsTable extends Migration
             $table->decimal('total_tax_cost', 12, 2)->unsigned()->default(0)->comment('总营收额');
             $table->decimal('total_vat_cost', 12, 2)->unsigned()->default(0)->comment('总增值税');
             $table->decimal('total_shipping_cost', 12, 2)->unsigned()->default(0)->comment('总运费');
-            $table->string('seller_msg')->default('')->comment('卖家消息');
-            $table->string('buyer_msg')->default('')->comment('买家消息');
-            $table->string('buyer_msg_zh')->default('')->comment('买家消息');
+            $table->text('seller_msg')->comment('卖家消息');
+            $table->text('buyer_msg')->comment('买家消息');
+            $table->text('buyer_msg_zh')->comment('买家消息');
             $table->string('remark')->default('')->comment('订单备注');
             $table->integer('creation_tsz')->unsigned()->default(0)->comment('下单时间');
             $table->integer('modified_tsz')->unsigned()->default(0)->comment('修改时间');
