@@ -24,7 +24,7 @@ class CreateReceiptTransactionsTable extends Migration
             $table->string('alias')->default('')->comment('别名');
             $table->string('etsy_sku', 64)->default('')->comment('Etsy sku');
             $table->string('local_sku', 64)->default('')->comment('本地sku');
-            $table->string('image_id', 128)->default('')->comment('图片ID');
+            $table->string('image')->default('')->comment('图片地址');
             $table->mediumInteger('quantity')->unsigned()->default(0)->comment('数量');
             $table->decimal('price', 12, 2)->unsigned()->default(0)->comment('单价');
             $table->text('attributes')->nullable()->comment('商品属性');
