@@ -13,9 +13,9 @@ class Transaction extends Model
      *
      * @return string
      */
-    public function getTitleAttribute()
-    {
-        $attributes = json_decode($this->attributes['attributes'], true) ?? [];
-        return implode(' - ', array_values($attributes));
-    }
+    // public function getTitleAttribute()
+    // {
+    //     $attributes = json_decode($this->attributes['attributes'], true) ?? [];
+    //     return implode(' - ', array_values($attributes));
+    // }
 }

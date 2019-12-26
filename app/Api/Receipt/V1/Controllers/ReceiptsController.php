@@ -36,7 +36,7 @@ class ReceiptsController extends Controller
 
         $receipts = $this->repository
             ->scopeQuery(function ($query) use ($where) {
-                return $query->where($where);
+                return $query->where($where)->orderBy('id', 'desc');
             })
             ->with(['consignee', 'transaction'])->paginate(30);
 
