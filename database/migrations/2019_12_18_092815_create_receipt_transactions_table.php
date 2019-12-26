@@ -27,7 +27,7 @@ class CreateReceiptTransactionsTable extends Migration
             $table->string('image_id', 128)->default('')->comment('图片ID');
             $table->mediumInteger('quantity')->unsigned()->default(0)->comment('数量');
             $table->decimal('price', 12, 2)->unsigned()->default(0)->comment('单价');
-            $table->json('attributes')->nullable()->comment('商品属性');
+            $table->text('attributes')->nullable()->comment('商品属性');
             $table->string('description', 255)->default('')->comment('描述');
             $table->integer('paid_tsz')->unsigned()->default(0)->comment('支付时间');
             $table->integer('shipped_tsz')->unsigned()->default(0)->comment('发货时间');
