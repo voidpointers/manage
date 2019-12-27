@@ -14,6 +14,11 @@ class Transaction extends Model
         return $this->belongsTo(Receipt::class, 'receipt_sn', 'receipt_sn');
     }
 
+    public function scopeShippedTsz($query, $shipped_tsz)
+    {
+        return $query->whereBetween('shipped_tsz', $shipped_tsz);
+    }
+
     /**
      * Get the transaction's title.
      *

@@ -13,6 +13,11 @@ use Receipt\Entties\Receipt;
  */
 class ReceiptRepository extends Repository implements ReceiptInterface
 {
+    protected $fieldSearchable = [
+        'etsy_receipt_id',
+        'creation_tsz'
+    ];
+
     public function model()
     {
         return Receipt::class;
