@@ -31,6 +31,7 @@ class CreateReceiptTransactionsTable extends Migration
             $table->string('description', 255)->default('')->comment('描述');
             $table->integer('paid_tsz')->unsigned()->default(0)->comment('支付时间');
             $table->integer('shipped_tsz')->unsigned()->default(0)->comment('发货时间');
+            $table->index('receipt_sn', 'idx_receipt_sn');
         });
 
         DB::statement("ALTER TABLE `receipt_transactions` comment '订单交易列表'"); // 表注释

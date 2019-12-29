@@ -26,6 +26,7 @@ class CreateReceiptConsigneesTable extends Migration
             $table->string('first_line')->default('')->comment('第一行地址');
             $table->string('second_line')->default('')->comment('第二行地址');
             $table->string('formatted_address')->default('')->comment('送货地址的本地格式地址');
+            $table->unique('receipt_sn', 'uk_receipt_sn');
         });
 
         DB::statement("ALTER TABLE `receipt_consignees` comment '收货人'"); // 表注释
