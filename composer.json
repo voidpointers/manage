@@ -29,7 +29,9 @@
             "App\\": "app/",
             "Api\\": "app/Api",
             "Receipt\\": "app/Receipt",
-            "Voidpointers\\Yunexpress\\": "packages/voidpointers/yunexpress/src"
+            "Voidpointers\\Yunexpress\\": "packages/voidpointers/yunexpress/src",
+            "Logistics\\": "app/Logistics",
+            "Package\\": "app/Package"
         },
         "files": [
             "bootstrap/helpers.php"
