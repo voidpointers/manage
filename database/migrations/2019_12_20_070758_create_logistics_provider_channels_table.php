@@ -17,9 +17,9 @@ class CreateLogisticsProviderChannelsTable extends Migration
         Schema::create('logistics_provider_channels', function (Blueprint $table) {
             $table->increments('id');
             $table->mediumInteger('provider_id')->default(0)->comment('供应商ID');
-            $table->string('code')->default('')->comment('代码');
-            $table->string('title')->default('')->comment('中文名');
-            $table->string('en')->default('')->comment('英文标题');
+            $table->string('code', 12)->default('')->comment('代码');
+            $table->string('title', 32)->default('')->comment('中文名');
+            $table->string('en', 64)->default('')->comment('英文标题');
             $table->tinyInteger('status')->default(0)->comment('状态');
             $table->mediumInteger('sort')->default(0)->comment('排序');
             $table->index('code', 'idx_code');

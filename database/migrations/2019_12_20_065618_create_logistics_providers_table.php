@@ -16,9 +16,9 @@ class CreateLogisticsProvidersTable extends Migration
     {
         Schema::create('logistics_providers', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title', 64)->default('')->comment('物流商');
-            $table->string('en')->default('')->comment('英文或拼音名');
-            $table->string('code', 32)->default('')->comment('代号');
+            $table->string('title', 32)->default('')->comment('物流商');
+            $table->string('en', 64)->default('')->comment('英文或拼音名');
+            $table->string('code', 12)->default('')->comment('代号');
             $table->mediumInteger('sort')->default(0)->comment('排序');
         });
 
