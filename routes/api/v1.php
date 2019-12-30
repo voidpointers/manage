@@ -20,6 +20,8 @@ $api->version('v1', [], function ($api) {
         'namespace' => 'Api\Logistics\V1\Controllers',
         'prefix' => 'logistics',
     ], function ($api) {
+        $api->post('label/lists', 'LogisticsController@labels');
         $api->get('provider/lists', 'ProvidersController@lists');
+        $api->get('track/info/{order_number}', 'LogisticsController@trackInfo');
     });
 });

@@ -45,19 +45,10 @@ class Client
             'Accept' => 'text/json',
         ];
 
-        $this->init();
-    }
-
-    /**
-     * Init
-     */
-    protected function init()
-    {
         $this->client = new \GuzzleHttp\Client([
-            'headers' => $this->headers
+            'base_uri' => $this->host,
+            'headers' => $this->headers,
         ]);
-
-        return $this;
     }
 
     /**
@@ -78,8 +69,7 @@ class Client
      */
     public function setLang($lang)
     {
-        $this->headers['Accept-Language'] = $lang;
-        return $this->init();
+        return $this->headers['Accept-Language'] = $lang;
     }
 
     /**
@@ -110,10 +100,22 @@ class Client
 
         $query = [
             'query' => [
-                'orderNumber' => $order_number,
+                'OrderNumber' => $order_number,
             ],
         ];
-        $response = $this->client->get($this->host . $api, $query);
+        $response = $this->client->get($api, $query);
+        return $this->parseResult($response->getBody());
+    }
+    
+    public function labelPrint($order_numbers = [])
+    {
+        $api = 'Label/Print';
+
+        $query = [
+            'body' => json_encode($order_numbers),
+        ];
+
+        $response = $this->client->post($api, $query);
         return $this->parseResult($response->getBody());
     }
 

@@ -2,7 +2,9 @@
 
 namespace Logistics\Requests;
 
-class YunexpressRequest
+use Logistics\Contracts\RequestInterface;
+
+class YunexpressRequest implements RequestInterface
 {
     protected $client;
 
@@ -11,17 +13,18 @@ class YunexpressRequest
         $this->client = new \Voidpointers\Yunexpress\Client();
     }
 
-    public function trackInfo($order_number)
+    public function trackInfo($tracking_code = '')
     {
-        return $this->client->getTrackInfo($order_number);
+        return $this->client->getTrackInfo($tracking_code);
     }
 
-    public function createOrder(Request $request)
+    public function createOrder($params = [])
     {
+        return $this->client->createOrder($params);
+    }
 
-        // 转换为Waybill
-        $order->customerOrderNumber = '';
-
-        return $this->client->createOrder([]);
+    public function labelPrint($tracking_codes = [])
+    {
+        return $this->client->labelPrint($tracking_codes);
     }
 }
