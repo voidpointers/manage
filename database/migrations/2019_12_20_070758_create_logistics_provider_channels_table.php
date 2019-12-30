@@ -21,6 +21,7 @@ class CreateLogisticsProviderChannelsTable extends Migration
             $table->string('title')->default('')->comment('中文名');
             $table->string('en')->default('')->comment('英文标题');
             $table->tinyInteger('status')->default(0)->comment('状态');
+            $table->mediumInteger('sort')->default(0)->comment('排序');
         });
 
         DB::statement("ALTER TABLE `logistics_provider_channels` comment '物流商渠道'"); // 表注释
