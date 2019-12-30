@@ -21,6 +21,7 @@ class CreatePackageLogisticsTable extends Migration
             $table->string('provider', 32)->default('')->comment('物流商');
             $table->string('channel', 64)->default('')->comment('物流商渠道');
             $table->string('tacking_code', 128)->default('')->comment('运单号');
+            $table->string('waybill_url')->default('')->comment('面单');
             $table->string('remark')->default('')->comment('运单请求失败反馈失败原因');
             $table->integer('create_time')->default(0)->comment('创建时间');
             $table->integer('update_time')->default(0)->comment('更新时间');
