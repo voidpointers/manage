@@ -9,18 +9,17 @@ $api->version('v1', [], function ($api) {
     ], function ($api) {
         $api->get('lists', 'ReceiptsController@lists');
         $api->get('export', 'ReceiptsController@export');
-        $api->group([
-            'middleware' => 'api.auth'
-        ], function ($api) {
-            $api->get('info', 'UsersController@info');
-            $api->get('refresh', 'UsersController@refresh');
-            $api->get('logout', 'AuthorizationsController@logout');
-        });
     });
     $api->group([
         'namespace' => 'Api\Package\V1\Controllers',
         'prefix' => 'packages',
     ], function ($api) {
         $api->get('track/info/{order_number}', 'LogisticsController@trackInfo');
+    });
+    $api->group([
+        'namespace' => 'Api\Logistics\V1\Controllers',
+        'prefix' => 'logistics',
+    ], function ($api) {
+        $api->get('provider/lists', 'ProvidersController@lists');
     });
 });
