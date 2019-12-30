@@ -17,10 +17,9 @@ class ProvidersController extends Controller
 
     public function lists()
     {
-        $providers = $this->providerRepository->whereHas('channel', function ($query) {
+        $providers = $this->providerRepository->with(['channel' => function($query) {
             return $query->where('status', 1);
-        })
-        ->with('channel')->all();
+        }])->get();
 
         return $this->response->collection($providers, new ProviderTransformer);
     }
