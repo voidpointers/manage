@@ -29,4 +29,9 @@ class Transaction extends Model
     //     $attributes = json_decode($this->attributes['attributes'], true) ?? [];
     //     return implode(' - ', array_values($attributes));
     // }
+
+    public function getVariationsAttribute()
+    {
+        return json_decode($this->attributes['variations'], true) ?? '';
+    }
 }
