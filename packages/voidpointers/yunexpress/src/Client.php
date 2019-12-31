@@ -107,6 +107,12 @@ class Client
         return $this->parseResult($response->getBody());
     }
     
+    /**
+     * 打印面单
+     * 
+     * @param array $order_numbers
+     * @return array
+     */
     public function labelPrint($order_numbers = [])
     {
         $api = 'Label/Print';
@@ -116,6 +122,13 @@ class Client
         ];
 
         $response = $this->client->post($api, $query);
+        return $this->parseResult($response->getBody());
+    }
+
+    public function country()
+    {
+        $api = 'Common/GetCountry';
+        $response = $this->client->get($api);
         return $this->parseResult($response->getBody());
     }
 
@@ -138,6 +151,6 @@ class Client
             }
             throw new \Exception($arr['Message'], $arr['Code']);
         }
-        return $arr['Item'];
+        return $arr['Item'] ?? $arr['Items'];
     }
 }

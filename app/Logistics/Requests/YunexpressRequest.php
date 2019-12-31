@@ -27,4 +27,9 @@ class YunexpressRequest implements RequestInterface
     {
         return $this->client->labelPrint($tracking_codes);
     }
+
+    public function country()
+    {
+        return $this->client->country();
+    }
 }

@@ -31,7 +31,8 @@
             "Receipt\\": "app/Receipt",
             "Voidpointers\\Yunexpress\\": "packages/voidpointers/yunexpress/src",
             "Logistics\\": "app/Logistics",
-            "Package\\": "app/Package"
+            "Package\\": "app/Package",
+            "Country\\": "app/Country"
         },
         "files": [
             "bootstrap/helpers.php"
