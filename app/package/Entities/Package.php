@@ -9,6 +9,11 @@ class Package extends Model
 {
     public function consignee()
     {
-        return Consignee::class;
+        return $this->hasOne(Consignee::class, 'consignee_id', 'id');
+    }
+
+    public function item()
+    {
+        return $this->hasMany(Item::class, 'package_sn', 'package_sn');
     }
 }

@@ -4,22 +4,21 @@ namespace Api\Logistics\V1\Controllers;
 
 use Api\Controller;
 use Dingo\Api\Http\Request;
-use Logistics\Requests\Request as LogisticsRequest;
+use Logistics\Services\LogisticsService;
 use Package\Repositories\PackageRepository;
-use Voidpointers\Yunexpress\Waybill;
 
 class LogisticsController extends Controller
 {
-    protected $request;
-
     protected $packageRepository;
 
+    protected $logisticsService;
+
     public function __construct(
-        LogisticsRequest $request,
-        PackageRepository $packageRepository)
+        PackageRepository $packageRepository,
+        LogisticsService $logisticsService)
     {
-        $this->request = $request;
         $this->packageRepository = $packageRepository;
+        $this->logisticsService = $logisticsService;
     }
 
     public function lists(Request $request)
@@ -46,11 +45,13 @@ class LogisticsController extends Controller
      */
     public function createOrder(Request $request)
     {
-        $package_ids = $request->get('package_id', []);
+        $packages = $this->packageRepository
+            ->with(['consignee', 'item'])
+            ->findWhere($request->get('package_id', []));
 
-        $packages = $this->packageRepository->findWhere($package_ids);
+        $logistics = $this->logisticsService->createOrder($packages);
 
-        $this->request->instance()->createOrder([]);
+        $this->logisticsRepo->create();
     }
 
     /**
@@ -66,15 +67,7 @@ class LogisticsController extends Controller
             $tracking_codes = [$tracking_codes];
         }
 
-        $data = [];
-
-        $labels = $this->request->instance()->labelPrint($tracking_codes);
-        foreach ($labels as $label) {
-            $data[] = [
-                'url' => $label['Url'],
-                'orders' => array_column($label['OrderInfos'], 'CustomerOrderNumber'),
-            ];
-        }
+        $data = $this->logisticsService->labels($tracking_codes);
 
         return $this->response->array(['data' => $data]);
     }

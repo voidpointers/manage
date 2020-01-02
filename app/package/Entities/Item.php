@@ -2,7 +2,9 @@
 
 namespace Package\Entities;
 
-class Item
+use App\Model;
+
+class Item extends Model
 {
 
 }
