@@ -24,6 +24,11 @@ abstract class Repository extends BaseRepository
 
         $this->skipPresenter(true);
 
+        foreach ($where as $key => $value) {
+            if (is_array($value)) {
+                $this->model->whereIn($key, $value);
+            }
+        }
         $model = $this->model->where($where)->update($values);
 
         $this->skipPresenter($temporarySkipPresenter);

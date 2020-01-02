@@ -32,7 +32,7 @@
             "Voidpointers\\Yunexpress\\": "packages/voidpointers/yunexpress/src",
             "Logistics\\": "app/Logistics",
             "Package\\": "app/Package",
-            "Country\\": "app/Country"
+            "System\\": "app/System"
         },
         "files": [
             "bootstrap/helpers.php"

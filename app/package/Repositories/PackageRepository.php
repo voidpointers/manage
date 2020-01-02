@@ -11,4 +11,9 @@ class PackageRepository extends Repository
     {
         return Package::class;
     }
+
+    public function listByPackage($pacakge_sn)
+    {
+        return Package::whereIn('package_sn', $pacakge_sn)->with(['consignee', 'item'])->get();
+    }
 }

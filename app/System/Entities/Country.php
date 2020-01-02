@@ -1,6 +1,6 @@
 <?php
 
-namespace Country\Entities;
+namespace System\Entities;
 
 use App\Model;
 

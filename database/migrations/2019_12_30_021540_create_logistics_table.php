@@ -21,7 +21,7 @@ class CreateLogisticsTable extends Migration
             $table->string('order_sn', 64)->default('')->comment('物流订单号');
             $table->string('provider', 32)->default('')->comment('物流商');
             $table->string('channel', 64)->default('')->comment('物流商渠道');
-            $table->string('tacking_code', 128)->default('')->comment('运单号');
+            $table->string('tracking_code', 128)->default('')->comment('运单号');
             $table->string('tracking_url', 128)->default('')->comment('跟踪url');
             $table->string('waybill_url')->default('')->comment('面单');
             $table->tinyInteger('status')->default(0)->comment('状态');

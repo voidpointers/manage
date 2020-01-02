@@ -1,9 +1,9 @@
 <?php
 
-namespace Country\Repositories;
+namespace System\Repositories;
 
 use App\Repository;
-use Country\Entities\Country;
+use System\Entities\Country;
 
 class CountryRepository extends Repository
 {

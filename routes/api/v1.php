@@ -25,4 +25,10 @@ $api->version('v1', [], function ($api) {
         $api->get('provider/lists', 'ProvidersController@lists');
         $api->get('track/info/{order_number}', 'LogisticsController@trackInfo');
     });
+    $api->group([
+        'namespace' => 'Api\System\V1\Controllers',
+        'prefix' => 'systems',
+    ], function ($api) {
+        $api->get('country/lists', 'CountriesController@lists');
+    });
 });

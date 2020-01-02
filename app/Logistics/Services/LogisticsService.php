@@ -2,9 +2,7 @@
 
 namespace Logistics\Services;
 
-use Logistics\Entities\Logistics;
 use Logistics\Requests\Request;
-use Receipt\Entties\Receipt;
 
 class LogisticsService
 {
@@ -15,34 +13,24 @@ class LogisticsService
         $this->request = $request;
     }
 
-    public function get()
-    {
-
-    }
-
     /**
      * 创建物流单，获取跟踪号
      * 
      * @params array $packags
      */
-    public function createOrder($packages)
+    public function createOrder(array $orders)
     {
-        $orders = [];
+        $data = [];
 
-        foreach ($packages as $package)
-        {
-           $order[] = [
-
-           ];
+        $response = $this->request->instance()->createOrder($orders);
+        foreach ($response as $value) {
+            $data[] = [
+                'order_sn' => $value['CustomerOrderNumber'],
+                'tracking_code' => $value['WayBillNumber'],
+            ];
         }
 
-        // 入库
-        Logistics::insert($params);
-
-        // 更新订单状态
-        Receipt::where([''])->update([
-
-        ]);
+        return $data;
     }
 
     public function labels($tracking_codes)

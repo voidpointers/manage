@@ -45,10 +45,6 @@ class LogisticsController extends Controller
      */
     public function createOrder(Request $request)
     {
-        $packages = $this->packageRepository
-            ->with(['consignee', 'item'])
-            ->findWhere($request->get('package_id', []));
-
         $logistics = $this->logisticsService->createOrder($packages);
 
         $this->logisticsRepo->create();

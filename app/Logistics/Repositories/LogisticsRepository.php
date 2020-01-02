@@ -11,4 +11,18 @@ class LogisticsRepository extends Repository
     {
         return Logistics::class;
     }
+
+    public function store($logistics)
+    {
+        $data = [];
+
+        foreach ($logistics as $value) {
+            $data[] = [
+                'order_sn' => $value['CustomerOrderNumber'],
+                'tracking_code' => $value['WayBillNumber'],
+            ];
+        }
+
+        return Logistics::insert($data);
+    }
 }
