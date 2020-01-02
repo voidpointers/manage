@@ -5,6 +5,7 @@ namespace Api\Logistics\V1\Controllers;
 use Api\Controller;
 use Dingo\Api\Http\Request;
 use Logistics\Services\LogisticsService;
+use Logistics\Services\TrackingService;
 use Package\Repositories\PackageRepository;
 
 class LogisticsController extends Controller
@@ -13,12 +14,16 @@ class LogisticsController extends Controller
 
     protected $logisticsService;
 
+    protected $trackingService;
+
     public function __construct(
         PackageRepository $packageRepository,
-        LogisticsService $logisticsService)
+        LogisticsService $logisticsService,
+        TrackingService $trackingService)
     {
         $this->packageRepository = $packageRepository;
         $this->logisticsService = $logisticsService;
+        $this->trackingService = $trackingService;
     }
 
     public function lists(Request $request)
@@ -35,19 +40,6 @@ class LogisticsController extends Controller
     public function trackInfo($tracking_code)
     {
         $this->request->instance()->trackInfo($tracking_code);
-    }
-
-    /**
-     * 创建物流订单（获取运单号）
-     * 
-     * @param Reqeust $request
-     * @param array
-     */
-    public function createOrder(Request $request)
-    {
-        $logistics = $this->logisticsService->createOrder($packages);
-
-        $this->logisticsRepo->create();
     }
 
     /**

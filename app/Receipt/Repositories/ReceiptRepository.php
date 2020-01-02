@@ -5,7 +5,6 @@ namespace Receipt\Repositories;
 use App\Repository;
 use Receipt\Contracts\ReceiptInterface;
 use Receipt\Entties\Receipt;
-use Receipt\Services\StateMachine;
 
 /**
  * 收据仓库

@@ -19,6 +19,9 @@ class ConsigneeFilter
         if ($request->has('consignee')) {
             $this->query->where('name', $request->get('consignee'));
         }
+        if ($request->has('country_id')) {
+            $this->query->where('country_id', $request->get('country_id'));
+        }
 
         return $this->query;
     }

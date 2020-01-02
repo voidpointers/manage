@@ -6,7 +6,7 @@ use Package\Repositories\PackageRepository;
 use Receipt\Repositories\ReceiptRepository;
 use Receipt\Services\StateMachine;
 
-class CreateOrderService
+class TrackingService
 {
     protected $logisticsService;
 

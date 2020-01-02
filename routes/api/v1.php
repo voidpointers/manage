@@ -20,10 +20,10 @@ $api->version('v1', [], function ($api) {
         'namespace' => 'Api\Logistics\V1\Controllers',
         'prefix' => 'logistics',
     ], function ($api) {
-        $api->post('label/lists', 'LogisticsController@labels');
-        $api->get('order/create', 'LogisticsController@createOrder');
         $api->get('provider/lists', 'ProvidersController@lists');
-        $api->get('track/info/{order_number}', 'LogisticsController@trackInfo');
+        $api->get('tracking/info/{order_number}', 'LogisticsController@trackInfo');
+        $api->post('label/lists', 'LogisticsController@labels');
+        $api->post('tracking/create', 'TracksController@create');
     });
     $api->group([
         'namespace' => 'Api\System\V1\Controllers',
