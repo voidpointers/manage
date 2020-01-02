@@ -14,8 +14,8 @@ class ReceiptFilter
         if ($request->get('status', 0) > 0) {
             $query->where('status', $request->get('status'));
         }
-        if ($request->has('receipt_id')) {
-            $query->where('etsy_receipt_id', $request->get('receipt_id'));
+        if ($request->has('etsy_receipt_id')) {
+            $query->where('etsy_receipt_id', $request->get('etsy_receipt_id'));
         }
         if ($request->has('creation_tsz_start') || $request->has('creation_tsz_end')) {
             $query->creationTsz([

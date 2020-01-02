@@ -4,9 +4,23 @@ namespace Api\Logistics\V1\Controllers;
 
 use Api\Controller;
 use Dingo\Api\Http\Request;
+use Logistics\Services\LogisticsService;
+use Package\Repositories\PackageRepository;
 
 class TracksController extends Controller
 {
+    protected $packageRepository;
+
+    protected $logisticsService;
+
+    public function __construct(
+        PackageRepository $packageRepository,
+        LogisticsService $logisticsService)
+    {
+        $this->packageRepository = $packageRepository;
+        $this->logisticsService = $logisticsService;
+    }
+
     /**
      * 创建物流订单（获取运单号）
      * 
@@ -17,7 +31,7 @@ class TracksController extends Controller
     {
         // 获取package
         $packages = $this->packageRepository->listByPackage(
-            $request->input('package_sn')
+            json_decode($request->input('package_sn'))
         );
 
         $this->trackingService->create();
