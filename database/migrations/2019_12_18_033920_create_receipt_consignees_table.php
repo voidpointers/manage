@@ -19,6 +19,7 @@ class CreateReceiptConsigneesTable extends Migration
             $table->bigInteger('etsy_receipt_id')->unsigned()->default(0)->comment('Etsy收据ID');
             $table->bigInteger('receipt_sn')->unsigned()->default(0)->comment('收据编号');
             $table->integer('country_id')->unsigned()->default(0)->comment('国家ID');
+            $table->string('country', 128)->default('')->comment('国家名称');
             $table->string('name')->default('')->comment('收件人名');
             $table->string('state', 128)->default('')->comment('州');
             $table->string('city', 128)->default('')->comment('市');
