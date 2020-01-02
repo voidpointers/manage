@@ -8,7 +8,6 @@ use Api\Receipt\V1\Transforms\ReceiptTransformer;
 use App\Exports\ReceiptsExport;
 use Dingo\Api\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
-use Receipt\Entties\Receipt;
 use Receipt\Repositories\ReceiptRepository;
 
 /**

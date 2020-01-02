@@ -14,13 +14,6 @@ use Receipt\Services\StateMachine;
  */
 class ReceiptRepository extends Repository implements ReceiptInterface
 {
-    protected $stateMachine;
-
-    public function __construct(StateMachine $stateMachine)
-    {
-        $this->stateMachine = $stateMachine;
-    }
-
     protected $fieldSearchable = [
         'etsy_receipt_id',
         'creation_tsz'
@@ -29,13 +22,5 @@ class ReceiptRepository extends Repository implements ReceiptInterface
     public function model()
     {
         return Receipt::class;
-    }
-
-    public function delivery(array $params)
-    {
-
-        Receipt::where([''])->update([
-
-        ]);
     }
 }
