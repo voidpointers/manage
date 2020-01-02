@@ -11,6 +11,8 @@ use Receipt\Entities\Transaction;
 
 class ReceiptsExport implements FromCollection, WithHeadings, WithMapping, ShouldAutoSize
 {
+    protected $receipts;
+
     /**
     * It's required to define the fileName within
     * the export class when making use of Responsable.
@@ -24,9 +26,9 @@ class ReceiptsExport implements FromCollection, WithHeadings, WithMapping, Shoul
 
     // protected $receiptRepository;
 
-    public function __construct()
+    public function __construct($receipts)
     {
-
+        $this->receipts = $receipts;
     }
 
     /**
@@ -34,7 +36,7 @@ class ReceiptsExport implements FromCollection, WithHeadings, WithMapping, Shoul
     */
     public function collection()
     {
-        return Transaction::with('receipt')->get();
+        return $this->receipts;
     }
 
     public function headings(): array

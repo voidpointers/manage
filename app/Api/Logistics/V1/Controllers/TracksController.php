@@ -5,6 +5,7 @@ namespace Api\Logistics\V1\Controllers;
 use Api\Controller;
 use Dingo\Api\Http\Request;
 use Logistics\Services\LogisticsService;
+use Logistics\Services\TrackingService;
 use Package\Repositories\PackageRepository;
 
 class TracksController extends Controller
@@ -13,12 +14,16 @@ class TracksController extends Controller
 
     protected $logisticsService;
 
+    protected $trackingService;
+
     public function __construct(
         PackageRepository $packageRepository,
-        LogisticsService $logisticsService)
+        LogisticsService $logisticsService,
+        TrackingService $trackingService)
     {
         $this->packageRepository = $packageRepository;
         $this->logisticsService = $logisticsService;
+        $this->trackingService = $trackingService;
     }
 
     /**
@@ -34,10 +39,23 @@ class TracksController extends Controller
             json_decode($request->input('package_sn'))
         );
 
-        $this->trackingService->create();
+        // 请求物流接口
+        $logistics = $this->logisticsService->createOrder($orders);
 
-        $logistics = $this->logisticsService->createOrder($package_sn);
+        // 入库
+        $this->logisticsRepository->store($logistics);
 
-        $this->logisticsRepo->create();
+        $receipt_ids = [];
+        foreach ($packages as $package) {
+            $receipt_ids[] = $package->item->receipt_id;
+        }
+
+        // 更改状态
+        $receit = $this->stateMachine->operation('delivery', [
+            'receipt_id' => $receipt_ids
+        ]);
+
+        // 通知Etsy
+
     }
 }

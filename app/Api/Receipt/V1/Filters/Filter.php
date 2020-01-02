@@ -21,7 +21,7 @@ class Filter
                 $instance = new ConsigneeFilter($query);
             break;
             default:
-                $instance = new ReceiptFilter();
+                $instance = new ReceiptFilter($query);
         }
 
         return $instance->filter($this->request);

@@ -8,6 +8,8 @@ use Api\Receipt\V1\Transforms\ReceiptTransformer;
 use App\Exports\ReceiptsExport;
 use Dingo\Api\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
+use Receipt\Entities\Transaction;
+use Receipt\Entties\Receipt;
 use Receipt\Repositories\ReceiptRepository;
 
 /**
@@ -34,7 +36,7 @@ class ReceiptsController extends Controller
     {
         $filter = new Filter($request);
 
-        $query = $filter->filter('receipt')
+        $query = $filter->filter('receipt', Receipt::query())
         ->whereHas('consignee', function ($query) use ($filter) {
             return $filter->filter('consignee', $query);
         })->whereHas('transaction', function ($query) use ($filter) {
@@ -66,8 +68,19 @@ class ReceiptsController extends Controller
      * 
      * @return
      */
-    public function export()
+    public function export(Request $request)
     {
-        return Excel::download(new ReceiptsExport, 'receipts.xlsx');
+        $filter = new Filter($request);
+
+        $query = $filter->filter('transaction', Transaction::query())
+        ->whereHas('consignee', function ($query) use ($filter) {
+            return $filter->filter('consignee', $query);
+        })->whereHas('receipt', function ($query) use ($filter) {
+            return $filter->filter('receipt', $query);
+        })->with(['consignee', 'receipt']);
+
+        $data = $query->get();
+
+        return Excel::download(new ReceiptsExport($data), 'receipts.xlsx');
     }
 }
