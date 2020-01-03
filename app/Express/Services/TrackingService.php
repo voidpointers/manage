@@ -2,8 +2,6 @@
 
 namespace Express\Services;
 
-use Voidpointers\Yunexpress\Waybill;
-
 class TrackingService
 {
     public function buildOrders($packages)
@@ -11,7 +9,7 @@ class TrackingService
         $orders = [];
 
         foreach ($packages as $package) {
-            
+            $orders[] = $this->build($package);
         }
 
         return $orders;
@@ -19,26 +17,31 @@ class TrackingService
 
     public function build($package)
     {
-        $waybill = (new Waybill);
-        $waybill->CustomerOrderNumber = '';
-        $waybill->ShippingMethodCode = '';
-        $waybill->PackageCount = '';
-        $waybill->Weight = '';
-
-        $waybill->Receiver->CountryCode = '';
-        $waybill->Receiver->FirtstName = '';
-        $waybill->Receiver->LastName = '';
-        $waybill->Receiver->Street = str_replace("&#39;", "", $package->first_line . $package->second_line);
-        $waybill->Receiver->City = '';
-        $waybill->Receiver->State = '';
-        $waybill->Receiver->Zip = '';
-        $waybill->Receiver->Phone = '';
-
-        $waybill->Parcels->EName = $transaction->declare_ename;
-        $waybill->Parcels->CName = $transaction->declare_name;
-        $waybill->Parcels->Quantity => $transaction->quantity;
-        $waybill->Parcels->UnitPrice => $transaction->declare_price;
-        $waybill->Parcels->UnitWeight => $transaction->declare_weight * $transaction->quantity;
-        $waybill->Parcels->CurrencyCode = 'USD';
+        return [
+            'CustomerOrderNumber' => '',
+            'ShippingMethodCode' => '',
+            'PackageCount' => 1,
+            'Weight' => '',
+            'Receiver' => [
+                'CountryCode' => $package->consignee->country_code,
+                'FirtstName' => $package->consignee->first_name,
+                'LastName' => $package->consignee->last_name,
+                'Street' => str_replace('&#39,', '', 
+                    $package->consignee->first_line . $package->consignee->second_line
+                ),
+                'City' => $package->consignee->city,
+                'State' => $package->consignee->state,
+                'Zip' => $package->consignee->zip,
+                'Phone' => $package->consignee->phone,
+            ],
+            'Parcels' => [
+                'EName' => $package->item->en,
+                'CName' => $package->item->title,
+                'Quantity' => $package->item->quantity,
+                'UnitPrice' => $package->item->price,
+                'UnitWeight' => $package->item->weight * $package->item->quantity,
+                'CurrencyCode' => 'USD',
+            ],
+        ],
     }
 }
