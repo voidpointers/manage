@@ -21,7 +21,7 @@ class CreatePackageItemsTable extends Migration
             $table->string('title')->default('')->comment('申报标题');
             $table->string('en')->default('')->comment('申报英文标题');
             $table->decimal('price', 12, 2)->default(0)->comment('申报单价');
-            $table->double('weith', 12, 3)->default(0)->comment('申报重量');
+            $table->double('weight', 12, 3)->default(0)->comment('申报重量');
             $table->mediumInteger('quantity')->default(0)->comment('数量');
             $table->json('relations')->comment('存储第三方平台关联ID');
         });

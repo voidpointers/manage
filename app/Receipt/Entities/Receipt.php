@@ -2,7 +2,7 @@
 
 namespace Receipt\Entties;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Model;
 
 /**
  * 收据模型

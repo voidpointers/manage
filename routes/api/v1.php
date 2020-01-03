@@ -9,6 +9,8 @@ $api->version('v1', [], function ($api) {
     ], function ($api) {
         $api->get('lists', 'ReceiptsController@lists');
         $api->get('export', 'ReceiptsController@export');
+        $api->get('packup', 'ReceiptsController@packUp');
+        $api->get('delivery', 'ReceiptsController@delivery');
     });
     $api->group([
         'namespace' => 'Api\Package\V1\Controllers',

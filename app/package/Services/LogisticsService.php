@@ -1,6 +1,6 @@
 <?php
 
-namespace Logistics\Services;
+namespace Package\Services;
 
 use Logistics\Entities\Logistics;
 use Logistics\Repositories\LogisticsRepository;
@@ -20,8 +20,10 @@ class LogisticsService
 
         foreach ($logistics as $value) {
             $data[] = [
-                'order_sn' => $value['CustomerOrderNumber'],
+                'package_sn' => $value['CustomerOrderNumber'],
                 'tracking_code' => $value['WayBillNumber'],
+                'remark' => $value['Remak'],
+                'update_time' => 0,
                 'create_time' => time(),
             ];
         }

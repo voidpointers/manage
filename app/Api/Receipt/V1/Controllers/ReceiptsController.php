@@ -11,6 +11,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Receipt\Entities\Transaction;
 use Receipt\Entties\Receipt;
 use Receipt\Repositories\ReceiptRepository;
+use Receipt\Services\StateMachine;
 
 /**
  * 收据控制器
@@ -21,9 +22,14 @@ class ReceiptsController extends Controller
 {
     protected $repository;
 
-    public function __construct(ReceiptRepository $repository)
+    protected $stateMachine;
+
+    public function __construct(
+        ReceiptRepository $repository,
+        StateMachine $stateMachine)
     {
         $this->repository = $repository;
+        $this->stateMachine = $stateMachine;
     }
 
     /**
@@ -82,5 +88,19 @@ class ReceiptsController extends Controller
         $data = $query->get();
 
         return Excel::download(new ReceiptsExport($data), 'receipts.xlsx');
+    }
+
+    public function packUp(Request $request)
+    {
+        // 更改状态
+        $this->stateMachine->operation('pakcup', $request->input('receipt_id'));
+
+        // 生成包裹
+        
+    }
+
+    public function delivery()
+    {
+
     }
 }

@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model as IlluminateModel;
+use Illuminate\Support\Facades\DB;
 
 /**
  * 模型基类
@@ -40,4 +41,46 @@ class Model extends IlluminateModel
      * 更新时间
      */
     const UPDATED_AT = 'update_time';
+
+    /**
+     * 批量更新
+     *
+     * @param array $inputs
+     * @param string $where_field
+     * @param string $when_field
+     * @return mixed
+     *
+     * [['id' => 1, 'status' => 1], ['id' => 2, 'status' => 1]]
+     *
+     * update users set name =
+     *    case
+     *    when id = 1 then 'a'
+     *    when id = 2 then 'b'
+     * where id in (1,2);
+     */
+    public function updateBatch(array $inputs, $where_field = 'id', $when_field = 'id')
+    {
+        if (empty($inputs)) {
+            throw new \InvalidArgumentException('parameter error');
+        }
+        if (!($where = array_pluck($inputs, $where_field)) || !($when = array_pluck($inputs, $when_field))) {
+            throw new \InvalidArgumentException('parameter error');
+        }
+
+        $when_arr = [];
+        foreach ($inputs as $input) {
+            $when_val = $input[$when_field];
+            foreach ($input as $key => $value) {
+                if ($key == $when_field) continue;
+                $when_arr[$key][] = "when {$when_field} = '{$when_val}' then '{$value}'";
+            }
+        }
+
+        $build = DB::table(self::$table)->whereIn($where_field, $where);
+        foreach ($when_arr as $key => &$item) {
+            $item = DB::raw('case ' . implode(' ', $item) . ' end ');
+        }
+
+        return $build->update($when_arr);
+    }
 }

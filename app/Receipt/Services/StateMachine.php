@@ -11,7 +11,7 @@ class StateMachine
         'create',
         'follow',
         'customize',
-        'pack',
+        'packup',
         'stockout',
         'delivery',
         'cancel',

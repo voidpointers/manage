@@ -6,8 +6,9 @@ use Api\Controller;
 use Dingo\Api\Http\Request;
 use Express\Services\ExpressService;
 use Express\Services\TrackingService;
-use Logistics\Services\LogisticsService;
+use Package\Services\LogisticsService;
 use Package\Repositories\PackageRepository;
+use Receipt\Services\ReceiptService;
 
 class LogisticsController extends Controller
 {
@@ -19,16 +20,20 @@ class LogisticsController extends Controller
 
     protected $trackingService;
 
+    protected $receiptService;
+
     public function __construct(
         PackageRepository $packageRepository,
         LogisticsService $logisticsService,
         ExpressService $expressService,
-        TrackingService $trackingService)
+        TrackingService $trackingService,
+        ReceiptService $receiptService)
     {
         $this->packageRepository = $packageRepository;
         $this->logisticsService = $logisticsService;
         $this->expressService = $expressService;
         $this->trackingService = $trackingService;
+        $this->receiptService = $receiptService;
     }
 
     public function lists(Request $request)
@@ -67,17 +72,24 @@ class LogisticsController extends Controller
         // 物流信息入库
         $this->logisticsService->create($express);
 
+        $receipts = array_map(function ($package) {
+            return [
+                'receipt_id' => $package->item->receipt_id,
+            ];
+        }, $packages);
+
         $receipt_ids = [];
         foreach ($packages as $package) {
             $receipt_ids[] = $package->item->receipt_id;
         }
 
         // 更改订单状态
-        $receit = $this->stateMachine->operation('delivery', [
-            'receipt_id' => $receipt_ids
+        $status = $this->stateMachine->operation('delivery', [
+            'id' => $receipt_ids
         ]);
 
         // 给订单增加额外数据（物流追踪号）
+        $receipt = $this->receiptService->update();
 
         // 通知Etsy
     }
