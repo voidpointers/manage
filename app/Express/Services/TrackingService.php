@@ -17,9 +17,9 @@ class TrackingService
 
     public function build($package)
     {
-        return [
-            'CustomerOrderNumber' => '',
-            'ShippingMethodCode' => '',
+        $orders = [
+            'CustomerOrderNumber' => $package->package_sn,
+            'ShippingMethodCode' => $package->channel,
             'PackageCount' => 1,
             'Weight' => '',
             'Receiver' => [
@@ -34,14 +34,25 @@ class TrackingService
                 'Zip' => $package->consignee->zip,
                 'Phone' => $package->consignee->phone,
             ],
-            'Parcels' => [
-                'EName' => $package->item->en,
-                'CName' => $package->item->title,
-                'Quantity' => $package->item->quantity,
-                'UnitPrice' => $package->item->price,
-                'UnitWeight' => $package->item->weight * $package->item->quantity,
+            
+        ];
+
+        $parcels = [];
+        foreach ($package->item as $item) {
+            $weight = $item->weight * $item->quantity;
+            $parcels = [
+                'EName' => $item->en,
+                'CName' => $item->title,
+                'Quantity' => $item->quantity,
+                'UnitPrice' => $item->price,
+                'UnitWeight' => $weight,
                 'CurrencyCode' => 'USD',
-            ],
-        ],
+            ];
+            $total_weight += $weight;
+        }
+        $orders['Weight'] = $total_weight;
+        $orders['Parcels'] = $parcels;
+
+        return $orders;
     }
 }
