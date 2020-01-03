@@ -7,6 +7,7 @@ use Dingo\Api\Http\Request;
 use Logistics\Services\LogisticsService;
 use Logistics\Services\TrackingService;
 use Package\Repositories\PackageRepository;
+use Receipt\Services\StateMachine;
 
 class TracksController extends Controller
 {
@@ -16,14 +17,18 @@ class TracksController extends Controller
 
     protected $trackingService;
 
+    protected $stateMachine;
+
     public function __construct(
         PackageRepository $packageRepository,
         LogisticsService $logisticsService,
-        TrackingService $trackingService)
+        TrackingService $trackingService,
+        StateMachine $stateMachine)
     {
         $this->packageRepository = $packageRepository;
         $this->logisticsService = $logisticsService;
         $this->trackingService = $trackingService;
+        $this->stateMachine = $stateMachine;
     }
 
     /**
@@ -42,7 +47,7 @@ class TracksController extends Controller
         // 请求物流接口
         $logistics = $this->logisticsService->createOrder($orders);
 
-        // 入库
+        // 物流信息入库
         $this->logisticsRepository->store($logistics);
 
         $receipt_ids = [];
@@ -50,12 +55,14 @@ class TracksController extends Controller
             $receipt_ids[] = $package->item->receipt_id;
         }
 
-        // 更改状态
+        // 更改订单状态
         $receit = $this->stateMachine->operation('delivery', [
             'receipt_id' => $receipt_ids
         ]);
 
-        // 通知Etsy
+        // 给订单增加额外数据（物流追踪号）
 
+        // 通知Etsy
+        
     }
 }

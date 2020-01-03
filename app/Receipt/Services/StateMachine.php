@@ -30,9 +30,9 @@ class StateMachine
     /**
      * 操作
      */
-    public function operation($action, $where = [], $data = [])
+    public function operation($action, $where = [])
     {
-        return $this->{$action}($where, $data);
+        return $this->{$action}($where);
     }
 
     /**
@@ -51,14 +51,14 @@ class StateMachine
     /**
      * 发货
      */
-    protected function delivery(array $args, $data)
+    protected function delivery(array $args)
     {
         return $this->receiptRepository->updateWhere([
             'receipt_id' => Arr::get('receipt_id', $args)
-        ], array_merge([
+        ], [
             'delivery_time' => time(),
             'status' => self::OPERATION['delivery']
-        ], $data));
+        ]);
     }
  
     /**

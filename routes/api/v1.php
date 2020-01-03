@@ -21,6 +21,7 @@ $api->version('v1', [], function ($api) {
         'prefix' => 'logistics',
     ], function ($api) {
         $api->get('provider/lists', 'ProvidersController@lists');
+        $api->get('channel/lists', 'ChannelsController@lists');
         $api->get('tracking/info/{order_number}', 'LogisticsController@trackInfo');
         $api->post('label/lists', 'LogisticsController@labels');
         $api->post('tracking/create', 'TracksController@create');
