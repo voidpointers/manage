@@ -1,6 +1,6 @@
 <?php
 
-namespace Logistics\Contracts;
+namespace Express\Contracts;
 
 interface RequestInterface
 {

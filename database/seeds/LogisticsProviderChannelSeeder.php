@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class LogisticsProviderChannelSeeder extends Seeder
+class ExpressChannelSeeder extends Seeder
 {
     /**
      * Run the database seeds.

@@ -1,6 +1,6 @@
 <?php
 
-namespace Logistics\Requests;
+namespace Express\Requests;
 
 use Logistics\Contracts\RequestInterface;
 

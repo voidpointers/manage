@@ -4,8 +4,8 @@ namespace Api\Logistics\V1\Controllers;
 
 use Api\Controller;
 use Dingo\Api\Http\Request;
+use Express\Services\ExpressService;
 use Logistics\Services\LogisticsService;
-use Logistics\Services\TrackingService;
 use Package\Repositories\PackageRepository;
 
 class LogisticsController extends Controller
@@ -14,16 +14,16 @@ class LogisticsController extends Controller
 
     protected $logisticsService;
 
-    protected $trackingService;
+    protected $expressService;
 
     public function __construct(
         PackageRepository $packageRepository,
         LogisticsService $logisticsService,
-        TrackingService $trackingService)
+        ExpressService $expressService)
     {
         $this->packageRepository = $packageRepository;
         $this->logisticsService = $logisticsService;
-        $this->trackingService = $trackingService;
+        $this->expressService = $expressService;
     }
 
     public function lists(Request $request)
@@ -55,7 +55,7 @@ class LogisticsController extends Controller
             $tracking_codes = [$tracking_codes];
         }
 
-        $data = $this->logisticsService->labels($tracking_codes);
+        $data = $this->expressService->labels($tracking_codes);
 
         return $this->response->array(['data' => $data]);
     }

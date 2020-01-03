@@ -2,49 +2,30 @@
 
 namespace Logistics\Services;
 
-use Logistics\Requests\Request;
+use Logistics\Entities\Logistics;
+use Logistics\Repositories\LogisticsRepository;
 
 class LogisticsService
 {
-    protected $request;
+    protected $logisticsRepository;
 
-    public function __construct(Request $request)
+    public function __construct(LogisticsRepository $logisticsRepository)
     {
-        $this->request = $request;
+        $this->logisticsRepository = $logisticsRepository;
     }
 
-    /**
-     * 创建物流单，获取跟踪号
-     * 
-     * @params array $packags
-     */
-    public function createOrder(array $orders)
+    public function store($logistics)
     {
         $data = [];
 
-        $response = $this->request->instance()->createOrder($orders);
-        foreach ($response as $value) {
+        foreach ($logistics as $value) {
             $data[] = [
                 'order_sn' => $value['CustomerOrderNumber'],
                 'tracking_code' => $value['WayBillNumber'],
+                'create_time' => time(),
             ];
         }
 
-        return $data;
-    }
-
-    public function labels($tracking_codes)
-    {
-        $data = [];
-
-        $labels = $this->request->instance()->labelPrint($tracking_codes);
-        foreach ($labels as $label) {
-            $data[] = [
-                'url' => $label['Url'],
-                'orders' => array_column($label['OrderInfos'], 'CustomerOrderNumber'),
-            ];
-        }
-
-        return $data;
+        return Logistics::insert($data);
     }
 }
