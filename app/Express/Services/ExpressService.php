@@ -47,4 +47,9 @@ class ExpressService
 
         return $data;
     }
+
+    public function trackInfo()
+    {
+
+    }
 }

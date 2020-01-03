@@ -14,7 +14,7 @@ class LogisticsService
         $this->logisticsRepository = $logisticsRepository;
     }
 
-    public function store($logistics)
+    public function create($logistics)
     {
         $data = [];
 

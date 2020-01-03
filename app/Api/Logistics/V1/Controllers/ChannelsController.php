@@ -16,11 +16,11 @@ class ChannelsController extends Controller
         $this->channelRepository = $channelRepository;
     }
 
-    public function lists()
+    public function lists(Request $request)
     {
-        $channels = $this->channelRepository->all();
+        $channels = $this->channelRepository->paginate($request->get('limit', 30));
 
-        return $this->response->collection($channels, new ChannelTransformer);
+        return $this->response->paginator($channels, new ChannelTransformer);
     }
 
     public function edit(Request $request)

@@ -9,82 +9,82 @@ class Receiver
      * 
      * @var string
      */
-    public $taxId;
+    public $TaxId;
 
     /**
      * 国家，填写国际通用标准2位简码，可通过国家查询服务查询 必填
      * 
      * @var string
      */
-    public $countryCode;
+    public $CountryCode;
 
     /**
      * 姓 必填
      * 
      * @var string
      */
-    public $firtstName;
+    public $FirtstName;
 
     /**
      * 名
      * 
      * @var string
      */
-    public $lastName;
+    public $LastName;
 
     /**
      * 公司
      * 
      * @var string
      */
-    public $company;
+    public $Company;
 
     /**
      * 详细地址 必填
      * 
      * @var string
      */
-    public $street;
+    public $Street;
 
     /**
      * 详细地址1
      * 
      * @var string
      */
-    public $streetAddress1;
+    public $StreetAddress1;
 
     /**
      * 详细地址2
      * 
      * @var string
      */
-    public $streetAddress2;
+    public $StreetAddress2;
 
     /**
      * 市 必填
      * 
      * @var string
      */
-    public $city;
+    public $City;
 
     /**
      * 州/省
      * 
      * @var string
      */
-    public $state;
+    public $State;
 
     /**
      * 邮编
      * 
      * @var string
      */
-    public $zip;
+    public $Zip;
 
     /**
      * 电话
      * 
      * @var string
      */
-    public $phone;
+    public $Phone;
 }
