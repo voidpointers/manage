@@ -22,8 +22,9 @@ class ReceiptFilter
 
     public function filter(Request $request)
     {
-        if (self::STATUS[$request->get('status', '')] ?? '') {
-            $this->query->where('status', $request->get('status'));
+        $status = self::STATUS[$request->get('status', '')] ?? '';
+        if ($status) {
+            $this->query->where('status', $status);
         }
         if ($request->has('etsy_receipt_id')) {
             $this->query->where('etsy_receipt_id', $request->get('etsy_receipt_id'));
