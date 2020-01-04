@@ -16,8 +16,6 @@ class CreatePackageItemsTable extends Migration
     {
         Schema::create('package_items', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('etsy_receipt_id')->unsigned()->default(0)->comment('Etsy收据ID');
-            $table->bigInteger('etsy_transaction_id')->unsigned()->default(0)->comment('Etsy交易ID');
             $table->bigInteger('receipt_id')->unsigned()->default(0)->comment('收据ID');
             $table->bigInteger('transaction_id')->unsigned()->default(0)->comment('交易ID');
             $table->string('title')->default('')->comment('申报标题');
