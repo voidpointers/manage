@@ -16,8 +16,9 @@ class PackageService
         $packages = $items = [];
 
         foreach ($receipts as $receipt) {
+            $pacakge_sn = generate_package_sn();
             $packages[] = [
-                'package_sn' => generate_package_sn(),
+                'package_sn' => $pacakge_sn,
                 'consignee_id' => $receipt->consignee->id,
                 'status' => self::STATUS['pending'],
                 'create_time' => time(),
@@ -25,6 +26,7 @@ class PackageService
             ];
             foreach ($receipt->transaction as $value) {
                 $items[] = [
+                    'package_sn' => $pacakge_sn,
                     'receipt_id' => $receipt->etsy_receipt_id,
                     'transaction_id' => $value->transaction_id,
                     'title' => '桌游用品',

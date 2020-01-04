@@ -9,7 +9,7 @@ class Package extends Model
 {
     public function consignee()
     {
-        return $this->hasOne(Consignee::class, 'consignee_id', 'id');
+        return $this->hasOne(Consignee::class, 'id', 'consignee_id');
     }
 
     public function item()

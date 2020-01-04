@@ -84,12 +84,12 @@ class LogisticsController extends Controller
         }
 
         // 更改订单状态
-        $status = $this->stateMachine->operation('delivery', [
+        $status = $this->stateMachine->operation('dispatch', [
             'id' => $receipt_ids
         ]);
 
         // 给订单增加额外数据（物流追踪号）
-        $receipt = $this->receiptService->update();
+        // $receipt = $this->receiptService->update();
 
         // 通知Etsy
     }
