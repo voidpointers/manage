@@ -2,8 +2,8 @@
 
 namespace Package\Services;
 
-use Logistics\Entities\Logistics;
-use Logistics\Repositories\LogisticsRepository;
+use Package\Entities\Logistics;
+use Package\Repositories\LogisticsRepository;
 
 class LogisticsService
 {

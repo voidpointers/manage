@@ -2,7 +2,7 @@
 
 namespace Express\Requests;
 
-use Logistics\Contracts\RequestInterface;
+use Express\Contracts\RequestInterface;
 
 class YunexpressRequest implements RequestInterface
 {

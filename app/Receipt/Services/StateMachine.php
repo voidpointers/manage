@@ -2,75 +2,50 @@
 
 namespace Receipt\Services;
 
-use Illuminate\Support\Arr;
-use Receipt\Repositories\ReceiptRepository;
+use Receipt\Entities\Receipt;
 
 class StateMachine
 {
     protected const OPERATION = [
-        'create',
-        'follow',
-        'customize',
-        'packup',
-        'stockout',
-        'delivery',
-        'cancel',
-        'receive',
-        'complete',
-        'close',
+        'create' => 1,
+        'packup' => 2,
+        'dispatch' => 3,
+        'close' => 7,
+        'complete' => 8,
     ];
 
-    protected $receiptRepository;
+    protected const TIME = [
+        'create', 'packup', 'delivery', 'complete', 'close'
+    ];
 
-    public function __construct(ReceiptRepository $receiptRepository)
-    {
-        $this->receiptRepository = $receiptRepository;
-    }
+    protected $data;
 
     /**
      * 操作
      */
     public function operation($action, $where = [])
     {
-        return $this->{$action}($where);
+        $this->build($action);
+
+        return $this->update($where);
     }
 
-    /**
-     * 跟进订单
-     */
-    protected function follow(array $args)
+    protected function build($action)
     {
-        return $this->receiptRepository->updateWhere([
-            'receipt_id' => Arr::get('receipt_id', $args)
-        ], [
-            'follow_time' => time(),
-            'status' => self::OPERATION['follow']
-        ]);
+        $data = [
+            'status' => self::OPERATION[$action],
+        ];
+        if (self::TIME[$action]) {
+            $data[$action . '_time'] = time();
+        }
+
+        $this->data = $data;
     }
- 
-    /**
-     * 发货
-     */
-    protected function delivery(array $args)
+
+    protected function update($receit_ids)
     {
-        return $this->receiptRepository->updateWhere([
-            'receipt_id' => Arr::get('receipt_id', $args)
-        ], [
-            'delivery_time' => time(),
-            'status' => self::OPERATION['delivery']
-        ]);
-    }
- 
-    /**
-     * 订单完成
-     */
-    protected function complete(array $args)
-    {
-        return $this->receiptRepository->updateWhere([
-            'receipt_id' => Arr::get('receipt_id', $args)
-        ], [
-            'complete_time' => time(),
-            'status' => self::OPERATION['complete']
-        ]);
+        return Receipt::whereIn(
+            'id', $receit_ids
+        )->update($this->data);
     }
 }

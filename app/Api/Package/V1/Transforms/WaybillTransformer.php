@@ -3,7 +3,7 @@
 namespace Api\Package\V1\Transforms;
 
 use League\Fractal\TransformerAbstract;
-use Receipt\Entties\Receipt;
+use Receipt\Entities\Receipt;
 
 class WaybillTransformer extends TransformerAbstract
 {

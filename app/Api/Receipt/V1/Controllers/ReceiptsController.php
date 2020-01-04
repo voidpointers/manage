@@ -3,14 +3,13 @@
 namespace Api\Receipt\V1\Controllers;
 
 use Api\Controller;
-use Api\Receipt\V1\Filters\Filter;
 use Api\Receipt\V1\Transforms\ReceiptTransformer;
 use App\Exports\ReceiptsExport;
 use Dingo\Api\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
-use Receipt\Entities\Transaction;
-use Receipt\Entties\Receipt;
+use Package\Services\PackageService;
 use Receipt\Repositories\ReceiptRepository;
+use Receipt\Services\ReceiptService;
 use Receipt\Services\StateMachine;
 
 /**
@@ -24,32 +23,20 @@ class ReceiptsController extends Controller
 
     protected $stateMachine;
 
+    protected $packageService;
+
+    protected $receiptService;
+
     public function __construct(
         ReceiptRepository $repository,
-        StateMachine $stateMachine)
+        StateMachine $stateMachine,
+        PackageService $packageService,
+        ReceiptService $receiptService)
     {
         $this->repository = $repository;
         $this->stateMachine = $stateMachine;
-    }
-
-    /**
-     * 构造搜索语句
-     * 
-     * @param Request $request
-     * @return 
-     */
-    protected function search($request)
-    {
-        $filter = new Filter($request);
-
-        $query = $filter->filter('receipt', Receipt::query())
-        ->whereHas('consignee', function ($query) use ($filter) {
-            return $filter->filter('consignee', $query);
-        })->whereHas('transaction', function ($query) use ($filter) {
-            return $filter->filter('transaction', $query);
-        })->with(['transaction', 'consignee']);
-
-        return $query;
+        $this->packageService = $packageService;
+        $this->receiptService = $receiptService;
     }
 
     /**
@@ -60,7 +47,7 @@ class ReceiptsController extends Controller
      */
     public function lists(Request $request)
     {
-        $receipts = $this->search($request)->orderBy('id', 'desc')
+        $receipts = $this->receiptService->query($request)->orderBy('id', 'desc')
             ->paginate($request->get('limit', 30));
         
         return $this->response->paginator(
@@ -76,27 +63,28 @@ class ReceiptsController extends Controller
      */
     public function export(Request $request)
     {
-        $filter = new Filter($request);
-
-        $query = $filter->filter('transaction', Transaction::query())
-        ->whereHas('consignee', function ($query) use ($filter) {
-            return $filter->filter('consignee', $query);
-        })->whereHas('receipt', function ($query) use ($filter) {
-            return $filter->filter('receipt', $query);
-        })->with(['consignee', 'receipt']);
-
-        $data = $query->get();
+        $data = $this->receiptService->query($request, [
+            'base' => 'transaction', 'with' => ['consignee', 'receipt']
+        ])->get();
 
         return Excel::download(new ReceiptsExport($data), 'receipts.xlsx');
     }
 
     public function packUp(Request $request)
     {
+        $receipt_ids = $request->input('receipt_id', '');
+        if (!$receipt_ids) {
+            return $this->response->error('参数错误', 500);
+        }
+
+        get_last_sql();
+
         // 更改状态
-        $this->stateMachine->operation('pakcup', $request->input('receipt_id'));
+        $this->stateMachine->operation('packup', json_decode($receipt_ids));
+        dd('');
 
         // 生成包裹
-        
+        $this->packageService->create($receipts);
     }
 
     public function delivery()

@@ -16,18 +16,17 @@ class CreateReceiptsTable extends Migration
     {
         Schema::create('receipts', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('receipt_sn')->unsigned()->default(0)->comment('收据唯一编号');
             $table->integer('shop_id')->unsigned()->default(0)->comment('店铺ID');
             $table->bigInteger('etsy_receipt_id')->unsigned()->default(0)->comment('Etsy收据ID');
-            $table->bigInteger('receipt_sn')->unsigned()->default(0)->comment('收据唯一编号');
-            $table->tinyInteger('type')->unsigned()->default(0)->comment('类型');
+            $table->tinyInteger('type')->unsigned()->default(0)->comment('类型 1 正常订单 2 定制订单');
             $table->bigInteger('order_id')->unsigned()->default(0)->comment('订单ID');
             $table->bigInteger('seller_user_id')->unsigned()->default(0)->comment('卖家用户ID');
             $table->bigInteger('buyer_user_id')->unsigned()->default(0)->comment('买家用户ID');
             $table->string('buyer_email', 128)->default('')->comment('买家邮箱');
             $table->string('payment_method')->default('')->comment('支付方式 pp，cc，ck，mo(Paypal，信用卡，支票，汇票)');
             $table->tinyInteger('status')->unsigned()->default(0)->comment('状态');
-            $table->tinyInteger('was_paid')->unsigned()->default(0)->comment('是否已付款');
-            $table->tinyInteger('was_shipped')->unsigned()->default(0)->comment('是否已发货');
+            $table->tinyInteger('customize_status')->unsigned()->default(0)->comment('定制状态');
             $table->string('currency_code')->default('')->comment('卖方本币ISO代码');
             $table->decimal('total_price', 12, 2)->unsigned()->default(0)->comment('总额（价格*数量）不含税或运费');
             $table->decimal('subtotal', 12, 2)->unsigned()->default(0)->comment('总额减去优惠券折扣，不含税或运费');
@@ -45,6 +44,9 @@ class CreateReceiptsTable extends Migration
             $table->integer('modified_tsz')->unsigned()->default(0)->comment('修改时间');
             $table->integer('create_time')->unsigned()->default(0)->comment('创建时间');
             $table->integer('update_time')->unsigned()->default(0)->comment('更新时间');
+            $table->integer('pickup_time')->unsigned()->default(0)->comment('打包时间');
+            $table->integer('delivery_time')->unsigned()->default(0)->comment('发货时间');
+            $table->integer('close_time')->unsigned()->default(0)->comment('取消时间');
             $table->integer('complete_time')->unsigned()->default(0)->comment('完成时间');
             $table->unique('receipt_sn', 'uk_receipt_sn');
         });

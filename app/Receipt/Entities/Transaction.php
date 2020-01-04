@@ -3,7 +3,7 @@
 namespace Receipt\Entities;
 
 use App\Model;
-use Receipt\Entties\Receipt;
+use Receipt\Entities\Receipt;
 
 class Transaction extends Model
 {

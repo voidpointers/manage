@@ -4,7 +4,7 @@ namespace Receipt\Repositories;
 
 use App\Repository;
 use Receipt\Contracts\ReceiptInterface;
-use Receipt\Entties\Receipt;
+use Receipt\Entities\Receipt;
 
 /**
  * 收据仓库

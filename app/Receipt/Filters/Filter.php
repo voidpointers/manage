@@ -1,6 +1,6 @@
 <?php
 
-namespace Api\Receipt\V1\Filters;
+namespace Receipt\Filters;
 
 class Filter
 {
@@ -11,9 +11,9 @@ class Filter
         $this->request = $request;
     }
 
-    public function filter($entities = 'receipt', $query = null)
+    public function filter($models = 'receipt', $query = null)
     {
-        switch ($entities) {
+        switch ($models) {
             case 'transaction':
                 $instance = new TransactionFilter($query);
             break;

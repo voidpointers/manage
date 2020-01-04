@@ -1,6 +1,6 @@
 <?php
 
-namespace Receipt\Entties;
+namespace Receipt\Entities;
 
 use App\Model;
 

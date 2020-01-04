@@ -3,7 +3,7 @@
 namespace Api\Receipt\V1\Transforms;
 
 use League\Fractal\TransformerAbstract;
-use Receipt\Entties\Receipt;
+use Receipt\Entities\Receipt;
 
 class ReceiptTransformer extends TransformerAbstract
 {

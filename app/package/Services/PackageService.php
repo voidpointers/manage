@@ -39,4 +39,9 @@ class PackageService
         Package::insert($packages);
         Item::insert($items);
     }
+
+    public function lists($pacakge_sn)
+    {
+        return Package::whereIn('package_sn', $pacakge_sn)->with(['consignee', 'item'])->get();
+    }
 }

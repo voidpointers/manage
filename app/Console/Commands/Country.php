@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use Country\Entities\Country as EntitiesCountry;
 use Country\Repositories\CountryRepository;
 use Illuminate\Console\Command;
-use Logistics\Requests\Request as LogisticsRequest;
+use Express\Requests\Request as ExpressRequest;
 
 class Country extends Command
 {
@@ -33,7 +33,7 @@ class Country extends Command
      * @return void
      */
     public function __construct(
-        LogisticsRequest $request,
+        ExpressRequest $request,
         CountryRepository $countryRepository) 
     {
         $this->request = $request;

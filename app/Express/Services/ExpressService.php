@@ -2,7 +2,7 @@
 
 namespace Express\Services;
 
-use Logistics\Requests\Request;
+use Express\Requests\Request;
 
 class ExpressService
 {

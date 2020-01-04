@@ -1,9 +1,8 @@
 <?php
 
-namespace Api\Receipt\V1\Filters;
+namespace Receipt\Filters;
 
 use Dingo\Api\Http\Request;
-use Receipt\Entities\Transaction;
 
 class TransactionFilter
 {

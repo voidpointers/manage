@@ -1,9 +1,9 @@
 <?php
 
-namespace Logistics\Repositories;
+namespace Package\Repositories;
 
 use App\Repository;
-use Logistics\Entities\Logistics;
+use Package\Entities\Logistics;
 
 class LogisticsRepository extends Repository
 {
