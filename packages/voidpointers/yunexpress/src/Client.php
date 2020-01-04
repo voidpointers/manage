@@ -79,11 +79,8 @@ class Client
     {
         $api = 'WayBill/CreateOrder';
 
-        $data = [];
-        foreach ($orders as $order) {
-            $data[] = $order->toArray();
-        }
-        $body = ['body' => json_encode($data)];
+        $body = ['body' => json_encode($orders)];
+
         $response = $this->client->post($this->host . $api, $body);
         return $this->parseResult($response->getBody());
     }

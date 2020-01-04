@@ -9,6 +9,7 @@ use Express\Services\TrackingService;
 use Package\Services\LogisticsService;
 use Package\Services\PackageService;
 use Receipt\Services\ReceiptService;
+use Receipt\Services\StateMachine;
 
 class LogisticsController extends Controller
 {
@@ -22,18 +23,22 @@ class LogisticsController extends Controller
 
     protected $packageService;
 
+    protected $stateMachine;
+
     public function __construct(
         LogisticsService $logisticsService,
         ExpressService $expressService,
         TrackingService $trackingService,
         ReceiptService $receiptService,
-        PackageService $packageService)
+        PackageService $packageService,
+        StateMachine $stateMachine)
     {
         $this->logisticsService = $logisticsService;
         $this->expressService = $expressService;
         $this->trackingService = $trackingService;
         $this->receiptService = $receiptService;
         $this->packageService = $packageService;
+        $this->stateMachine = $stateMachine;
     }
 
     public function lists(Request $request)
@@ -60,13 +65,14 @@ class LogisticsController extends Controller
      */
     public function create(Request $request)
     {
+        $package_sn = json_decode($request->input('package_sn'));
+        $channel = $request->input('channel', '');
+
         // 获取package
-        $packages = $this->packageService->lists(
-            json_decode($request->input('package_sn'))
-        );
+        $packages = $this->packageService->lists($package_sn);
 
         // 请求物流接口
-        $orders = $this->trackingService->buildOrders($packages);
+        $orders = $this->trackingService->buildOrders($packages, $channel);
         $express = $this->expressService->createOrder($orders);
 
         // 物流信息入库

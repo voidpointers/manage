@@ -25,8 +25,9 @@ class ExpressService
         $response = $this->request->instance()->createOrder($orders);
         foreach ($response as $value) {
             $data[] = [
-                'order_sn' => $value['CustomerOrderNumber'],
+                'package_sn' => $value['CustomerOrderNumber'],
                 'tracking_code' => $value['WayBillNumber'],
+                'remark' => $value['Remark'],
             ];
         }
 

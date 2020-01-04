@@ -4,28 +4,28 @@ namespace Express\Services;
 
 class TrackingService
 {
-    public function buildOrders($packages)
+    public function buildOrders($packages, $channel)
     {
         $orders = [];
 
         foreach ($packages as $package) {
-            $orders[] = $this->build($package);
+            $orders[] = $this->build($package, $channel);
         }
 
         return $orders;
     }
 
-    public function build($package)
+    public function build($package, $channel)
     {
         $orders = [
             'CustomerOrderNumber' => $package->package_sn,
-            'ShippingMethodCode' => $package->channel,
+            'ShippingMethodCode' => $channel,
             'PackageCount' => 1,
             'Weight' => '',
             'Receiver' => [
                 'CountryCode' => $package->consignee->country_code,
                 'FirtstName' => $package->consignee->name,
-                'LastName' => '',
+                'LastName' => 'Rest',
                 'Street' => str_replace('&#39,', '', 
                     $package->consignee->first_line . $package->consignee->second_line
                 ),
@@ -54,7 +54,6 @@ class TrackingService
         $orders['Weight'] = $total_weight;
         $orders['Parcels'] = $parcels;
 
-        dd($orders);
         return $orders;
     }
 }

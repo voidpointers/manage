@@ -8,6 +8,13 @@ class ReceiptFilter
 {
     protected $query;
 
+    protected const STATUS = [
+        'new' => 1,
+        'packaged' => 2,
+        'shipped' => 8,
+        'closed' => 7,
+    ];
+
     public function __construct($query)
     {
         $this->query = $query;
@@ -15,7 +22,7 @@ class ReceiptFilter
 
     public function filter(Request $request)
     {
-        if ($request->get('status', 0) > 0) {
+        if (self::STATUS[$request->get('status', '')] ?? '') {
             $this->query->where('status', $request->get('status'));
         }
         if ($request->has('etsy_receipt_id')) {

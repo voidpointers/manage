@@ -20,9 +20,10 @@ class LogisticsService
 
         foreach ($logistics as $value) {
             $data[] = [
-                'package_sn' => $value['CustomerOrderNumber'],
-                'tracking_code' => $value['WayBillNumber'],
-                'remark' => $value['Remak'],
+                'package_sn' => $value['package_sn'],
+                'tracking_code' => $value['tracking_code'],
+                'remark' => $value['remark'] ?? '',
+                'status' => 1,
                 'update_time' => 0,
                 'create_time' => time(),
             ];
