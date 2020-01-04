@@ -10,7 +10,7 @@ $api->version('v1', [], function ($api) {
         $api->get('lists', 'ReceiptsController@lists');
         $api->get('export', 'ReceiptsController@export');
         $api->post('packup', 'ReceiptsController@packUp');
-        $api->post('dispatch', 'ReceiptsController@dispatch');
+        $api->post('dispatch', 'ReceiptsController@delivery');
         $api->post('close', 'ReceiptsController@close');
     });
     $api->group([

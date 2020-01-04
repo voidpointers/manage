@@ -104,7 +104,7 @@ class ReceiptsController extends Controller
         $receipt_ids = json_decode($receipt_ids);
 
         // 更改状态
-        if (!$this->stateMachine->operation('delivery', $receipt_ids)) {
+        if (!$this->stateMachine->operation('dispatch', $receipt_ids)) {
             return $this->response->error('订单状态更改失败', 500);
         }
 
