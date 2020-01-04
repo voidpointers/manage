@@ -28,6 +28,7 @@ class CreateReceiptConsigneesTable extends Migration
             $table->string('first_line')->default('')->comment('第一行地址');
             $table->string('second_line')->default('')->comment('第二行地址');
             $table->string('formatted_address')->default('')->comment('送货地址的本地格式地址');
+            $table->string('phone', 32)->default('')->comment('');
             $table->unique('receipt_sn', 'uk_receipt_sn');
         });
 

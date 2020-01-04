@@ -48,7 +48,7 @@ if (!function_exists('generate_package_sn')) {
     {
         $randoms = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-        $order_number = array_rand($randoms) . array_rand($randoms) . array_rand($randoms) . array_rand($randoms);
+        $order_number = array_rand($randoms) . array_rand($randoms);
         list($microsecond, $second) = explode(" ", microtime());
         $micro_time = str_pad((int)round($microsecond * 1000), 3, "0", STR_PAD_LEFT);
         $number = date('ymdHis' . $micro_time, time()) . $order_number;

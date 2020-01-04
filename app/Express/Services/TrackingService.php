@@ -24,8 +24,8 @@ class TrackingService
             'Weight' => '',
             'Receiver' => [
                 'CountryCode' => $package->consignee->country_code,
-                'FirtstName' => $package->consignee->first_name,
-                'LastName' => $package->consignee->last_name,
+                'FirtstName' => $package->consignee->name,
+                'LastName' => '',
                 'Street' => str_replace('&#39,', '', 
                     $package->consignee->first_line . $package->consignee->second_line
                 ),
@@ -37,10 +37,11 @@ class TrackingService
             
         ];
 
+        $total_weight = 0;
         $parcels = [];
         foreach ($package->item as $item) {
             $weight = $item->weight * $item->quantity;
-            $parcels = [
+            $parcels[] = [
                 'EName' => $item->en,
                 'CName' => $item->title,
                 'Quantity' => $item->quantity,
@@ -53,6 +54,7 @@ class TrackingService
         $orders['Weight'] = $total_weight;
         $orders['Parcels'] = $parcels;
 
+        dd($orders);
         return $orders;
     }
 }
