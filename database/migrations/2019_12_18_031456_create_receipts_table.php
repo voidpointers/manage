@@ -44,8 +44,8 @@ class CreateReceiptsTable extends Migration
             $table->integer('modified_tsz')->unsigned()->default(0)->comment('修改时间');
             $table->integer('create_time')->unsigned()->default(0)->comment('创建时间');
             $table->integer('update_time')->unsigned()->default(0)->comment('更新时间');
-            $table->integer('pickup_time')->unsigned()->default(0)->comment('打包时间');
-            $table->integer('delivery_time')->unsigned()->default(0)->comment('发货时间');
+            $table->integer('packup_time')->unsigned()->default(0)->comment('打包时间');
+            $table->integer('dispatch_time')->unsigned()->default(0)->comment('发货时间');
             $table->integer('close_time')->unsigned()->default(0)->comment('取消时间');
             $table->integer('complete_time')->unsigned()->default(0)->comment('完成时间');
             $table->unique('receipt_sn', 'uk_receipt_sn');

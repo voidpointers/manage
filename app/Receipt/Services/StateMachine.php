@@ -14,10 +14,6 @@ class StateMachine
         'complete' => 8,
     ];
 
-    protected const TIME = [
-        'create', 'packup', 'delivery', 'complete', 'close'
-    ];
-
     protected $data;
 
     /**
@@ -25,6 +21,9 @@ class StateMachine
      */
     public function operation($action, $where = [])
     {
+        if (!in_array($action, self::OPERATION)) {
+            return false;
+        }
         $this->build($action);
 
         return $this->update($where);
@@ -34,10 +33,8 @@ class StateMachine
     {
         $data = [
             'status' => self::OPERATION[$action],
+            $action . '_time' => time()
         ];
-        if (self::TIME[$action]) {
-            $data[$action . '_time'] = time();
-        }
 
         $this->data = $data;
     }

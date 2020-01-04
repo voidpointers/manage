@@ -52,4 +52,9 @@ class ReceiptService
 
         return $query;
     }
+
+    public function listsByIds($ids)
+    {
+        return Receipt::whereIn('id', $ids)->with(['consignee', 'transaction'])->get();
+    }
 }
