@@ -16,6 +16,8 @@ class CreatePackageItemsTable extends Migration
     {
         Schema::create('package_items', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('etsy_receipt_id')->unsigned()->default(0)->comment('Etsy收据ID');
+            $table->bigInteger('etsy_transaction_id')->unsigned()->default(0)->comment('Etsy交易ID');
             $table->bigInteger('receipt_id')->unsigned()->default(0)->comment('收据ID');
             $table->bigInteger('transaction_id')->unsigned()->default(0)->comment('交易ID');
             $table->string('title')->default('')->comment('申报标题');
@@ -23,7 +25,6 @@ class CreatePackageItemsTable extends Migration
             $table->decimal('price', 12, 2)->unsigned()->default(0)->comment('申报单价');
             $table->double('weight', 12, 3)->default(0)->comment('申报重量');
             $table->mediumInteger('quantity')->unsigned()->default(0)->comment('数量');
-            $table->json('relations')->comment('存储第三方平台关联ID');
         });
 
         DB::statement("ALTER TABLE `packages` comment '包裹明细'"); // 表注释
