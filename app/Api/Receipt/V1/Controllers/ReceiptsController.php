@@ -78,8 +78,6 @@ class ReceiptsController extends Controller
         }
         $receipt_ids = json_decode($receipt_ids);
 
-        get_last_sql();
-
         // 获取订单列表
         $receipts = $this->receiptService->listsByIds($receipt_ids);
 
