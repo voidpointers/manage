@@ -17,6 +17,7 @@ $api->version('v1', [], function ($api) {
         'namespace' => 'Api\Package\V1\Controllers',
         'prefix' => 'packages',
     ], function ($api) {
+        $api->get('lists', 'PackagesController@lists');
         $api->get('tracking/info/{order_number}', 'LogisticsController@trackInfo');
         $api->post('label/lists', 'LogisticsController@labels');
         $api->post('logistics/create', 'LogisticsController@create');
