@@ -21,7 +21,7 @@ class StateMachine
      */
     public function operation($action, $where = [])
     {
-        if (!in_array($action, self::OPERATION)) {
+        if (!in_array($action, array_keys(self::OPERATION))) {
             return false;
         }
         $this->build($action);
