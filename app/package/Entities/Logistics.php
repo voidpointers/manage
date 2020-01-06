@@ -14,3 +14,4 @@ class Logistics extends Model
         return $this->hasOne(Channel::class, 'id', 'channel_id');
     }
 }
+
