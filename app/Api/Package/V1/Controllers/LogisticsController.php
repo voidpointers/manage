@@ -9,7 +9,8 @@ use Express\Services\TrackingService;
 use Package\Services\LogisticsService;
 use Package\Services\PackageService;
 use Receipt\Services\ReceiptService;
-use Receipt\Services\StateMachine;
+use Receipt\Services\StateMachine as ReceiptStateMachine;
+use Package\Services\StateMachine as PackageStateMachine;
 
 class LogisticsController extends Controller
 {
@@ -23,7 +24,9 @@ class LogisticsController extends Controller
 
     protected $packageService;
 
-    protected $stateMachine;
+    protected $receiptStateMachine;
+
+    protected $packageStateMachine;
 
     public function __construct(
         LogisticsService $logisticsService,
@@ -31,14 +34,16 @@ class LogisticsController extends Controller
         TrackingService $trackingService,
         ReceiptService $receiptService,
         PackageService $packageService,
-        StateMachine $stateMachine)
+        ReceiptStateMachine $receiptStateMachine,
+        PackageStateMachine $packageStateMachine)
     {
         $this->logisticsService = $logisticsService;
         $this->expressService = $expressService;
         $this->trackingService = $trackingService;
         $this->receiptService = $receiptService;
         $this->packageService = $packageService;
-        $this->stateMachine = $stateMachine;
+        $this->receiptStateMachine = $receiptStateMachine;
+        $this->packageStateMachine = $packageStateMachine;
     }
 
     public function lists(Request $request)
@@ -79,7 +84,9 @@ class LogisticsController extends Controller
         $this->logisticsService->create($express);
 
         // 更改包裹状态
-        $this->packageService();
+        $status = $this->packageStateMachine->operation('dispatch', [
+            'package_sn' => $package_sn
+        ]);
 
         $items = array_map(function ($package) {
             $data = [];
@@ -97,7 +104,7 @@ class LogisticsController extends Controller
         }
 
         // 更改订单状态
-        $status = $this->stateMachine->operation('dispatch', [
+        $status = $this->receiptStateMachine->operation('dispatch', [
             'id' => array_unique($receipt_ids)
         ]);
 

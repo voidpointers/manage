@@ -39,10 +39,10 @@ class StateMachine
         $this->data = $data;
     }
 
-    protected function update($ids)
+    protected function update($where)
     {
         return Package::whereIn(
-            'id', $ids
+            key($where), current($where)
         )->update($this->data);
     }
 }
