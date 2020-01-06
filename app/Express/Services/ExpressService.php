@@ -24,7 +24,7 @@ class ExpressService
 
         $response = $this->request->instance()->createOrder($orders);
         foreach ($response as $value) {
-            if (!$value['WayBillNumber']) {
+            if ($value['WayBillNumber'] == null) {
                 throw new \RuntimeException($value['Remark']);
             }
             $data[] = [
