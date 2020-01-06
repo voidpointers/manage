@@ -17,6 +17,7 @@ class ItemTransformer extends TransformerAbstract
             'image' => $transaction->image,
             'etsy_sku' => $transaction->etsy_sku,
             'local_sku' => $transaction->local_sku,
+            'quantity' => $transaction->quantity
         ];
     }
 }
