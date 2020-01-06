@@ -24,6 +24,9 @@ class ExpressService
 
         $response = $this->request->instance()->createOrder($orders);
         foreach ($response as $value) {
+            if (!$value['WayBillNumber']) {
+                throw new \RuntimeException($value['Remark']);
+            }
             $data[] = [
                 'package_sn' => $value['CustomerOrderNumber'],
                 'tracking_code' => $value['WayBillNumber'],
