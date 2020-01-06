@@ -7,8 +7,11 @@ use Package\Entities\Logistics;
 
 class LogisticsTransformer extends TransformerAbstract
 {
-    public function transform(Logistics $logistics)
+    public function transform($logistics)
     {
+        if (is_null($logistics)) {
+            return [];
+        }
         return [
             'package_sn' => $logistics->package_sn,
             'tracking_code' => $logistics->tracking_code,
@@ -16,7 +19,7 @@ class LogisticsTransformer extends TransformerAbstract
             'tracking_url' => $logistics->tracking_url,
             'status' => $logistics->status,
             'provider' => '云途',
-            'channel' => $logistics->channel->title
+            'channel' => $logistics->channel->title ?? ''
         ];
     }
 }

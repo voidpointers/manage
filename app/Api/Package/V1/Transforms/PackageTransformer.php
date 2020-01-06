@@ -30,11 +30,8 @@ class PackageTransformer extends TransformerAbstract
 
     public function includeLogistics($package)
     {
-        if (!($logistics = $package->logistics)) {
-            $logistics = new Logistics();
-        }
         return $this->item(
-            $logistics,
+            $package->logistics ?? null,
             new LogisticsTransformer,
             'include'
         );
