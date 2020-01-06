@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use Country\Entities\Country as EntitiesCountry;
-use Country\Repositories\CountryRepository;
+use System\Entities\Country as EntitiesCountry;
+use System\Repositories\CountryRepository;
 use Illuminate\Console\Command;
 use Express\Requests\Request as ExpressRequest;
 
