@@ -18,6 +18,8 @@ class CreatePackageLogisticsTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('package_sn')->default(0)->comment('包裹编号');
             $table->bigInteger('shipping_id')->default(0)->comment('配送ID');
+            $table->integer('provider_id')->default(0)->comment('物流商ID');
+            $table->integer('channel_id')->default(0)->comment('物流渠道ID');
             $table->string('tracking_code', 128)->default('')->comment('运单号');
             $table->string('waybill_url')->default('')->comment('面单');
             $table->string('tracking_url', 128)->default('')->comment('跟踪url');

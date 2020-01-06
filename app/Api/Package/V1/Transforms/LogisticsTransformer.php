@@ -9,6 +9,14 @@ class LogisticsTransformer extends TransformerAbstract
 {
     public function transform(Logistics $logistics)
     {
-        return $logistics->attributesToArray();
+        return [
+            'package_sn' => $logistics->package_sn,
+            'tracking_code' => $logistics->tracking_code,
+            'waybill_url' => $logistics->waybill_url,
+            'tracking_url' => $logistics->tracking_url,
+            'status' => $logistics->status,
+            'provider' => '云途',
+            'channel' => $logistics->channel->title
+        ];
     }
 }
