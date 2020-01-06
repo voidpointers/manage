@@ -78,24 +78,28 @@ class LogisticsController extends Controller
         // 物流信息入库
         $this->logisticsService->create($express);
 
-        $receipts = array_map(function ($package) {
-            return [
-                'receipt_id' => $package->item->receipt_id,
-            ];
-        }, $packages);
+        // 更改包裹状态
+        $this->packageService();
 
+        $items = array_map(function ($package) {
+            $data = [];
+            foreach ($package['item'] as $item) {
+                $data[] = ['receipt_id' => $item['receipt_id'],];
+            }
+            return $data;
+        }, $packages->toArray());
+        
         $receipt_ids = [];
-        foreach ($packages as $package) {
-            $receipt_ids[] = $package->item->receipt_id;
+        foreach ($items as $item) {
+            foreach ($item as $val) {
+                $receipt_ids[] = $val['receipt_id'];
+            }
         }
 
         // 更改订单状态
         $status = $this->stateMachine->operation('dispatch', [
-            'id' => $receipt_ids
+            'id' => array_unique($receipt_ids)
         ]);
-
-        // 给订单增加额外数据（物流追踪号）
-        // $receipt = $this->receiptService->update();
 
         // 通知Etsy
     }

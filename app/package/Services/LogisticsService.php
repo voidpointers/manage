@@ -23,7 +23,7 @@ class LogisticsService
                 'package_sn' => $value['package_sn'],
                 'tracking_code' => $value['tracking_code'],
                 'remark' => $value['remark'] ?? '',
-                'status' => 1,
+                'status' => 1, // 已发货
                 'update_time' => 0,
                 'create_time' => time(),
             ];

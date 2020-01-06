@@ -1,15 +1,15 @@
 <?php
 
-namespace Receipt\Services;
+namespace Package\Services;
 
-use Receipt\Entities\Receipt;
+use Package\Entities\Package;
 
 class StateMachine
 {
     protected const OPERATION = [
         'create' => 1,
-        'packup' => 2,
-        'dispatch' => 8,
+        'print' => 2, // 打单
+        'dispatch' => 8, // 发货
         'close' => 7,
         'complete' => 8,
     ];
@@ -39,10 +39,10 @@ class StateMachine
         $this->data = $data;
     }
 
-    protected function update($receit_ids)
+    protected function update($ids)
     {
-        return Receipt::whereIn(
-            'id', $receit_ids
+        return Package::whereIn(
+            'id', $ids
         )->update($this->data);
     }
 }

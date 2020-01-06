@@ -27,8 +27,9 @@ class PackageService
             foreach ($receipt->transaction as $value) {
                 $items[] = [
                     'package_sn' => $pacakge_sn,
-                    'receipt_id' => $receipt->etsy_receipt_id,
-                    'transaction_id' => $value->transaction_id,
+                    'etsy_receipt_id' => $receipt->etsy_receipt_id,
+                    'receipt_id' => $receipt->id,
+                    'transaction_id' => $value->id,
                     'title' => '桌游用品',
                     'en' => 'Table Game',
                     'price' => '1.98',
@@ -44,5 +45,10 @@ class PackageService
     public function lists($pacakge_sn)
     {
         return Package::whereIn('package_sn', $pacakge_sn)->with(['consignee', 'item'])->get();
+    }
+
+    public function items($pacakge_sn)
+    {
+        return Item::whereIn('package_sn', $pacakge_sn)->get();
     }
 }

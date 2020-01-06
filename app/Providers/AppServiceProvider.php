@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use Api\Fractal\DataArraySerializer;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
