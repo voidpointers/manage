@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 
-class CreateExpresssTable extends Migration
+class CreateLogisticsProvidersTable extends Migration
 {
     /**
      * Run the migrations.
