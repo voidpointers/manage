@@ -4,6 +4,7 @@ namespace Api\Package\V1\Controllers;
 
 use Api\Controller;
 use Api\Package\V1\Transforms\PackageTransformer;
+use Dingo\Api\Http\Request;
 use Package\Repositories\PackageRepository;
 
 class PackagesController extends Controller
@@ -15,14 +16,14 @@ class PackagesController extends Controller
         $this->packageRepository = $packageRepository;
     }
 
-    public function lists()
+    public function lists(Request $request)
     {
         $packages = $this->packageRepository->with([
             'consignee', 'logistics', 'item' => function ($query) {
                 return $query->with('transaction');
             }
-        ])->get();
+        ])->paginate($request->get('limit', 30));
 
-        return $this->response->collection($packages, new PackageTransformer);
+        return $this->response->paginator($packages, new PackageTransformer);
     }
 }
