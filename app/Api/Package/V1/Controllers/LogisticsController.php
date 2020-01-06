@@ -109,6 +109,7 @@ class LogisticsController extends Controller
         ]);
 
         // 通知Etsy
+        return ['msg' => 'success'];
     }
 
     /**
