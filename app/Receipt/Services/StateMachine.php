@@ -41,6 +41,14 @@ class StateMachine
 
     protected function update($receit_ids)
     {
+        // 查询当前状态
+        $receipts = Receipt::whereIn('id', $receit_ids)->get();
+        foreach ($receipts as $receipt) {
+            if ($receipt->status == $this->data['status']) {
+                throw new \Exception('不允许重复操作');
+            }
+        }
+
         return Receipt::whereIn(
             'id', $receit_ids
         )->update($this->data);

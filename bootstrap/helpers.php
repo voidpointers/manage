@@ -44,15 +44,12 @@ if (!function_exists('get_last_sql')) {
 }
 
 if (!function_exists('generate_package_sn')) {
+    /**
+     * 生成包裹编号
+     */
     function generate_package_sn()
     {
-        $randoms = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-
-        $order_number = array_rand($randoms) . array_rand($randoms);
-        list($microsecond, $second) = explode(" ", microtime());
-        $micro_time = str_pad((int)round($microsecond * 1000), 3, "0", STR_PAD_LEFT);
-        $number = date('ymdHis' . $micro_time, time()) . $order_number;
-
-        return $number;
+        $seed = generate_unique_id(1000000, 'package-primary-key');
+        return mt_rand(10, 99) . $seed . mt_rand(0, 9);
     }
 }
