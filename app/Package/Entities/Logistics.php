@@ -13,5 +13,10 @@ class Logistics extends Model
     {
         return $this->hasOne(Channel::class, 'id', 'channel_id');
     }
+
+    public function package()
+    {
+        return $this->belongsTo(Package::class, 'package_sn', 'package_sn');
+    }
 }
 

@@ -57,4 +57,19 @@ class ReceiptService
     {
         return Receipt::whereIn('id', $ids)->with(['consignee', 'transaction'])->get();
     }
+
+    public function lists($where)
+    {
+        $query = Receipt::query();
+
+        foreach ($where as $key => $value) {
+            if ('in' == $key) {
+                foreach ($value as $k => $val) {
+                    $query->whereIn($k, $val);
+                }
+            }
+        }
+
+        return $query->with(['consignee', 'transaction'])->get();
+    }
 }

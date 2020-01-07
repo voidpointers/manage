@@ -67,14 +67,10 @@ class PackagesController extends Controller
         $receipt_ids = json_decode($receipt_ids);
 
         // 获取订单列表
-        $receipts = $this->receiptService->listsByIds($receipt_ids);
-
-        // 过滤不符合状态的订单
-        foreach ($receipts as $key => $receipt) {
-            if ($receipt->status != 1) {
-                unset($receipts[$key]);
-            }
-        }
+        $receipts = $this->receiptService->lists([
+            'in' => ['id' => $receipt_ids],
+            'where' => ['status' => 1]
+            ]);
         if ($receipts->isEmpty()) {
             return $this->response->error('订单不存在或状态不正确', 500);
         }
@@ -91,14 +87,6 @@ class PackagesController extends Controller
     }
 
     /**
-     * 打印面单
-     */
-    public function print(Request $request)
-    {
-        return $this->response->array();
-    }
-
-    /**
      * 发货
      */
     public function delivery(Request $request)
@@ -110,15 +98,14 @@ class PackagesController extends Controller
         $package_sn = json_decode($package_sn);
 
         // 获取包裹列表
-        $packages = $this->packageService->lists($package_sn);
+        $packages = $this->packageService->lists([
+            'in' => ['package_sn' => $package_sn],
+            'where' => ['status' => 3]
+        ]);
 
-        // 校验包裹状态
+        // 取出receipt_id
         $items = [];
-        foreach ($packages as $key => $package) {
-            if ($package->status != 3) {
-                unset($packages[$key]);
-                continue;
-            }
+        foreach ($packages as $package) {
             foreach ($package->item as $item) {
                 $items[] = [
                     'receipt_id' => $item->receipt_id,

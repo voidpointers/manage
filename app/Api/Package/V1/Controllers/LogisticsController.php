@@ -74,15 +74,11 @@ class LogisticsController extends Controller
         $channel = $request->input('channel', '');
 
         // 获取package
-        $packages = $this->packageService->lists($package_sn);
-
-        // 过滤已经获取过物流单号或已关闭包裹
-        foreach ($packages as $key => $package) {
-            if ($package->status != 1) {
-                unset($packages[$key]);
-            }
-        }
-        if (empty($packages)) {
+        $packages = $this->packageService->lists([
+            'in' => ['package_sn' => $package_sn],
+            'where' => ['status' => 1]
+        ]);
+        if ($packages->isEmpty()) {
             return $this->response->error("当前没有需要获取物流单号的包裹", 500);
         }
 
@@ -113,11 +109,6 @@ class LogisticsController extends Controller
             }
         }
 
-        // 更改状态
-        // $status = $this->receiptStateMachine->operation('dispatch', [
-        //     'id' => array_unique($receipt_ids)
-        // ]);
-
         return $this->response->array(['data' => $express]);
     }
 
@@ -138,10 +129,13 @@ class LogisticsController extends Controller
         $data = $this->expressService->labels($tracking_codes);
 
         // 获取包裹列表
-        $packages = $this->packageService->logistics(['tracking_code' => $tracking_codes]);
+        $logistics = $this->packageService->logistics([
+            'in' => ['tracking_code' => $tracking_codes],
+            'where' => ['status' => 3]
+        ]);
 
-        if (!$packages->isEmpty()) {
-            $package_sn = ($packages->pluck('package_sn')->toArray());
+        if (!$logistics->isEmpty()) {
+            $package_sn = ($logistics->pluck('package_sn')->toArray());
             // 更改包裹状态
             $this->packageStateMachine->operation('print', [
                 'package_sn' => $package_sn

@@ -47,12 +47,36 @@ class PackageService
 
     public function logistics($where)
     {
-        return Logistics::whereIn(key($where), current($where))->get();
+        $query = Logistics::query();
+
+        foreach ($where as $key => $value) {
+            if ('in' == $key) {
+                foreach ($value as $k => $val) {
+                    $query->whereIn($k, $val);
+                }
+            }
+        }
+
+        return $query->whereHas('package', function ($query) use ($where) {
+            return $query->where($where['where']);
+        })->with(['package'])->get();
     }
 
-    public function lists($pacakge_sn)
+    public function lists($where)
     {
-        return Package::whereIn('package_sn', $pacakge_sn)->with(['consignee', 'item'])->get();
+        $query = Package::query();
+
+        foreach ($where as $key => $value) {
+            if ('in' == $key) {
+                foreach ($value as $k => $val) {
+                    $query->whereIn($k, $val);
+                }
+            } else {
+                $query->where($value);
+            }
+        }
+
+        return $query->with(['consignee', 'item'])->get();
     }
 
     public function items($pacakge_sn)
