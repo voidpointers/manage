@@ -40,6 +40,8 @@ class PackageService
         }
         Package::insert($packages);
         Item::insert($items);
+
+        return $packages;
     }
 
     public function lists($pacakge_sn)

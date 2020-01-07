@@ -52,14 +52,14 @@ class PackagesController extends Controller
         $receipts = $this->receiptService->listsByIds($receipt_ids);
 
         // 更改订单状态
-        if (!$this->receiptStateMachine->operation('packup', $receipt_ids)) {
+        if (!$this->receiptStateMachine->operation('packup', ['id' => $receipt_ids])) {
             return $this->response->error('订单状态更改失败', 500);
         }
 
         // 生成包裹
-        $package = $this->packageService->create($receipts);
+        $packages = $this->packageService->create($receipts);
 
-        return $this->response->array(['msg' => 'success']);
+        return $this->response->array(['data' => $packages]);
     }
 
     /**
