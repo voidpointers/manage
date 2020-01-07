@@ -91,6 +91,7 @@ $app->register(Dingo\Api\Provider\LumenServiceProvider::class);
 $app->register(\Voidpointers\Yunexpress\Provider\LumenServiceProvider::class);
 $app->register(Barryvdh\Cors\ServiceProvider::class);
 $app->register(Maatwebsite\Excel\ExcelServiceProvider::class);
+$app->register(Illuminate\Redis\RedisServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
