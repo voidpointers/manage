@@ -57,7 +57,7 @@ class PackagesController extends Controller
                 unset($receipts[$key]);
             }
         }
-        if (empty($receipts)) {
+        if ($receipts->isEmpty()) {
             return $this->response->error('订单不存在或状态不正确', 500);
         }
 
@@ -85,9 +85,6 @@ class PackagesController extends Controller
 
         // 获取包裹列表
         $packages = $this->packageService->lists($package_sn);
-        if (empty($packages)) {
-            return $this->response->error('包裹不存在', 500);
-        }
 
         // 校验包裹状态
         $items = [];
@@ -102,7 +99,7 @@ class PackagesController extends Controller
                 ];
             }
         }
-        if (empty($packages)) {
+        if ($packages->isEmpty()) {
             return $this->response->error("当前没有需要获取物流单号的包裹", 500);
         }
         $package_sn = $packages->pluck('package_sn')->toArray();
