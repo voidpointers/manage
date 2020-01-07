@@ -77,7 +77,7 @@ class LogisticsController extends Controller
         $packages = $this->packageService->lists($package_sn);
         foreach ($packages as $package) {
             if ($package->status != 1) {
-                throw new \Exception('不能重复操作');
+                throw new \Exception('已获取物流单号或已关闭');
             }
         }
 
