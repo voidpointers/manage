@@ -94,7 +94,7 @@ class LogisticsController extends Controller
         $this->logisticsService->create($express);
 
         // 更改包裹状态
-        $status = $this->packageStateMachine->operation('dispatch', [
+        $status = $this->packageStateMachine->operation('track', [
             'package_sn' => $package_sn
         ]);
 
@@ -113,12 +113,11 @@ class LogisticsController extends Controller
             }
         }
 
-        // 更改订单状态
-        $status = $this->receiptStateMachine->operation('dispatch', [
-            'id' => array_unique($receipt_ids)
-        ]);
+        // 更改状态
+        // $status = $this->receiptStateMachine->operation('dispatch', [
+        //     'id' => array_unique($receipt_ids)
+        // ]);
 
-        // 通知Etsy
         return $this->response->array(['data' => $express]);
     }
 

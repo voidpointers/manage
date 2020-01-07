@@ -8,7 +8,8 @@ class StateMachine
 {
     protected const OPERATION = [
         'create' => 1,
-        'print' => 2, // 打单
+        'track' => 2, // 获取物流单号，待打单
+        'print' => 3, // 打单，待发货
         'dispatch' => 8, // 发货
         'close' => 7,
         'complete' => 8,
