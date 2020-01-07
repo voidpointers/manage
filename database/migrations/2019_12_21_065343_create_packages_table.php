@@ -22,6 +22,7 @@ class CreatePackagesTable extends Migration
             $table->integer('create_time')->default(0)->comment('创建时间');
             $table->integer('update_time')->default(0)->comment('更新时间');
             $table->integer('print_time')->default(0)->comment('打单时间');
+            $table->integer('track_time')->default(0)->comment('获取物流时间');
             $table->integer('dispatch_time')->default(0)->comment('发货时间');
             $table->integer('close_time')->default(0)->comment('关闭时间');
             $table->integer('complete_time')->default(0)->comment('完成时间');
