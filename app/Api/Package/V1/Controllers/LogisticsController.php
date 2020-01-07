@@ -132,7 +132,7 @@ class LogisticsController extends Controller
         // 获取包裹列表
         $logistics = $this->packageService->logistics([
             'in' => ['tracking_code' => $tracking_codes],
-            'where' => ['status' => 3]
+            'where' => ['status' => 2]
         ]);
 
         if (!$logistics->isEmpty()) {

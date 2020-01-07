@@ -115,7 +115,7 @@ class PackagesController extends Controller
             }
         }
         if ($packages->isEmpty()) {
-            return $this->response->error("当前没有需要获取物流单号的包裹", 500);
+            return $this->response->error("当前没有需要发货的包裹", 500);
         }
         $package_sn = $packages->pluck('package_sn')->toArray();
 

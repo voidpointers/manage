@@ -36,6 +36,9 @@ class StateMachine
             'status' => self::OPERATION[$action],
             $action . '_time' => time()
         ];
+        if ('dispatch' == $action) {
+            $data['complete_time'] = time();
+        }
 
         $this->data = $data;
     }
