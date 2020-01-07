@@ -35,22 +35,24 @@ class StateMachine
             'status' => self::OPERATION[$action],
             $action . '_time' => time()
         ];
+        if ('dispatch' == $action) {
+            $data['complete_time'] = time();
+        }
 
         $this->data = $data;
     }
 
-    protected function update($receit_ids)
+    protected function update($where)
     {
+        $query = Receipt::whereIn(key($where), current($where));
+
         // 查询当前状态
-        $receipts = Receipt::whereIn('id', $receit_ids)->get();
-        foreach ($receipts as $receipt) {
+        foreach ($query->get() as $receipt) {
             if ($receipt->status == $this->data['status']) {
                 throw new \Exception('不允许重复操作');
             }
         }
 
-        return Receipt::whereIn(
-            'id', $receit_ids
-        )->update($this->data);
+        return $query->update($this->data);
     }
 }

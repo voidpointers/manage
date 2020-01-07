@@ -9,6 +9,7 @@ use Package\Repositories\PackageRepository;
 use Package\Services\PackageService;
 use Receipt\Services\ReceiptService;
 use Receipt\Services\StateMachine as ReceiptStateMachine;
+use Package\Services\StateMachine as PackageStateMachine;
 
 class PackagesController extends Controller
 {
@@ -20,16 +21,20 @@ class PackagesController extends Controller
 
     protected $receiptStateMachine;
 
+    protected $packageStateMachine;
+
     public function __construct(
         PackageRepository $packageRepository,
         ReceiptService $receiptService,
         PackageService $packageService,
-        ReceiptStateMachine $receiptStateMachine)
+        ReceiptStateMachine $receiptStateMachine,
+        PackageStateMachine $packageStateMachine)
     {
         $this->packageRepository = $packageRepository;
         $this->receiptService = $receiptService;
         $this->packageService = $packageService;
         $this->receiptStateMachine = $receiptStateMachine;
+        $this->packageStateMachine = $packageStateMachine;
     }
 
     /**
@@ -55,6 +60,55 @@ class PackagesController extends Controller
         $package = $this->packageService->create($receipts);
 
         return $this->response->array(['msg' => 'success']);
+    }
+
+    /**
+     * 发货
+     */
+    public function delivery(Request $request)
+    {
+        $package_sn = $request->input('package_sn', '');
+        if (!$package_sn) {
+            return $this->response->error('参数错误[package_sn为空]', 500);
+        }
+        $package_sn = json_decode($package_sn);
+
+        // 获取包裹列表
+        $packages = $this->packageService->lists($package_sn);
+        if (empty($packages)) {
+            return $this->response->error('包裹不存在', 500);
+        }
+
+        // 校验包裹状态
+        $items = [];
+        foreach ($packages as $key => $package) {
+            if ($package->status != 3) {
+                unset($packages[$key]);
+                continue;
+            }
+            foreach ($package->item as $item) {
+                $items[] = [
+                    'receipt_id' => $item->receipt_id,
+                ];
+            }
+        }
+        if (empty($packages)) {
+            return $this->response->error("当前没有需要获取物流单号的包裹", 500);
+        }
+        $package_sn = $packages->pluck('package_sn')->toArray();
+
+        // 更改包裹状态
+        $this->packageStateMachine->operation('dispatch', ['package_sn' => $package_sn]);
+
+        // 获取包裹包含订单
+        $receipt_ids = array_unique(array_column($items, 'receipt_id'));
+
+        // 更改订单状态
+        if (!$this->receiptStateMachine->operation('dispatch', ['id' => $receipt_ids])) {
+            return $this->response->error('订单状态更改失败', 500);
+        }
+
+        return $this->response->array(['data' => ['package_sn' => $package_sn]]);
     }
 
     /**

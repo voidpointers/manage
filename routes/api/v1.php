@@ -10,7 +10,6 @@ $api->version('v1', [], function ($api) {
         $api->get('lists', 'ReceiptsController@lists');
         $api->get('export', 'ReceiptsController@export');
         $api->post('packup', 'ReceiptsController@packUp');
-        $api->post('dispatch', 'ReceiptsController@delivery');
         $api->post('close', 'ReceiptsController@close');
     });
     $api->group([
@@ -37,6 +36,7 @@ $api->version('v1', [], function ($api) {
         $api->get('lists', 'PackagesController@lists');
         $api->get('tracking/info/{order_number}', 'LogisticsController@trackInfo');
         $api->post('create', 'PackagesController@create');
+        $api->post('dispatch', 'PackagesController@delivery');
         $api->post('label/lists', 'LogisticsController@labels');
         $api->post('logistics/create', 'LogisticsController@create');
     });
