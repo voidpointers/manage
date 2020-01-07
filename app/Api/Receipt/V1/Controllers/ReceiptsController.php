@@ -71,25 +71,6 @@ class ReceiptsController extends Controller
     }
 
     /**
-     * 发货
-     */
-    public function delivery(Request $request)
-    {
-        $receipt_ids = $request->input('receipt_id', '');
-        if (!$receipt_ids) {
-            return $this->response->error('参数错误', 500);
-        }
-        $receipt_ids = json_decode($receipt_ids);
-
-        // 更改状态
-        if (!$this->stateMachine->operation('dispatch', $receipt_ids)) {
-            return $this->response->error('订单状态更改失败', 500);
-        }
-
-        return $this->response->noContent();
-    }
-
-    /**
      * 关闭
      */
     public function close(Request $request)
@@ -101,7 +82,7 @@ class ReceiptsController extends Controller
         $receipt_ids = json_decode($receipt_ids);
 
         // 更改状态
-        if (!$this->stateMachine->operation('close', $receipt_ids)) {
+        if (!$this->stateMachine->operation('close', ['id' => $receipt_ids])) {
             return $this->response->error('订单状态更改失败', 500);
         }
 
