@@ -70,28 +70,6 @@ class ReceiptsController extends Controller
         return Excel::download(new ReceiptsExport($data), 'receipts.xlsx');
     }
 
-    public function packUp(Request $request)
-    {
-        $receipt_ids = $request->input('receipt_id', '');
-        if (!$receipt_ids) {
-            return $this->response->error('参数错误', 500);
-        }
-        $receipt_ids = json_decode($receipt_ids);
-
-        // 获取订单列表
-        $receipts = $this->receiptService->listsByIds($receipt_ids);
-
-        // 更改状态
-        if (!$this->stateMachine->operation('packup', $receipt_ids)) {
-            return $this->response->error('订单状态更改失败', 500);
-        }
-
-        // 生成包裹
-        $package = $this->packageService->create($receipts);
-
-        return $this->response->noContent();
-    }
-
     /**
      * 发货
      */
