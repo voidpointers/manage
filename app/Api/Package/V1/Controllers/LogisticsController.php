@@ -81,6 +81,7 @@ class LogisticsController extends Controller
         if ($packages->isEmpty()) {
             return $this->response->error("当前没有需要获取物流单号的包裹", 500);
         }
+        $package_sn = $packages->pluck('package_sn')->toArray();
 
         // 请求物流接口
         $orders = $this->trackingService->buildOrders($packages, $channel);

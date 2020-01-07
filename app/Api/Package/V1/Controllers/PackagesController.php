@@ -70,10 +70,12 @@ class PackagesController extends Controller
         $receipts = $this->receiptService->lists([
             'in' => ['id' => $receipt_ids],
             'where' => ['status' => 1]
-            ]);
+        ]);
         if ($receipts->isEmpty()) {
             return $this->response->error('订单不存在或状态不正确', 500);
         }
+
+        $receipt_ids = $receipts->pluck('id')->toArray();
 
         // 更改订单状态
         if (!$this->receiptStateMachine->operation('packup', ['id' => $receipt_ids])) {

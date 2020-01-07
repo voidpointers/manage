@@ -67,6 +67,8 @@ class ReceiptService
                 foreach ($value as $k => $val) {
                     $query->whereIn($k, $val);
                 }
+            } else {
+                $query->where($value);
             }
         }
 
