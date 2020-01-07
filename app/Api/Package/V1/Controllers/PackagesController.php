@@ -51,6 +51,16 @@ class PackagesController extends Controller
         // 获取订单列表
         $receipts = $this->receiptService->listsByIds($receipt_ids);
 
+        // 过滤不符合状态的订单
+        foreach ($receipts as $key => $receipt) {
+            if ($receipt->status != 1) {
+                unset($receipts[$key]);
+            }
+        }
+        if (empty($receipts)) {
+            return $this->response->error('订单不存在或状态不正确', 500);
+        }
+
         // 更改订单状态
         if (!$this->receiptStateMachine->operation('packup', ['id' => $receipt_ids])) {
             return $this->response->error('订单状态更改失败', 500);
