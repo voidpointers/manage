@@ -75,6 +75,11 @@ class LogisticsController extends Controller
 
         // 获取package
         $packages = $this->packageService->lists($package_sn);
+        foreach ($packages as $package) {
+            if ($package->status != 1) {
+                throw new \Exception('不能重复操作');
+            }
+        }
 
         // 请求物流接口
         $orders = $this->trackingService->buildOrders($packages, $channel);
