@@ -38,6 +38,24 @@ class PackagesController extends Controller
     }
 
     /**
+     * 包裹列表
+     */
+    public function lists(Request $request)
+    {
+        $packages = $this->packageRepository->with([
+            'consignee',
+            'logistics' => function ($query) {
+                return $query->with('channel');
+            },
+            'item' => function ($query) {
+                return $query->with('transaction');
+            }
+        ])->paginate($request->get('limit', 30));
+
+        return $this->response->paginator($packages, new PackageTransformer);
+    }
+
+    /**
      * 打包
      */
     public function create(Request $request)
@@ -124,23 +142,5 @@ class PackagesController extends Controller
         }
 
         return $this->response->array(['data' => ['package_sn' => $package_sn]]);
-    }
-
-    /**
-     * 包裹列表
-     */
-    public function lists(Request $request)
-    {
-        $packages = $this->packageRepository->with([
-            'consignee',
-            'logistics' => function ($query) {
-                return $query->with('channel');
-            },
-            'item' => function ($query) {
-                return $query->with('transaction');
-            }
-        ])->paginate($request->get('limit', 30));
-
-        return $this->response->paginator($packages, new PackageTransformer);
     }
 }

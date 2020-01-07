@@ -3,6 +3,7 @@
 namespace Package\Services;
 
 use Package\Entities\Item;
+use Package\Entities\Logistics;
 use Package\Entities\Package;
 
 class PackageService
@@ -42,6 +43,11 @@ class PackageService
         Item::insert($items);
 
         return $packages;
+    }
+
+    public function logistics($where)
+    {
+        return Logistics::whereIn(key($where), current($where))->get();
     }
 
     public function lists($pacakge_sn)

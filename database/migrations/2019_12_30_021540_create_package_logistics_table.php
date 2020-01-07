@@ -29,6 +29,7 @@ class CreatePackageLogisticsTable extends Migration
             $table->integer('update_time')->default(0)->comment('更新时间');
             $table->integer('notification_time')->default(0)->comment('通知时间');
             $table->unique('package_sn', 'uk_package_sn');
+            $table->index('tracking_code', 'idx_tracking_code');
         });
 
         DB::statement("ALTER TABLE `package_logistics` comment '物流'"); // 表注释

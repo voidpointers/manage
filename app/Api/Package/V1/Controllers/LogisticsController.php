@@ -137,6 +137,17 @@ class LogisticsController extends Controller
 
         $data = $this->expressService->labels($tracking_codes);
 
+        // 获取包裹列表
+        $packages = $this->packageService->logistics(['tracking_code' => $tracking_codes]);
+
+        if (!$packages->isEmpty()) {
+            $package_sn = ($packages->pluck('package_sn')->toArray());
+            // 更改包裹状态
+            $this->packageStateMachine->operation('print', [
+                'package_sn' => $package_sn
+            ]);
+        }
+
         return $this->response->array(['data' => $data]);
     }
 }
