@@ -129,10 +129,11 @@ class LogisticsController extends Controller
      */
     public function labels(Request $request)
     {
-        $tracking_codes = $request->input('tracking_code', []);
-        if (!is_array($tracking_codes)) {
-            $tracking_codes = [$tracking_codes];
+        $tracking_codes = $request->input('tracking_code', '');
+        if (!$tracking_codes) {
+            return $this->response->error('', 500);
         }
+        $tracking_codes = json_decode($tracking_codes);
 
         $data = $this->expressService->labels($tracking_codes);
 

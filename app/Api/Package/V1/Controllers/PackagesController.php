@@ -73,6 +73,14 @@ class PackagesController extends Controller
     }
 
     /**
+     * 打印面单
+     */
+    public function print(Request $request)
+    {
+        return $this->response->array();
+    }
+
+    /**
      * 发货
      */
     public function delivery(Request $request)

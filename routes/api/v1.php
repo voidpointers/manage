@@ -37,7 +37,7 @@ $api->version('v1', [], function ($api) {
         $api->get('tracking/info/{order_number}', 'LogisticsController@trackInfo');
         $api->post('create', 'PackagesController@create');
         $api->post('dispatch', 'PackagesController@delivery');
-        $api->post('label/lists', 'LogisticsController@labels');
+        $api->post('print', 'LogisticsController@labels');
         $api->post('logistics/create', 'LogisticsController@create');
     });
     $api->group([
