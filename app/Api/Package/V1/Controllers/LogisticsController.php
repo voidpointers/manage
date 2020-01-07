@@ -75,10 +75,15 @@ class LogisticsController extends Controller
 
         // 获取package
         $packages = $this->packageService->lists($package_sn);
-        foreach ($packages as $package) {
+
+        // 过滤已经获取过物流单号或已关闭包裹
+        foreach ($packages as $key => $package) {
             if ($package->status != 1) {
-                throw new \Exception('已获取物流单号或已关闭');
+                unset($packages[$key]);
             }
+        }
+        if (empty($packages)) {
+            return $this->response->error("当前没有需要获取物流单号的包裹", 500);
         }
 
         // 请求物流接口
