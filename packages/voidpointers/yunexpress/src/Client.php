@@ -142,7 +142,7 @@ class Client
         if (empty($arr) || !isset($arr['Code'])) {
             throw new \Exception('Invalid response: ' . $result, 400);
         }
-        if (!in_array($arr['Code'], ['0000', '5001', '1001'])) {
+        if (!in_array($arr['Code'], ['0000', '5001', '1001', '1011'])) {
             if (!is_numeric($arr['Code'])) {
                 $arr['code'] = '1001';
             }

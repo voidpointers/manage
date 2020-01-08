@@ -10,8 +10,9 @@ class Package extends Model
     protected $appends = ['status_str', 'shop_title'];
 
     protected const STATUS = [
-        1 => '待发货',
+        1 => '新包裹',
         2 => '待打单',
+        3 => '待发货',
         7 => '已取消',
         8 => '已发货',
     ];
