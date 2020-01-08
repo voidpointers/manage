@@ -25,7 +25,7 @@ class PackageService
             $packages[] = [
                 'package_sn' => $pacakge_sn,
                 'consignee_id' => $receipt->consignee->id,
-                'status' => self::STATUS['pending'],
+                'status' => self::STATUS['new'],
                 'create_time' => time(),
                 'update_time' => time(),
             ];
