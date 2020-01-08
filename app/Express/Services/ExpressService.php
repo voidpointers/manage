@@ -18,7 +18,7 @@ class ExpressService
      * 
      * @params array $packags
      */
-    public function createOrder(array $packages, $channel)
+    public function createOrder($packages, $channel)
     {
         $data = [];
 
