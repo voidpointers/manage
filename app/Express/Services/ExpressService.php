@@ -79,8 +79,8 @@ class ExpressService
                 'CountryCode' => $package->consignee->country_code,
                 'FirtstName' => $package->consignee->name,
                 'LastName' => 'Rest',
-                'Street' => str_replace('&#39,', '', 
-                    $package->consignee->first_line . $package->consignee->second_line
+                'Street' => str_replace('&#39;', '', 
+                    $package->consignee->first_line . ' ' . $package->consignee->second_line
                 ),
                 'City' => $package->consignee->city,
                 'State' => $package->consignee->state,
