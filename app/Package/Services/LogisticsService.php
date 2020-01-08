@@ -26,7 +26,7 @@ class LogisticsService
                 'tracking_code' => $value['tracking_code'],
                 'provider' => json_encode([
                     'provider' => $channel->provider->title,
-                    'channle' => $channel->title,
+                    'channel' => $channel->title,
                 ]),
                 'remark' => $value['remark'] ?? '',
                 'status' => 1, // 已发货
