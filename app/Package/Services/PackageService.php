@@ -44,7 +44,12 @@ class PackageService
         );
 
         foreach ($models['with'] as $key => $model) {
-            if (!is_string($model)) continue;
+            if (!$request->has('channel_id') && 'logistics' == $model) {
+                continue;
+            }
+            if (!is_string($model)) {
+                continue;
+            }
             $query->whereHas($model, function ($query) use ($filter, $model) {
                 return $filter->filter($model, $query);
             });
