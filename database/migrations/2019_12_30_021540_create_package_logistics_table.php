@@ -24,6 +24,7 @@ class CreatePackageLogisticsTable extends Migration
             $table->string('waybill_url')->default('')->comment('面单');
             $table->string('tracking_url', 128)->default('')->comment('跟踪url');
             $table->tinyInteger('status')->default(0)->comment('状态');
+            $table->json('provider')->comment('物流公司');
             $table->string('remark')->default('')->comment('备注');
             $table->integer('create_time')->default(0)->comment('创建时间');
             $table->integer('update_time')->default(0)->comment('更新时间');

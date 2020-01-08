@@ -9,7 +9,11 @@ use Package\Entities\Package;
 class PackageService
 {
     protected const STATUS = [
-        'pending' => 1
+        'new' => 1, // 待获取物流跟踪号
+        'tracked' => 2, // 已获取物流跟踪号，待打单
+        'printed' => 3, // 已打单，待发货
+        'shipped' => 8, // 已发货
+        'closed' => 7,
     ];
 
     public function create($receipts)
