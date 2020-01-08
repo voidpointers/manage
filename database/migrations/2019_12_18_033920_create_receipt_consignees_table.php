@@ -15,7 +15,7 @@ class CreateReceiptConsigneesTable extends Migration
     public function up()
     {
         Schema::create('receipt_consignees', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->bigInteger('etsy_receipt_id')->unsigned()->default(0)->comment('Etsy收据ID');
             $table->bigInteger('receipt_sn')->unsigned()->default(0)->comment('收据编号');
             $table->integer('country_id')->unsigned()->default(0)->comment('国家ID');
@@ -30,6 +30,8 @@ class CreateReceiptConsigneesTable extends Migration
             $table->string('formatted_address')->default('')->comment('送货地址的本地格式地址');
             $table->string('phone', 32)->default('')->comment('');
             $table->unique('receipt_sn', 'uk_receipt_sn');
+            $table->index('etsy_receipt_id', 'idx_receipt_id');
+            $table->index('country_id', 'idx_country_id');
         });
 
         DB::statement("ALTER TABLE `receipt_consignees` comment '收货人'"); // 表注释

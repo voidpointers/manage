@@ -19,6 +19,7 @@ class CreateCountriesTable extends Migration
             $table->string('code', 2)->default('')->comment('国际简码');
             $table->string('en', 64)->default('')->comment('英文');
             $table->string('name', 64)->default('')->comment('中文');
+            $table->index('code', 'idx_code');
         });
 
         DB::statement("ALTER TABLE `countries` comment '国家列表'");

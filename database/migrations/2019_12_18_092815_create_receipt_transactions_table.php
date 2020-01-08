@@ -15,7 +15,7 @@ class CreateReceiptTransactionsTable extends Migration
     public function up()
     {
         Schema::create('receipt_transactions', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->bigInteger('etsy_receipt_id')->unsigned()->default(0)->comment('Etsy收据ID');
             $table->bigInteger('receipt_sn')->unsigned()->default(0)->comment('收据编号');
             $table->bigInteger('transaction_id')->unsigned()->default(0)->comment('交易ID');
@@ -32,6 +32,8 @@ class CreateReceiptTransactionsTable extends Migration
             $table->integer('paid_tsz')->unsigned()->default(0)->comment('支付时间');
             $table->integer('shipped_tsz')->unsigned()->default(0)->comment('发货时间');
             $table->index('receipt_sn', 'idx_receipt_sn');
+            $table->index('transaction_id', 'idx_transaction_id');
+            $table->index('listing_id', 'idx_listing_id');
         });
 
         DB::statement("ALTER TABLE `receipt_transactions` comment '订单交易列表'"); // 表注释

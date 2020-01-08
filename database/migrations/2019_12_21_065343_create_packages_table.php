@@ -15,9 +15,9 @@ class CreatePackagesTable extends Migration
     public function up()
     {
         Schema::create('packages', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->bigInteger('package_sn')->unsigned()->default(0)->comment('包裹编号');
-            $table->bigInteger('consignee_id')->unsigned()->default(0)->comment('收货人');
+            $table->integer('consignee_id')->unsigned()->default(0)->comment('收货人');
             $table->tinyInteger('status')->default(0)->comment('状态');
             $table->integer('create_time')->default(0)->comment('创建时间');
             $table->integer('update_time')->default(0)->comment('更新时间');

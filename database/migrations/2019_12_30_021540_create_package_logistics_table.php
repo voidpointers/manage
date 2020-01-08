@@ -15,7 +15,7 @@ class CreatePackageLogisticsTable extends Migration
     public function up()
     {
         Schema::create('package_logistics', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->bigInteger('package_sn')->unsigned()->default(0)->comment('包裹编号');
             $table->bigInteger('shipping_id')->default(0)->comment('配送ID');
             $table->integer('provider_id')->default(0)->comment('物流商ID');
@@ -30,6 +30,7 @@ class CreatePackageLogisticsTable extends Migration
             $table->integer('update_time')->default(0)->comment('更新时间');
             $table->integer('notification_time')->default(0)->comment('通知时间');
             $table->unique('package_sn', 'uk_package_sn');
+            $table->index(['provider_id', 'channel_id'], 'idx_provider_channel_id');
             $table->index('tracking_code', 'idx_tracking_code');
         });
 
