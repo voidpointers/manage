@@ -40,4 +40,15 @@ class Package extends Model
     {
         return '水晶玛姬';
     }
+
+    /**
+     * Scope a query to only include popular users.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeCreateTime($query, $create_time)
+    {
+        return $query->whereBetween('create_time', $create_time);
+    }
 }

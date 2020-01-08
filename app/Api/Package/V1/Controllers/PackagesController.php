@@ -42,15 +42,16 @@ class PackagesController extends Controller
      */
     public function lists(Request $request)
     {
-        $packages = $this->packageRepository->with([
-            'consignee',
-            'logistics' => function ($query) {
-                return $query->with('channel');
-            },
-            'item' => function ($query) {
-                return $query->with('transaction');
-            }
-        ])->paginate($request->get('limit', 30));
+        // $packages = $this->packageRepository->with([
+        //     'consignee',
+        //     'logistics',
+        //     'item' => function ($query) {
+        //         return $query->with('transaction');
+        //     }
+        // ])->paginate($request->get('limit', 30));
+
+        $packages = $this->packageService->query($request)->orderBy('id', 'desc')
+            ->paginate($request->get('limit', 30));
 
         return $this->response->paginator($packages, new PackageTransformer);
     }
