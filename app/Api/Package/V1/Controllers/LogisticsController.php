@@ -78,7 +78,7 @@ class LogisticsController extends Controller
         // 获取物流商信息
         $provider = $this->providerRepository->whereHas('channel',
             function ($query) use ($channel_code) {
-                return $query->where('channel_code', $channel_code);
+                return $query->where('code', $channel_code);
             }
         )->with(['channel'])->get();
         
