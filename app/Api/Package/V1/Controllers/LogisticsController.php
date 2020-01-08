@@ -5,7 +5,7 @@ namespace Api\Package\V1\Controllers;
 use Api\Controller;
 use Dingo\Api\Http\Request;
 use Express\Services\ExpressService;
-use Logistics\Repositories\ProviderRepository;
+use Logistics\Repositories\ChannelRepository;
 use Package\Services\LogisticsService;
 use Package\Services\PackageService;
 use Receipt\Services\ReceiptService;
@@ -28,7 +28,7 @@ class LogisticsController extends Controller
 
     protected $packageStateMachine;
 
-    protected $providerRepository;
+    protected $channelRepository;
 
     public function __construct(
         LogisticsService $logisticsService,
@@ -37,7 +37,7 @@ class LogisticsController extends Controller
         PackageService $packageService,
         ReceiptStateMachine $receiptStateMachine,
         PackageStateMachine $packageStateMachine,
-        ProviderRepository $providerRepository)
+        ChannelRepository $channelRepository)
     {
         $this->logisticsService = $logisticsService;
         $this->expressService = $expressService;
@@ -45,7 +45,7 @@ class LogisticsController extends Controller
         $this->packageService = $packageService;
         $this->receiptStateMachine = $receiptStateMachine;
         $this->packageStateMachine = $packageStateMachine;
-        $this->providerRepository = $providerRepository;
+        $this->channelRepository = $channelRepository;
     }
 
     public function lists(Request $request)
@@ -76,13 +76,10 @@ class LogisticsController extends Controller
         $channel_code = $request->input('channel', '');
 
         // 获取物流商信息
-        $provider = $this->providerRepository->whereHas('channel',
-            function ($query) use ($channel_code) {
-                return $query->where('code', $channel_code);
-            }
-        )->with(['channel'])->get();
-        
-        if ($provider->isEmpty()) {
+        $channel = $this->channelRepository->with(['provider'])->findWhere([
+            'code' => $channel_code
+        ]);
+        if ($channel->isEmpty()) {
             return $this->response->error('当前物流不支持', 500);
         }
 
@@ -100,7 +97,7 @@ class LogisticsController extends Controller
         $express = $this->expressService->createOrder($packages, $channel_code);
 
         // 物流信息入库
-        $this->logisticsService->create($express, $provider);
+        $this->logisticsService->create($express, $channel[0]);
 
         // 更改包裹状态
         $status = $this->packageStateMachine->operation('track', [

@@ -14,22 +14,20 @@ class LogisticsService
         $this->logisticsRepository = $logisticsRepository;
     }
 
-    public function create($logistics, $provider)
+    public function create($logistics, $channel)
     {
         $data = [];
-
-        $logistics = [
-            'provider' => $provider->title,
-            'channle' => $provider->channel->title,
-        ];
 
         foreach ($logistics as $value) {
             $data[] = [
                 'package_sn' => $value['package_sn'],
-                'provider_id' => $provider->provider_id,
-                'channel_id' => $provider->channel->channel_id,
+                'provider_id' => $channel->provider_id,
+                'channel_id' => $channel->id,
                 'tracking_code' => $value['tracking_code'],
-                'provider' => json_encode($logistics),
+                'provider' => json_encode([
+                    'provider' => $channel->provider->title,
+                    'channle' => $channel->title,
+                ]),
                 'remark' => $value['remark'] ?? '',
                 'status' => 1, // 已发货
                 'update_time' => 0,
