@@ -23,8 +23,10 @@ class ReceiptFilter
     public function filter(Request $request)
     {
         $status = self::STATUS[$request->get('status', '')] ?? '';
+
         if ($status) {
-            $this->query->where('status', $status);
+            // 排除跟进订单
+            $this->query->where(['is_follow' => 0, 'status' => $status]);
         }
         if ($request->has('etsy_receipt_id')) {
             $this->query->where('etsy_receipt_id', $request->get('etsy_receipt_id'));

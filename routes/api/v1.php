@@ -10,6 +10,7 @@ $api->version('v1', [], function ($api) {
         $api->get('lists', 'ReceiptsController@lists');
         $api->get('export', 'ReceiptsController@export');
         $api->post('close', 'ReceiptsController@close');
+        $api->post('consignee/edit', 'ReceiptsController@close');
     });
     $api->group([
         'namespace' => 'Api\Customization\V1\Controllers',
@@ -21,12 +22,13 @@ $api->version('v1', [], function ($api) {
         $api->post('close', 'CustomizationController@close');
     });
     $api->group([
-        'namespace' => 'Api\Customizations\V1\Controllers',
+        'namespace' => 'Api\Follows\V1\Controllers',
         'prefix' => 'follows',
     ], function ($api) {
-        $api->post('create', 'CustomizationController@create');
-        $api->post('complete', 'CustomizationController@complete');
-        $api->post('close', 'CustomizationController@close');
+        $api->get('lists', 'FollowsController@lists');
+        $api->post('create', 'FollowsController@create');
+        $api->post('complete', 'FollowsController@complete');
+        $api->post('close', 'FollowsController@close');
     });
     $api->group([
         'namespace' => 'Api\Package\V1\Controllers',
