@@ -35,7 +35,10 @@ class ReceiptService
         $filter = new Filter($request);
 
         if (!$models) {
-            $models = ['base' => 'receipt', 'with' => ['transaction', 'consignee']];
+            $models = ['base' => 'receipt', 'with' => [
+                    'transaction', 'consignee', 'logistics'
+                ]
+            ];
         }
 
         $query = $filter->filter(
@@ -44,6 +47,8 @@ class ReceiptService
         );
 
         foreach ($models['with'] as $model) {
+            if ('logistics' == $model) continue;
+
             $query->whereHas($model, function ($query) use ($filter, $model) {
                 return $filter->filter($model, $query);
             });

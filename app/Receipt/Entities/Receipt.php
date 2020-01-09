@@ -3,6 +3,7 @@
 namespace Receipt\Entities;
 
 use App\Model;
+use Package\Entities\Logistics;
 
 /**
  * 收据模型
@@ -28,6 +29,11 @@ class Receipt extends Model
     public function consignee()
     {
         return $this->hasOne('Receipt\Entities\Consignee', 'receipt_sn', 'receipt_sn');
+    }
+
+    public function logistics()
+    {
+        return $this->hasOne(Logistics::class, 'package_sn', 'package_sn');
     }
 
     /**

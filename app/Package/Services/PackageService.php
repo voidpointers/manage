@@ -89,7 +89,7 @@ class PackageService
         Package::insert($packages);
         Item::insert($items);
 
-        return $packages;
+        return $items;
     }
 
     public function logistics($where)

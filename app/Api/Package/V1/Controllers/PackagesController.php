@@ -84,9 +84,21 @@ class PackagesController extends Controller
         }
 
         // 生成包裹
-        $packages = $this->packageService->create($receipts);
+        $items = $this->packageService->create($receipts);
 
-        return $this->response->array(['data' => $packages]);
+        // 去重并组装receipt更新数据
+        $data = [];
+        foreach ($items as $item) {
+            $data[$item['receipt_id']] = [
+                'id' => $item['receipt_id'],
+                'package_sn' => $item['package_sn']
+            ];
+        }
+
+        // 关联package_sn到receipt主表
+        $this->receiptService->updateReceipt($data);
+
+        return $this->response->array(['data' => $items]);
     }
 
     /**

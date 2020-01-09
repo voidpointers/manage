@@ -35,6 +35,8 @@ class LogisticsService
             ];
         }
 
-        return Logistics::insert($data);
+        Logistics::insert($data);
+
+        return $data;
     }
 }

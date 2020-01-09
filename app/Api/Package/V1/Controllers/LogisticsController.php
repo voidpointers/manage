@@ -97,28 +97,26 @@ class LogisticsController extends Controller
         $express = $this->expressService->createOrder($packages, $channel_code);
 
         // 物流信息入库
-        $this->logisticsService->create($express, $channel[0]);
+        $logistics = $this->logisticsService->create($express, $channel[0]);
 
         // 更改包裹状态
         $status = $this->packageStateMachine->operation('track', [
             'package_sn' => $package_sn
         ]);
 
-        $items = array_map(function ($package) {
-            $data = [];
-            foreach ($package['item'] as $item) {
-                $data[] = ['receipt_id' => $item['receipt_id'],];
-            }
-            return $data;
-        }, $packages->toArray());
-        
-        $receipt_ids = [];
-        foreach ($items as $item) {
-            foreach ($item as $val) {
-                $receipt_ids[] = $val['receipt_id'];
+        // 提取订单
+        $receipts = [];
+        foreach ($packages as $package) {
+            foreach ($package->item as $item) {
+                $receipts[$item->receipt_id] = [
+                    'id' => $item->receipt_id,
+                ];
             }
         }
 
+        // 更新receipts表
+        // $this->receiptService->updateReceipt($receipts);
+       
         return $this->response->array(['data' => $express]);
     }
 

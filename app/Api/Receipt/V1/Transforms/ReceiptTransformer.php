@@ -2,6 +2,7 @@
 
 namespace Api\Receipt\V1\Transforms;
 
+use Api\Package\V1\Transforms\LogisticsTransformer;
 use League\Fractal\TransformerAbstract;
 use Receipt\Entities\Receipt;
 
@@ -13,7 +14,7 @@ class ReceiptTransformer extends TransformerAbstract
      * @var array
      */
     protected $defaultIncludes = [
-        'consignee', 'transaction'
+        'consignee', 'transaction', 'logistics'
     ];
 
     public function transform(Receipt $receipt)
@@ -47,6 +48,15 @@ class ReceiptTransformer extends TransformerAbstract
         return $this->collection(
             $receipt->transaction,
             new TransactionTransformer,
+            'include'
+        );
+    }
+
+    public function includeLogistics($package)
+    {
+        return $this->item(
+            $package->logistics ?? null,
+            new LogisticsTransformer,
             'include'
         );
     }

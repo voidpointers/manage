@@ -58,7 +58,7 @@ class Model extends IlluminateModel
      *    when id = 2 then 'b'
      * where id in (1,2);
      */
-    public function updateBatch(array $inputs, $where_field = 'id', $when_field = 'id')
+    public static function updateBatch(array $inputs, $where_field = 'id', $when_field = 'id')
     {
         if (empty($inputs)) {
             throw new \InvalidArgumentException('parameter error');
@@ -76,7 +76,7 @@ class Model extends IlluminateModel
             }
         }
 
-        $build = DB::table(self::$table)->whereIn($where_field, $where);
+        $build = static::whereIn($where_field, $where);
         foreach ($when_arr as $key => &$item) {
             $item = DB::raw('case ' . implode(' ', $item) . ' end ');
         }
