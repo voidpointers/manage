@@ -50,6 +50,7 @@ class CreateReceiptsTable extends Migration
             $table->integer('close_time')->unsigned()->default(0)->comment('取消时间');
             $table->integer('complete_time')->unsigned()->default(0)->comment('完成时间');
             $table->unique('receipt_sn', 'uk_receipt_sn');
+            $table->index('package_sn', 'idx_package_sn');
         });
 
         DB::statement("ALTER TABLE `receipts` comment '订单收据'"); // 表注释
