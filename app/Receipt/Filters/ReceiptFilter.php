@@ -28,6 +28,9 @@ class ReceiptFilter
             // 排除跟进订单
             $this->query->where(['is_follow' => 0, 'status' => $status]);
         }
+        if ($request->has('is_follow')) {
+            $this->query->where('is_follow', $request->has('is_follow'));
+        }
         if ($request->has('etsy_receipt_id')) {
             $this->query->where('etsy_receipt_id', $request->get('etsy_receipt_id'));
         }
