@@ -1,6 +1,6 @@
 <?php
 
-namespace Api\Follow\Requests;
+namespace Api\Follow\V1\Requests;
 
 use Api\FormRequest;
 

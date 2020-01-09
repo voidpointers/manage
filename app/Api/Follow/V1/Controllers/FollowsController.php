@@ -3,7 +3,7 @@
 namespace Api\Follow\V1\Controllers;
 
 use Api\Controller;
-use Api\Follow\Requests\ReceiptRequest;
+use Api\Follow\V1\Requests\ReceiptRequest;
 use Api\Receipt\V1\Transforms\ReceiptTransformer;
 use Dingo\Api\Http\Request;
 use Receipt\Repositories\ReceiptRepository;

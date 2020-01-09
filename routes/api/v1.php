@@ -22,7 +22,7 @@ $api->version('v1', [], function ($api) {
         $api->post('close', 'CustomizationController@close');
     });
     $api->group([
-        'namespace' => 'Api\Follows\V1\Controllers',
+        'namespace' => 'Api\Follow\V1\Controllers',
         'prefix' => 'follows',
     ], function ($api) {
         $api->get('lists', 'FollowsController@lists');
