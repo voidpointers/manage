@@ -3,6 +3,7 @@
 namespace Api\Receipt\V1\Controllers;
 
 use Api\Controller;
+use Api\Receipt\V1\Requests\ReceiptRequest;
 use Api\Receipt\V1\Transforms\ReceiptTransformer;
 use App\Exports\ReceiptsExport;
 use Dingo\Api\Http\Request;
@@ -56,6 +57,11 @@ class ReceiptsController extends Controller
         );
     }
 
+    public function create()
+    {
+
+    }
+
     /**
      * 导出订单
      * 
@@ -87,5 +93,22 @@ class ReceiptsController extends Controller
         }
 
         return $this->response->noContent();
+    }
+
+    /**
+     * 更新
+     */
+    public function update(ReceiptRequest $request, $receipt_sn)
+    {
+        $validated = $request->validated();
+        if (!$validated) {
+            return $this->response->error('缺少必要参数', 500);
+        }
+
+        $this->receiptService->update(
+            ['where' => ['receipt_sn' => $receipt_sn]], $validated
+        );
+
+        return $this->response->array(['msg' => 'success']);
     }
 }
