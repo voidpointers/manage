@@ -57,9 +57,4 @@ class Receipt extends Model
     {
         return self::STATUS[$this->attributes['status']] ?? '';
     }
-
-    public function getLogisticsSpeedAttribute()
-    {
-        return self::SPEED[$this->attributes['logistics_speed']] ?? '';
-    }
 }
