@@ -25,11 +25,10 @@ class ConsigneesController extends Controller
 
     public function update(ConsigneeRequest $request, $receipt_sn)
     {
-        $validated = $request->getValidatorInstance()->validated();
-        dd($validated);
+        $validated = $request->validated();
 
         $this->consigneeRepository->updateWhere(
-            ['receipt_sn' => $receipt_sn], $request->all()
+            ['receipt_sn' => $receipt_sn], $validated
         );
 
         return $this->response->array(['msg' => 'success']);

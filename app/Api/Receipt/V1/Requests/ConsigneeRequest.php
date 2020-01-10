@@ -10,14 +10,14 @@ class ConsigneeRequest extends FormRequest
     {
         return [
             'country_id' => 'integer',
-            'name',
-            'state',
-            'city',
-            'zip',
-            'first_line',
-            'second_line',
-            'formatted_address',
-            'phone',
+            'name' => '',
+            'state' => '',
+            'city' => '',
+            'zip' => '',
+            'first_line' => '',
+            'second_line' => '',
+            'formatted_address' => '',
+            'phone' => '',
         ];
     }
 
