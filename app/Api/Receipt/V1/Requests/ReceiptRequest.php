@@ -9,7 +9,8 @@ class ReceiptRequest extends FormRequest
     public function rules()
     {
         return [
-            'remark' => 'string'
+            'remark' => 'string',
+            'logistics_speed' => 'integer',
         ];
     }
 }
