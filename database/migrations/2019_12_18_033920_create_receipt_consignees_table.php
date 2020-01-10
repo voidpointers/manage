@@ -29,6 +29,8 @@ class CreateReceiptConsigneesTable extends Migration
             $table->string('second_line')->default('')->comment('第二行地址');
             $table->string('formatted_address')->default('')->comment('送货地址的本地格式地址');
             $table->string('phone', 32)->default('')->comment('');
+            $table->integer('create_time')->unsigned()->default(0)->comment('创建时间');
+            $table->integer('update_time')->unsigned()->default(0)->comment('更新时间');
             $table->unique('receipt_sn', 'uk_receipt_sn');
             $table->index('etsy_receipt_id', 'idx_receipt_id');
             $table->index('country_id', 'idx_country_id');

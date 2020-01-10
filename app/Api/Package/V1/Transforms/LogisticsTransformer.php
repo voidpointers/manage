@@ -22,6 +22,7 @@ class LogisticsTransformer extends TransformerAbstract
             'status' => $logistics->status,
             'provider' => $provider['provider'] ?? '',
             'channel' => $provider['channel'] ?? '',
+            'create_time' => $logistics->create_time,
         ];
     }
 }
