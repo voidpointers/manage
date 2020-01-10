@@ -41,6 +41,7 @@ class CreateReceiptsTable extends Migration
             $table->text('buyer_msg')->comment('买家消息');
             $table->text('buyer_msg_zh')->comment('买家消息');
             $table->string('remark')->default('')->comment('订单备注');
+            $table->tinyInteger('logistics_speed')->unsigned()->default(0)->comment('物流速度');
             $table->integer('creation_tsz')->unsigned()->default(0)->comment('下单时间');
             $table->integer('modified_tsz')->unsigned()->default(0)->comment('修改时间');
             $table->integer('create_time')->unsigned()->default(0)->comment('创建时间');

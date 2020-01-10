@@ -21,6 +21,12 @@ class Receipt extends Model
         8 => '已发货',
     ];
 
+    protected const SPEED = [
+        0 => '标快',
+        1 => '平邮',
+        2 => '加快'
+    ];
+
     public function transaction()
     {
         return $this->hasMany('Receipt\Entities\Transaction', 'receipt_sn', 'receipt_sn');
@@ -50,5 +56,10 @@ class Receipt extends Model
     public function getStatusStrAttribute()
     {
         return self::STATUS[$this->attributes['status']] ?? '';
+    }
+
+    public function getLogisticsSpeedAttribute()
+    {
+        return self::SPEED[$this->attributes['logistics_speed']] ?? '';
     }
 }
