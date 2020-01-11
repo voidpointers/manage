@@ -2,48 +2,72 @@
 
 namespace Receipt\Filters;
 
-use Dingo\Api\Http\Request;
+use App\QueryFilter;
 
-class ReceiptFilter
+trait ReceiptFilter
 {
-    protected $query;
+    use QueryFilter;
 
-    protected const STATUS = [
-        'new' => 1,
-        'packaged' => 2,
-        'shipped' => 8,
-        'closed' => 7,
-    ];
-
-    public function __construct($query)
+    public function receiptSn($receipt_sn)
     {
-        $this->query = $query;
+        return $this->builder->where('receipt_sn', $receipt_sn);
     }
 
-    public function filter(Request $request)
+    public function etsyReceiptId($etsy_receipt_id)
     {
-        $status = self::STATUS[$request->get('status', '')] ?? '';
+        return $this->builder->where('etsy_receipt_id', $etsy_receipt_id);
+    }
 
-        if ($status) {
-            // 排除跟进订单
-            $this->query->where(['is_follow' => 0, 'status' => $status]);
-        }
-        if ($request->has('is_follow')) {
-            $this->query->where('is_follow', $request->has('is_follow'));
-        }
-        if ($request->has('etsy_receipt_id')) {
-            $this->query->where('etsy_receipt_id', $request->get('etsy_receipt_id'));
-        }
-        if ($request->has('buyer_user_id')) {
-            $this->query->where('buyer_user_id', $request->get('buyer_user_id'));
-        }
-        if ($request->has('creation_tsz_start') || $request->has('creation_tsz_end')) {
-            $this->query->creationTsz([
-                $request->get('creation_tsz_start'),
-                $request->get('creation_tsz_end')
-            ]);
-        }
+    public function status($status)
+    {
+        return $this->builder->where('status', $status);
+    }
 
-        return $this->query;
+    public function isFollow($is_follow)
+    {
+        return $this->builder->where('is_follow', $is_follow);
+    }
+
+    public function buyerUserId($user_id)
+    {
+        return $this->builder->where('buyer_user_id', $user_id);
+    }
+
+    public function createionTsz()
+    {
+        return $this->builder->where();
+    }
+
+    public function transactions()
+    {
+
+    }
+
+    public function consignee($name)
+    {
+        return $this->builder->whereHas('consignee', function ($query) use ($name) {
+            return $query->where('name', $name);
+        });
+    }
+
+    public function countryId($country_id)
+    {
+        return $this->builder->whereHas('consignee', function ($query) use ($country_id) {
+            return $query->where('country_id', $country_id);
+        });
+    }
+
+    public function etsySku($params)
+    {
+        return $this->builder->whereHas('transaction', function ($query) use ($params) {
+            return $query->where('etsy_sku', $params);
+        });
+    }
+
+    public function localSku($local_sku)
+    {
+        return $this->builder->whereHas('transaction', function ($query) use ($local_sku) {
+            return $query->where('local_sku', $$params);
+        });
     }
 }

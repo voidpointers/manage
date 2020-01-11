@@ -53,3 +53,13 @@ if (!function_exists('generate_package_sn')) {
         return mt_rand(10, 99) . $seed . mt_rand(0, 9);
     }
 }
+
+if (!function_exists('camelize')) {
+
+    function camelize($uncamelized_words, $separator='_')
+    {
+        $uncamelized_words = $separator. str_replace($separator, " ", strtolower($uncamelized_words));
+
+        return ltrim(str_replace(" ", "", ucwords($uncamelized_words)), $separator );
+    }
+}

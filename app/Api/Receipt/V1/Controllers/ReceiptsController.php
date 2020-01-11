@@ -9,6 +9,8 @@ use App\Exports\ReceiptsExport;
 use Dingo\Api\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Package\Services\PackageService;
+use Receipt\Entities\Receipt;
+use Receipt\Filters\ReceiptFilter;
 use Receipt\Repositories\ReceiptRepository;
 use Receipt\Services\ReceiptService;
 use Receipt\Services\StateMachine;
@@ -32,12 +34,21 @@ class ReceiptsController extends Controller
         ReceiptRepository $repository,
         StateMachine $stateMachine,
         PackageService $packageService,
-        ReceiptService $receiptService)
+        ReceiptService $receiptService,
+        Receipt $receipt)
     {
         $this->repository = $repository;
-        $this->stateMachine = $stateMachine;
-        $this->packageService = $packageService;
-        $this->receiptService = $receiptService;
+        // $this->stateMachine = $stateMachine;
+        // $this->packageService = $packageService;
+        // $this->receiptService = $receiptService;
+        $this->receipt = $receipt;
+    }
+
+    public function lists(Request $request)
+    {
+        return $this->repository->apply($request)->with([
+            'consignee', 'transaction', 'logistics'
+        ])->get();
     }
 
     /**
@@ -46,7 +57,7 @@ class ReceiptsController extends Controller
      * @param Request $request
      * @return string
      */
-    public function lists(Request $request)
+    public function listsv2(Request $request)
     {
         $receipts = $this->receiptService->query($request)->orderBy('id', 'desc')
             ->paginate($request->get('limit', 30));
