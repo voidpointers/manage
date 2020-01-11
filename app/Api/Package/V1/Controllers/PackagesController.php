@@ -13,7 +13,7 @@ use Package\Services\StateMachine as PackageStateMachine;
 
 class PackagesController extends Controller
 {
-    protected $packageRepository;
+    protected $repository;
 
     protected $receiptService;
 
@@ -24,13 +24,13 @@ class PackagesController extends Controller
     protected $packageStateMachine;
 
     public function __construct(
-        PackageRepository $packageRepository,
+        PackageRepository $repository,
         ReceiptService $receiptService,
         PackageService $packageService,
         ReceiptStateMachine $receiptStateMachine,
         PackageStateMachine $packageStateMachine)
     {
-        $this->packageRepository = $packageRepository;
+        $this->repository = $repository;
         $this->receiptService = $receiptService;
         $this->packageService = $packageService;
         $this->receiptStateMachine = $receiptStateMachine;
@@ -42,13 +42,13 @@ class PackagesController extends Controller
      */
     public function lists(Request $request)
     {
-        $packages = $this->packageRepository->with([
-            'consignee',
-            'logistics',
-            'item' => function ($query) {
-                return $query->with('transaction');
-            }
-        ])->paginate($request->get('limit', 30));
+        $packages = $this->repository->apply($request)
+            ->with(['consignee', 'logistics', 'item' => function ($query) {
+                    return $query->with('transaction');
+                }
+            ])
+            ->orderBy('id', 'desc')
+            ->paginate($request->get('limit', 30));
 
         return $this->response->paginator($packages, new PackageTransformer);
     }

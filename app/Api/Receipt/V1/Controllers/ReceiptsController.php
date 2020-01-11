@@ -52,9 +52,10 @@ class ReceiptsController extends Controller
      */
     public function lists(Request $request)
     {
-        $receipts = $this->repository->apply($request)->with([
-            'consignee', 'transaction', 'logistics'
-        ])->paginate($request->get('limit', 30));
+        $receipts = $this->repository->apply($request)
+            ->with(['consignee', 'transaction', 'logistics'])
+            ->orderBy('id', 'desc')
+            ->paginate($request->get('limit', 30));
 
         return $this->response->paginator($receipts, new ReceiptTransformer);
     }
