@@ -38,17 +38,10 @@ class ReceiptsController extends Controller
         Receipt $receipt)
     {
         $this->repository = $repository;
-        // $this->stateMachine = $stateMachine;
-        // $this->packageService = $packageService;
-        // $this->receiptService = $receiptService;
+        $this->stateMachine = $stateMachine;
+        $this->packageService = $packageService;
+        $this->receiptService = $receiptService;
         $this->receipt = $receipt;
-    }
-
-    public function lists(Request $request)
-    {
-        return $this->repository->apply($request)->with([
-            'consignee', 'transaction', 'logistics'
-        ])->get();
     }
 
     /**
@@ -57,15 +50,13 @@ class ReceiptsController extends Controller
      * @param Request $request
      * @return string
      */
-    public function listsv2(Request $request)
+    public function lists(Request $request)
     {
-        $receipts = $this->receiptService->query($request)->orderBy('id', 'desc')
-            ->paginate($request->get('limit', 30));
-        
-        return $this->response->paginator(
-            $receipts,
-            new ReceiptTransformer
-        );
+        $receipts = $this->repository->apply($request)->with([
+            'consignee', 'transaction', 'logistics'
+        ])->paginate($request->get('limit', 30));
+
+        return $this->response->paginator($receipts, new ReceiptTransformer);
     }
 
     public function create()
