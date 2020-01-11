@@ -20,7 +20,15 @@ trait ReceiptFilter
 
     public function status($params)
     {
-        return $this->builder->where('status', $params);
+        $status = [
+            'new' => 1, 'packaged' => 2, 'shipped' => 8,'closed' => 7,
+        ];
+        $status = $status[$params] ?? '';
+        if (!$status) {
+            return $this->builder;
+        }
+
+        return $this->builder->where('status', $status);
     }
 
     public function isFollow($params)
