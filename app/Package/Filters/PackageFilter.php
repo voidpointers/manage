@@ -2,38 +2,57 @@
 
 namespace Package\Filters;
 
+use App\QueryFilter;
 use Dingo\Api\Http\Request;
 
-class PackageFilter
+trait PackageFilter
 {
-    protected $query;
+    use QueryFilter;
 
-    protected const STATUS = [
-        'new' => 1,
-        'tracked' => 2,
-        'printed' => 3,
-        'shipped' => 8,
-        'closed' => 7,
-    ];
-
-    public function __construct($query)
+    public function status($params)
     {
-        $this->query = $query;
+        $status = [
+            'new' => 1, 'tracked' => 2, 'printed' => 3, 'shipped' => 8, 'closed' => 7,
+        ];
+        $status = $status[$params] ?? '';
+        if (!$status) {
+            return $this->builder;
+        }
+
+        return $this->builder->where('status', $status);
     }
 
-    public function filter(Request $request)
+    public function createTimeStart($params)
     {
-        $status = self::STATUS[$request->get('status', '')] ?? '';
-        if ($status) {
-            $this->query->where('status', $status);
-        }
-        if ($request->has('create_time_start') || $request->has('create_time_end')) {
-            $this->query->createTime([
-                $request->get('create_time_start'),
-                $request->get('create_time_end')
-            ]);
-        }
+        return $this->builder->where('create_time', '>=', $params);
+    }
 
-        return $this->query;
+    public function createTimeEnd($params)
+    {
+        return $this->builder->where('create_time', '<', $params);
+    }
+    
+    public function consignee($params)
+    {
+        return $this->builder->whereHas('consignee', function($query) use ($params) {
+            return $query->where('name', $params);
+        });
+    }
+
+    public function countryId($params)
+    {
+        return $this->builder->whereHas('consignee', function($query) use ($params) {
+            return $query->where('country_id', $params);
+        });
+    }
+
+    public function providerId($params)
+    {
+        return $this->builder->where('provider_id', $params);
+    }
+
+    public function channelId($params)
+    {
+        return $this->builder->where('channel_id', $params);
     }
 }

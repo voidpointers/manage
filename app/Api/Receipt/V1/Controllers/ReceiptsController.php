@@ -113,4 +113,9 @@ class ReceiptsController extends Controller
 
         return $this->response->array(['msg' => 'success']);
     }
+
+    public function copy()
+    {
+
+    }
 }

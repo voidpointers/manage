@@ -41,14 +41,14 @@ trait ReceiptFilter
         return $this->builder->where('buyer_user_id', $params);
     }
 
-    public function createionTsz($params)
+    public function createionTszStart($params)
     {
-        return $this->builder->where();
+        return $this->builder->where('creation_tsz', '>=', $params);
     }
 
-    public function transactions($params)
+    public function createionTszEnd($params)
     {
-
+        return $this->builder->where('creation_tsz', '<', $params);
     }
 
     public function consignee($params)
