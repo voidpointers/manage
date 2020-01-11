@@ -8,66 +8,66 @@ trait ReceiptFilter
 {
     use QueryFilter;
 
-    public function receiptSn($receipt_sn)
+    public function receiptSn($params)
     {
-        return $this->builder->where('receipt_sn', $receipt_sn);
+        return $this->builder->where('receipt_sn', $params);
     }
 
-    public function etsyReceiptId($etsy_receipt_id)
+    public function etsyReceiptId($params)
     {
-        return $this->builder->where('etsy_receipt_id', $etsy_receipt_id);
+        return $this->builder->where('etsy_receipt_id', $params);
     }
 
-    public function status($status)
+    public function status($params)
     {
-        return $this->builder->where('status', $status);
+        return $this->builder->where('status', $params);
     }
 
-    public function isFollow($is_follow)
+    public function isFollow($params)
     {
-        return $this->builder->where('is_follow', $is_follow);
+        return $this->builder->where('is_follow', $params);
     }
 
-    public function buyerUserId($user_id)
+    public function buyerUserId($params)
     {
-        return $this->builder->where('buyer_user_id', $user_id);
+        return $this->builder->where('buyer_user_id', $params);
     }
 
-    public function createionTsz()
+    public function createionTsz($params)
     {
         return $this->builder->where();
     }
 
-    public function transactions()
+    public function transactions($params)
     {
 
     }
 
-    public function consignee($name)
+    public function consignee($params)
     {
-        return $this->builder->whereHas('consignee', function ($query) use ($name) {
-            return $query->where('name', $name);
+        return $this->builder->whereHas('consignee', function($query) use ($params) {
+            return $query->where('name', $params);
         });
     }
 
-    public function countryId($country_id)
+    public function countryId($params)
     {
-        return $this->builder->whereHas('consignee', function ($query) use ($country_id) {
-            return $query->where('country_id', $country_id);
+        return $this->builder->whereHas('consignee', function($query) use ($params) {
+            return $query->where('country_id', $params);
         });
     }
 
     public function etsySku($params)
     {
-        return $this->builder->whereHas('transaction', function ($query) use ($params) {
+        return $this->builder->whereHas('transaction', function($query) use ($params) {
             return $query->where('etsy_sku', $params);
         });
     }
 
-    public function localSku($local_sku)
+    public function localSku($params)
     {
-        return $this->builder->whereHas('transaction', function ($query) use ($local_sku) {
-            return $query->where('local_sku', $$params);
+        return $this->builder->whereHas('transaction', function($query) use ($params) {
+            return $query->where('local_sku', $params);
         });
     }
 }
