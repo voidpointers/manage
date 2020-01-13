@@ -81,15 +81,11 @@ trait TransactionFilter
 
     public function etsySku($params)
     {
-        return $this->builder->whereHas('transaction', function($query) use ($params) {
-            return $query->where('etsy_sku', $params);
-        });
+        return $this->builder->where('etsy_sku', $params);
     }
 
     public function localSku($params)
     {
-        return $this->builder->whereHas('transaction', function($query) use ($params) {
-            return $query->where('local_sku', $params);
-        });
+        return $this->builder->where('local_sku', $params);
     }
 }
