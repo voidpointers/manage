@@ -4,18 +4,22 @@ namespace Receipt\Filters;
 
 use App\QueryFilter;
 
-trait ReceiptFilter
+trait TransactionFilter
 {
     use QueryFilter;
 
     public function receiptSn($params)
     {
-        return $this->builder->where('receipt_sn', $params);
+        return $this->builder->whereHas('receipt', function($query) use ($params) {
+            return $query->where('receipt_sn', $params);
+        });
     }
 
     public function etsyReceiptId($params)
     {
-        return $this->builder->where('etsy_receipt_id', $params);
+        return $this->builder->whereHas('receipt', function($query) use ($params) {
+            return $query->where('etsy_receipt_idetsy_sku', $params);
+        });
     }
 
     public function status($params)
@@ -28,27 +32,37 @@ trait ReceiptFilter
             return $this->builder;
         }
 
-        return $this->builder->where('status', $status);
+        return $this->builder->whereHas('receipt', function($query) use ($params) {
+            return $query->where('status', $params);
+        });
     }
 
     public function isFollow($params)
     {
-        return $this->builder->where('is_follow', $params);
+        return $this->builder->whereHas('receipt', function($query) use ($params) {
+            return $query->where('is_follow', $params);
+        });
     }
 
     public function buyerUserId($params)
     {
-        return $this->builder->where('buyer_user_id', $params);
+        return $this->builder->whereHas('receipt', function($query) use ($params) {
+            return $query->where('buyer_user_id', $params);
+        });
     }
 
     public function createionTszStart($params)
     {
-        return $this->builder->where('creation_tsz', '>=', $params);
+        return $this->builder->whereHas('receipt', function($query) use ($params) {
+            return $query->where('creation_tsz', '>=', $params);
+        });
     }
 
     public function createionTszEnd($params)
     {
-        return $this->builder->where('creation_tsz', '<', $params);
+        return $this->builder->whereHas('receipt', function($query) use ($params) {
+            return $query->where('creation_tsz', '<', $params);
+        });
     }
 
     public function consignee($params)
@@ -68,14 +82,14 @@ trait ReceiptFilter
     public function etsySku($params)
     {
         return $this->builder->whereHas('transaction', function($query) use ($params) {
-            return $query->where('etsy_sku', 'like', "%{$params}%");
+            return $query->where('etsy_sku', $params);
         });
     }
 
     public function localSku($params)
     {
         return $this->builder->whereHas('transaction', function($query) use ($params) {
-            return $query->where('local_sku', 'like', "%{$params}%");
+            return $query->where('local_sku', $params);
         });
     }
 }

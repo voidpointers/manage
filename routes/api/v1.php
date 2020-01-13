@@ -11,6 +11,7 @@ $api->version('v1', [], function ($api) {
         $api->get('export', 'ReceiptsController@export');
         $api->post('close', 'ReceiptsController@close');
         $api->post('{receipt_sn}/update', 'ReceiptsController@update');
+        $api->post('transaction/{receipt_sn}/create', 'TransactionsController@create');
         $api->post('consignee/{receipt_sn}/update', 'ConsigneesController@update');
     });
     $api->group([
