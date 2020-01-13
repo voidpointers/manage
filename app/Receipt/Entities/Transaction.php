@@ -28,4 +28,9 @@ class Transaction extends Model
     {
         return json_decode($this->attributes['variations'], true) ?? '';
     }
+
+    public function getImageAttribute()
+    {
+        return str_replace('75x75', '300x300', $this->attributes['image']);
+    }
 }
