@@ -80,7 +80,7 @@ class ReceiptsController extends Controller
             ->with(['consignee', 'receipt'])
             ->orderBy('id', 'desc')
             ->get();
-
+        
         return Excel::download(new ReceiptsExport($data), 'receipts.xlsx');
     }
 
