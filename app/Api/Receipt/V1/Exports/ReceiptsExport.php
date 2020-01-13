@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exports;
+namespace Api\Receipt\V1\Exports;
 
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
@@ -11,19 +11,6 @@ use Maatwebsite\Excel\Excel;
 class ReceiptsExport implements FromCollection, WithHeadings, WithMapping, ShouldAutoSize
 {
     protected $receipts;
-
-    /**
-    * It's required to define the fileName within
-    * the export class when making use of Responsable.
-    */
-    private $fileName = 'receipts.xlsx';
-
-    /**
-    * Optional Writer Type
-    */
-    private $writerType = Excel::XLSX;
-
-    // protected $receiptRepository;
 
     public function __construct($receipts)
     {

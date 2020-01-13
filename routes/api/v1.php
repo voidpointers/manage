@@ -9,6 +9,7 @@ $api->version('v1', [], function ($api) {
     ], function ($api) {
         $api->get('lists', 'ReceiptsController@lists');
         $api->get('export', 'ReceiptsController@export');
+        $api->post('import', 'ReceiptsController@import');
         $api->post('close', 'ReceiptsController@close');
         $api->post('{receipt_sn}/update', 'ReceiptsController@update');
         $api->post('transaction/{receipt_sn}/create', 'TransactionsController@create');

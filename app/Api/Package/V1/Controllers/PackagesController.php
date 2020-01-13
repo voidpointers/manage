@@ -142,4 +142,9 @@ class PackagesController extends Controller
 
         return $this->response->array(['data' => ['package_sn' => $package_sn]]);
     }
+
+    public function import(Request $request)
+    {
+
+    }
 }

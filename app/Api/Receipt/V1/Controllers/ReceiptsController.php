@@ -3,9 +3,10 @@
 namespace Api\Receipt\V1\Controllers;
 
 use Api\Controller;
+use Api\Receipt\V1\Exports\ReceiptsExport;
+use Api\Receipt\V1\Imports\ReceiptImport;
 use Api\Receipt\V1\Requests\ReceiptRequest;
 use Api\Receipt\V1\Transforms\ReceiptTransformer;
-use App\Exports\ReceiptsExport;
 use Dingo\Api\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Package\Services\PackageService;
@@ -70,21 +71,6 @@ class ReceiptsController extends Controller
     }
 
     /**
-     * 导出订单
-     * 
-     * @return
-     */
-    public function export(Request $request)
-    {
-        $data = $this->transactionRepository->apply($request)
-            ->with(['consignee', 'receipt'])
-            ->orderBy('id', 'desc')
-            ->get();
-        
-        return Excel::download(new ReceiptsExport($data), 'receipts.xlsx');
-    }
-
-    /**
      * 关闭
      */
     public function close(Request $request)
@@ -123,5 +109,31 @@ class ReceiptsController extends Controller
     public function copy()
     {
 
+    }
+
+    /**
+     * 导入订单
+     */
+    public function import(Request $request) 
+    {
+        get_last_sql();
+        Excel::import(new ReceiptImport, $request->file('file'));
+        
+        return $this->response->array(['msg' => 'success']);
+    }
+
+    /**
+     * 导出订单
+     * 
+     * @return
+     */
+    public function export(Request $request)
+    {
+        $data = $this->transactionRepository->apply($request)
+            ->with(['consignee', 'receipt'])
+            ->orderBy('id', 'desc')
+            ->get();
+        
+        return Excel::download(new ReceiptsExport($data), 'receipts.xlsx');
     }
 }
