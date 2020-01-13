@@ -16,24 +16,25 @@ class FollowsController extends Controller
 
     protected $stateMachine;
 
-    protected $receiptRepository;
+    protected $repository;
 
     public function __construct(
         ReceiptService $receiptService,
         StateMachine $stateMachine,
-        ReceiptRepository $receiptRepository)
+        ReceiptRepository $repository)
     {
         $this->receiptService = $receiptService;
         $this->stateMachine = $stateMachine;
-        $this->receiptRepository = $receiptRepository;
+        $this->repository = $repository;
     }
 
     public function lists(Request $request)
     {
         $request->offsetSet('is_follow', 1);
 
-        $receipts = $this->receiptService->query($request)->orderBy('id', 'desc')
-            ->paginate($request->get('limit', 30));
+        $receipts = $this->repository->apply($request)
+        ->orderBy('id', 'desc')
+        ->paginate($request->get('limit', 30));
         
         return $this->response->paginator(
             $receipts,
