@@ -116,7 +116,6 @@ class ReceiptsController extends Controller
      */
     public function import(Request $request) 
     {
-        get_last_sql();
         Excel::import(new ReceiptImport, $request->file('file'));
         
         return $this->response->array(['msg' => 'success']);
