@@ -32,8 +32,8 @@ trait TransactionFilter
             return $this->builder;
         }
 
-        return $this->builder->whereHas('receipt', function($query) use ($params) {
-            return $query->where('status', $params);
+        return $this->builder->whereHas('receipt', function($query) use ($status) {
+            return $query->where('status', $status);
         });
     }
 
