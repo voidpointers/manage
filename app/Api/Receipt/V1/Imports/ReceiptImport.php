@@ -18,9 +18,9 @@ class ReceiptImport implements ToCollection, WithStartRow
         });
 
         // 获取Receipts
-        $receipts = Receipt::whereIn('etsy_receipt_id', $receipt_ids)
+        $receipts = Receipt::whereIn('receipt_id', $receipt_ids)
         ->get()
-        ->pluck('package_sn', 'etsy_receipt_id');
+        ->pluck('package_sn', 'receipt_id');
         if ($receipts->isEmpty()) {
             throw new \RuntimeException('订单不存在');
         }
@@ -28,7 +28,7 @@ class ReceiptImport implements ToCollection, WithStartRow
         $logistics = [];
 
         foreach ($rows as $row) {
-            $receipt = $receipts[$row['etsy_receipt_id']];
+            $receipt = $receipts[$row['receipt_id']];
             if (!$receipt['package_sn']) {
                 continue;
             }

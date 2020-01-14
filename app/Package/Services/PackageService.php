@@ -75,7 +75,7 @@ class PackageService
             foreach ($receipt->transaction as $value) {
                 $items[] = [
                     'package_sn' => $package_sn,
-                    'etsy_receipt_id' => $receipt->etsy_receipt_id,
+                    'receipt_id' => $receipt->receipt_id,
                     'receipt_sn' => $receipt->receipt_sn,
                     'transaction_sn' => $value->id,
                     'title' => '桌游用品',

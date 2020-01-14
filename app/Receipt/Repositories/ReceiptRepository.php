@@ -17,7 +17,7 @@ class ReceiptRepository extends Repository implements ReceiptInterface
     use ReceiptFilter;
 
     protected $fieldSearchable = [
-        'etsy_receipt_id',
+        'receipt_id',
         'creation_tsz'
     ];
 

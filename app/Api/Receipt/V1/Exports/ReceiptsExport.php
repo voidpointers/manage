@@ -65,7 +65,7 @@ class ReceiptsExport implements FromCollection, WithHeadings, WithMapping, Shoul
     public function map($receipt): array
     {
         return [
-            $receipt->etsy_receipt_id,
+            $receipt->receipt_id,
             $receipt->etsy_sku,
             $receipt->variations,
             $receipt->quantity,

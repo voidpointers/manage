@@ -18,7 +18,7 @@ trait TransactionFilter
     public function etsyReceiptId($params)
     {
         return $this->builder->whereHas('receipt', function($query) use ($params) {
-            return $query->where('etsy_receipt_idetsy_sku', $params);
+            return $query->where('receipt_id', $params);
         });
     }
 

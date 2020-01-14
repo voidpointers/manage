@@ -15,7 +15,7 @@ trait ReceiptFilter
 
     public function etsyReceiptId($params)
     {
-        return $this->builder->where('etsy_receipt_id', $params);
+        return $this->builder->where('receipt_id', $params);
     }
 
     public function status($params)
