@@ -64,17 +64,17 @@ class PackageService
         $packages = $items = [];
 
         foreach ($receipts as $receipt) {
-            $pacakge_sn = generate_package_sn();
+            $package_sn = generate_package_sn();
             $packages[] = [
-                'package_sn' => $pacakge_sn,
-                'consignee_id' => $receipt->consignee->id,
+                'package_sn' => $package_sn,
+                'receipt_sn' => $receipt->receipt_sn,
                 'status' => self::STATUS['new'],
                 'create_time' => time(),
                 'update_time' => time(),
             ];
             foreach ($receipt->transaction as $value) {
                 $items[] = [
-                    'package_sn' => $pacakge_sn,
+                    'package_sn' => $package_sn,
                     'etsy_receipt_id' => $receipt->etsy_receipt_id,
                     'receipt_id' => $receipt->id,
                     'transaction_id' => $value->id,

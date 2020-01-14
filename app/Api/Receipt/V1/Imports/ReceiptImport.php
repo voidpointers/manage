@@ -4,20 +4,26 @@ namespace Api\Receipt\V1\Imports;
 
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
-use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Concerns\WithStartRow;
 use Package\Entities\Logistics;
 use Receipt\Entities\Receipt;
 
-class ReceiptImport implements ToCollection, WithHeadingRow
+// class ReceiptImport implements ToCollection, WithHeadingRow
+class ReceiptImport implements ToCollection, WithStartRow
 {
     public function collection(Collection $rows)
     {
-        $receipt_ids = $rows->pluck('etsy_receipt_id');
+        $receipt_ids = $rows->map(function ($row) {
+            return $row[0];
+        });
 
         // 获取Receipts
         $receipts = Receipt::whereIn('etsy_receipt_id', $receipt_ids)
         ->get()
         ->pluck('package_sn', 'etsy_receipt_id');
+        if ($receipts->isEmpty()) {
+            throw new \RuntimeException('订单不存在');
+        }
 
         $logistics = [];
 
@@ -42,5 +48,10 @@ class ReceiptImport implements ToCollection, WithHeadingRow
         ]);
 
         Logistics::create($logistics);
+    }
+
+    public function startRow(): int
+    {
+        return 2;
     }
 }

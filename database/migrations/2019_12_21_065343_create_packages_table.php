@@ -17,7 +17,7 @@ class CreatePackagesTable extends Migration
         Schema::create('packages', function (Blueprint $table) {
             $table->increments('id');
             $table->bigInteger('package_sn')->unsigned()->default(0)->comment('包裹编号');
-            $table->integer('consignee_id')->unsigned()->default(0)->comment('收货人');
+            $table->bigInteger('receipt_sn')->unsigned()->default(0)->comment('订单编号');
             $table->tinyInteger('status')->default(0)->comment('状态');
             $table->integer('create_time')->default(0)->comment('创建时间');
             $table->integer('update_time')->default(0)->comment('更新时间');
@@ -27,7 +27,7 @@ class CreatePackagesTable extends Migration
             $table->integer('close_time')->default(0)->comment('关闭时间');
             $table->integer('complete_time')->default(0)->comment('完成时间');
             $table->unique('package_sn', 'uk_package_sn');
-            $table->index('consignee_id', 'uk_consignee_id');
+            $table->index('receipt_sn', 'uk_receipt_sn');
         });
 
         DB::statement("ALTER TABLE `packages` comment '物流包裹'"); // 表注释

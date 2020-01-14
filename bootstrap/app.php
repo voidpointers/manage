@@ -31,6 +31,7 @@ $app->configure('cors');
 $app->configure('database');
 $app->configure('auth');
 $app->configure('api');
+$app->configure('excel');
 
 /*
 |--------------------------------------------------------------------------
