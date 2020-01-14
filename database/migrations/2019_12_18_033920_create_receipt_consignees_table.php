@@ -17,7 +17,7 @@ class CreateReceiptConsigneesTable extends Migration
         Schema::create('receipt_consignees', function (Blueprint $table) {
             $table->increments('id');
             $table->bigInteger('receipt_sn')->unsigned()->default(0)->comment('收据编号');
-            $table->bigInteger('etsy_receipt_id')->unsigned()->default(0)->comment('Etsy收据ID');
+            $table->bigInteger('receipt_id')->unsigned()->default(0)->comment('Etsy收据ID');
             $table->integer('country_id')->unsigned()->default(0)->comment('国家ID');
             $table->string('country_code', 2)->default('')->comment('国家代号');
             $table->string('country', 128)->default('')->comment('国家名称');
@@ -31,8 +31,7 @@ class CreateReceiptConsigneesTable extends Migration
             $table->string('phone', 32)->default('')->comment('');
             $table->integer('create_time')->unsigned()->default(0)->comment('创建时间');
             $table->integer('update_time')->unsigned()->default(0)->comment('更新时间');
-            $table->unique('receipt_sn', 'uk_receipt_sn');
-            $table->index('etsy_receipt_id', 'idx_receipt_id');
+            $table->unique('receipt_id', 'uk_receipt_id');
             $table->index('country_id', 'idx_country_id');
         });
 

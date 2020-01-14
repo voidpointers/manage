@@ -76,8 +76,8 @@ class PackageService
                 $items[] = [
                     'package_sn' => $package_sn,
                     'etsy_receipt_id' => $receipt->etsy_receipt_id,
-                    'receipt_id' => $receipt->id,
-                    'transaction_id' => $value->id,
+                    'receipt_sn' => $receipt->receipt_sn,
+                    'transaction_sn' => $value->id,
                     'title' => '桌游用品',
                     'en' => 'Table Game',
                     'price' => '1.98',
