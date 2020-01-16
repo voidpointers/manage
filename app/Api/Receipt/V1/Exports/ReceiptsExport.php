@@ -64,10 +64,12 @@ class ReceiptsExport implements FromCollection, WithHeadings, WithMapping, Shoul
     */
     public function map($receipt): array
     {
+        $variations = implode(' - ', array_column($receipt->variations, 'value'));
+
         return [
             $receipt->receipt_id,
             $receipt->etsy_sku,
-            $receipt->variations,
+            $variations,
             $receipt->quantity,
             $receipt->price,
             $receipt->receipt->currency_code,
