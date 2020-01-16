@@ -19,7 +19,9 @@ class ReceiptTransformer extends TransformerAbstract
 
     public function transform(Receipt $receipt)
     {
-        return $receipt->attributesToArray();
+        $receipts = $receipt->attributesToArray();
+        $receipts['etsy_receipt_id'] = $receipt->receipt_id;
+        return $receipts;
     }
 
     /**
