@@ -24,39 +24,6 @@ class ReceiptService
         return Consignee::updateBatch($data);
     }
 
-    /**
-     * 构造搜索语句
-     * 
-     * @param Request $request
-     * @return 
-     */
-    public function query($request, $models = [])
-    {
-        $filter = new Filter($request);
-
-        if (!$models) {
-            $models = ['base' => 'receipt', 'with' => [
-                    'transaction', 'consignee', 'logistics'
-                ]
-            ];
-        }
-
-        $query = $filter->filter(
-            $models['base'],
-            ('Receipt\\Entities\\' . ucfirst($models['base']))::query()
-        );
-
-        foreach ($models['with'] as $model) {
-            if ('logistics' == $model) continue;
-
-            $query->whereHas($model, function ($query) use ($filter, $model) {
-                return $filter->filter($model, $query);
-            });
-        }
-        $query->with($models['with']);
-
-        return $query;
-    }
 
     public function listsByIds($ids)
     {

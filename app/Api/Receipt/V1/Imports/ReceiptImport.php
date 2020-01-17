@@ -24,6 +24,7 @@ class ReceiptImport implements ToCollection, WithStartRow
         if ($receipts->isEmpty()) {
             throw new \RuntimeException('订单不存在');
         }
+        dump($receipts);
 
         $logistics = [];
 
@@ -40,6 +41,7 @@ class ReceiptImport implements ToCollection, WithStartRow
             ];
         }
         if (!$logistics) {
+            throw new \RuntimeException('包裹不存在');
             return [];
         }
 

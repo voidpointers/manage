@@ -17,48 +17,6 @@ class PackageService
         'closed' => 7,
     ];
 
-    /**
-     * 构造搜索语句
-     * 
-     * @param Request $request
-     * @return 
-     */
-    public function query($request, $models = [])
-    {
-        $filter = new Filter($request);
-
-        if (!$models) {
-            $models = ['base' => 'package', 'with' => [
-                    'logistics',
-                    'item' => function ($query) {
-                        return $query->with('transaction');
-                    },
-                    'consignee'
-                ]
-            ];
-        }
-
-        $query = $filter->filter(
-            $models['base'],
-            ('Package\\Entities\\' . ucfirst($models['base']))::query()
-        );
-
-        foreach ($models['with'] as $key => $model) {
-            if (!$request->has('channel_id') && 'logistics' == $model) {
-                continue;
-            }
-            if (!is_string($model)) {
-                continue;
-            }
-            $query->whereHas($model, function ($query) use ($filter, $model) {
-                return $filter->filter($model, $query);
-            });
-        }
-        $query->with($models['with']);
-
-        return $query;
-    }
-
     public function create($receipts)
     {
         $packages = $items = [];

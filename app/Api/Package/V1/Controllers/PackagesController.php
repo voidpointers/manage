@@ -86,8 +86,8 @@ class PackagesController extends Controller
         // 去重并组装receipt更新数据
         $data = [];
         foreach ($items as $item) {
-            $data[$item['receipt_id']] = [
-                'id' => $item['receipt_id'],
+            $data[$item['receipt_sn']] = [
+                'receipt_sn' => $item['receipt_id'],
                 'package_sn' => $item['package_sn']
             ];
         }
