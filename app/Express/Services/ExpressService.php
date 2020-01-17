@@ -77,7 +77,7 @@ class ExpressService
             'Weight' => '',
             'Receiver' => [
                 'CountryCode' => $package->consignee->country_code,
-                'FirtstName' => $package->consignee->name,
+                'FirstName' => $package->consignee->name,
                 'LastName' => '',
                 'Street' => str_replace('&#39;', '', 
                     $package->consignee->first_line . ' ' . $package->consignee->second_line
@@ -87,7 +87,6 @@ class ExpressService
                 'Zip' => $package->consignee->zip,
                 'Phone' => $package->consignee->phone,
             ],
-            
         ];
         $total_weight = 0;
         $parcels = [];
