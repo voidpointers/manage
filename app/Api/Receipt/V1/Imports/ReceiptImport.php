@@ -28,15 +28,15 @@ class ReceiptImport implements ToCollection, WithStartRow
         $logistics = [];
 
         foreach ($rows as $row) {
-            $receipt = $receipts[$row['receipt_id']];
+            $receipt = $receipts[$row[0]];
             if (!$receipt['package_sn']) {
                 continue;
             }
 
             $logistics[] = [
-                'tracking_code' => $row['tracking_code'],
+                'tracking_code' => $row[3],
                 'package_sn' => $receipt['package_sn'],
-                'provider' => $row['provider']
+                'provider' => $row[2]
             ];
         }
         if (!$logistics) {
