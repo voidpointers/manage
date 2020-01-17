@@ -81,7 +81,7 @@ class PackageService
                     'transaction_sn' => $value->id,
                     'title' => '桌游用品',
                     'en' => 'Table Game',
-                    'price' => '1.98',
+                    'price' => '19.8',
                     'weight' => '0.198',
                     'quantity' => $value->quantity,
                 ];
