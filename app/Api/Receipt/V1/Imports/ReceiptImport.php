@@ -2,6 +2,7 @@
 
 namespace Api\Receipt\V1\Imports;
 
+use App\Console\Commands\Package;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithStartRow;
@@ -62,9 +63,10 @@ class ReceiptImport implements ToCollection, WithStartRow
             return [];
         }
 
-        Receipt::whereIn('receipt_id', $receipt_ids)->update([
-            'status' => 8, 'complete_time' => time(), 'dispatch_time' => time()
-        ]);
+        // Receipt::whereIn('receipt_id', $receipt_ids)->update([
+        //     'status' => 8, 'complete_time' => time(), 'dispatch_time' => time()
+        // ]);
+        Package::whereIn('package_sn', $receipts)->update(['status' => 2]);
 
         Logistics::insert($data);
     }
