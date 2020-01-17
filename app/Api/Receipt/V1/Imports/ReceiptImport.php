@@ -19,12 +19,12 @@ class ReceiptImport implements ToCollection, WithStartRow
 
         // 获取Receipts
         $receipts = Receipt::whereIn('receipt_id', $receipt_ids)
+        ->whereIn('status', [1, 2])
         ->get()
         ->pluck('package_sn', 'receipt_id');
         if ($receipts->isEmpty()) {
             throw new \RuntimeException('订单不存在');
         }
-        dump($receipts);
 
         $logistics = [];
 
