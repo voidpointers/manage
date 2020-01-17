@@ -19,28 +19,44 @@ class ReceiptImport implements ToCollection, WithStartRow
 
         // 获取Receipts
         $receipts = Receipt::whereIn('receipt_id', $receipt_ids)
-        ->whereIn('status', [1, 2])
+        // ->whereIn('status', [1, 2])
         ->get()
         ->pluck('package_sn', 'receipt_id');
         if ($receipts->isEmpty()) {
             throw new \RuntimeException('订单不存在');
         }
 
-        $logistics = [];
+        // 过滤已导入物流
+        $logistics = Logistics::whereIn('package_sn', $receipts)
+        ->get(['package_sn'])
+        ->pluck('package_sn');
 
+        $data = [];
         foreach ($rows as $row) {
-            $receipt = $receipts[$row[0]];
-            if (!$receipt['package_sn']) {
+            $package_sn = $receipts[$row[0]];
+            if (!$package_sn) {
+                continue;
+            }
+            if (in_array($package_sn, $logistics->toArray())) {
                 continue;
             }
 
-            $logistics[] = [
-                'tracking_code' => $row[3],
-                'package_sn' => $receipt['package_sn'],
-                'provider' => $row[2]
+            $provider = explode('-', $row[1]);
+
+            $data[] = [
+                'tracking_code' => $row[2],
+                'package_sn' => $package_sn,
+                'provider' => json_encode([
+                    'provider' => $provider[0] ?? '',
+                    'channel' => $provider[1] ?? ''
+                ]),
+                'provider_id' => 1,
+                'status' => 1,
+                'create_time' => time(),
+                'update_time' => time()
             ];
         }
-        if (!$logistics) {
+        if (!$data) {
             throw new \RuntimeException('包裹不存在');
             return [];
         }
@@ -49,7 +65,7 @@ class ReceiptImport implements ToCollection, WithStartRow
             'status' => 8, 'complete_time' => time(), 'dispatch_time' => time()
         ]);
 
-        Logistics::create($logistics);
+        Logistics::insert($data);
     }
 
     public function startRow(): int
