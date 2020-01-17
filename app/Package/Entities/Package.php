@@ -19,7 +19,7 @@ class Package extends Model
 
     public function consignee()
     {
-        return $this->hasOne(Consignee::class, 'id', 'consignee_id');
+        return $this->hasOne(Consignee::class, 'receipt_sn', 'receipt_sn');
     }
 
     public function item()
