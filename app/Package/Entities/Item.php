@@ -11,6 +11,6 @@ class Item extends Model
 
     public function transaction()
     {
-        return $this->hasOne(Transaction::class, 'id', 'transaction_id');
+        return $this->hasOne(Transaction::class, 'id', 'transaction_sn');
     }
 }
