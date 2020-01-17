@@ -44,6 +44,7 @@ class ReceiptImport implements ToCollection, WithStartRow
             $provider = explode('-', $row[1]);
 
             $data[] = [
+                'type' => 2,
                 'tracking_code' => $row[2],
                 'package_sn' => $package_sn,
                 'provider' => json_encode([
