@@ -91,7 +91,7 @@ class ReceiptsExport implements FromCollection, WithHeadings, WithMapping, Shoul
             '', // 税号
             '', // 门牌号
             '', // 公司名
-            '', // 订单备注
+            $receipt->remark . '-' . $receipt->buyer_msg, // 订单备注
             $receipt->image,
             '',
             '桌游用品',
