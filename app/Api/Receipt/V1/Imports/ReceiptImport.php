@@ -74,7 +74,9 @@ class ReceiptImport implements ToCollection, WithStartRow
         ]);
 
         Receipt::whereIn('package_sn', $receipts)->update([
-            'status' => 8, 'complete_time' => $cur_time, 'dispatch_time' => $cur_time
+            'status' => 8,
+            'complete_time' => $cur_time,
+            'dispatch_time' => $cur_time
         ]);
 
         Logistics::insert($data);
