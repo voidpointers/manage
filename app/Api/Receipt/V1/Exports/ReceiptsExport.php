@@ -73,7 +73,7 @@ class ReceiptsExport implements FromCollection, WithHeadings, WithMapping, Shoul
 
         return [
             $receipt->receipt_id,
-            $receipt->etsy_sku,
+            1 > strlen($receipt->etsy_sku) ? 0: $receipt->etsy_sku,
             $variations,
             $receipt->quantity,
             $receipt->price,
