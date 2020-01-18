@@ -24,7 +24,6 @@ class ReceiptService
         return Consignee::updateBatch($data);
     }
 
-
     public function listsByIds($ids)
     {
         return Receipt::whereIn('id', $ids)->with(['consignee', 'transaction'])->get();

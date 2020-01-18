@@ -66,6 +66,11 @@ class ReceiptsExport implements FromCollection, WithHeadings, WithMapping, Shoul
     {
         $variations = implode(' - ', array_column($receipt->variations, 'value'));
 
+        $state = $receipt->consignee->state;
+        if (1 > strlen($state)) {
+            $state = $receipt->consignee->city;
+        }
+
         return [
             $receipt->receipt_id,
             $receipt->etsy_sku,
@@ -77,7 +82,7 @@ class ReceiptsExport implements FromCollection, WithHeadings, WithMapping, Shoul
             $receipt->consignee->first_line,
             $receipt->consignee->second_line,
             $receipt->consignee->city,
-            $receipt->consignee->state,
+            $state,
             $receipt->consignee->country_code,
             $receipt->consignee->zip,
             $receipt->consignee->phone,
