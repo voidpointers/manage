@@ -47,7 +47,6 @@ class Package extends Command
     public function handle()
     {
         $count = Receipt::where('status', 8)->count();
-        dd($count);
         for($i = 100; $i > 0; $i--) {
             $receipts = Receipt::where('status', 8)->offset(100)->limit($i)->get();
             $this->packageService->create($receipts);

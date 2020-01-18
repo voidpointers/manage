@@ -2,11 +2,11 @@
 
 namespace Api\Receipt\V1\Imports;
 
-use App\Console\Commands\Package;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithStartRow;
 use Package\Entities\Logistics;
+use Package\Entities\Package;
 use Receipt\Entities\Receipt;
 
 // class ReceiptImport implements ToCollection, WithHeadingRow
