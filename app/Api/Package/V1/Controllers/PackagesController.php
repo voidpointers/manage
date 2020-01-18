@@ -128,12 +128,12 @@ class PackagesController extends Controller
             'where' => ['status' => 3]
         ]);
 
-        // 取出receipt_id
+        // 取出receipt_sn
         $items = [];
         foreach ($packages as $package) {
             foreach ($package->item as $item) {
                 $items[] = [
-                    'receipt_id' => $item->receipt_id,
+                    'receipt_sn' => $item->receipt_sn,
                 ];
             }
         }
@@ -146,10 +146,10 @@ class PackagesController extends Controller
         $this->packageStateMachine->operation('dispatch', ['package_sn' => $package_sn]);
 
         // 获取包裹包含订单
-        $receipt_ids = array_unique(array_column($items, 'receipt_id'));
+        $receipt_sn = array_unique(array_column($items, 'receipt_sn'));
 
         // 更改订单状态
-        if (!$this->receiptStateMachine->operation('dispatch', ['id' => $receipt_ids])) {
+        if (!$this->receiptStateMachine->operation('dispatch', ['receipt_sn' => $receipt_sn])) {
             return $this->response->error('订单状态更改失败', 500);
         }
 
