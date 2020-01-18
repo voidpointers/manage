@@ -9,9 +9,9 @@ use Receipt\Entities\Consignee;
 
 class ReceiptService
 {
-    public function updateReceipt($data)
+    public function updateReceipt($data, $where_field = 'id', $when_field = 'id')
     {
-        return Receipt::updateBatch($data);
+        return Receipt::updateBatch($data, $where_field, $when_field);
     }
 
     public function updateTransaction($data)

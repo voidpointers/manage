@@ -5,6 +5,7 @@ namespace Api\Package\V1\Controllers;
 use Api\Controller;
 use Api\Package\V1\Transforms\PackageTransformer;
 use Dingo\Api\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Package\Repositories\PackageRepository;
 use Package\Services\PackageService;
 use Receipt\Services\ReceiptService;
@@ -75,25 +76,37 @@ class PackagesController extends Controller
 
         $receipt_ids = $receipts->pluck('id')->toArray();
 
+        DB::beginTransaction();
+
         // 更改订单状态
         if (!$this->receiptStateMachine->operation('packup', ['id' => $receipt_ids])) {
+            DB::rollBack();
             return $this->response->error('订单状态更改失败', 500);
         }
 
         // 生成包裹
         $items = $this->packageService->create($receipts);
+        if (!$items) {
+            DB::rollBack();
+            return $this->response->error('包裹生成失败', 500);
+        }
 
         // 去重并组装receipt更新数据
         $data = [];
         foreach ($items as $item) {
             $data[$item['receipt_sn']] = [
-                'receipt_sn' => $item['receipt_id'],
+                'receipt_sn' => $item['receipt_sn'],
                 'package_sn' => $item['package_sn']
             ];
         }
 
         // 关联package_sn到receipt主表
-        $this->receiptService->updateReceipt($data);
+        if (!$this->receiptService->updateReceipt($data, 'receipt_sn', 'receipt_sn')) {
+            DB::rollBack();
+            return $this->response->error('更新订单失败', 500);
+        }
+
+        DB::commit();
 
         return $this->response->array(['data' => $items]);
     }
