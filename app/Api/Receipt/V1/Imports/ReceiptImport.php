@@ -20,9 +20,9 @@ class ReceiptImport implements ToCollection, WithStartRow
 
         // 获取Receipts
         $receipts = Receipt::whereIn('receipt_id', $receipt_ids)
-        // ->whereIn('status', [1, 2])
+        ->whereIn('status', [1, 2])
         ->get()
-        ->pluck('package_sn', 'receipt_id');
+        ->pluck('package_sn', 'receipt_id', 'receit_sn');
         if ($receipts->isEmpty()) {
             throw new \RuntimeException('订单不存在');
         }
@@ -31,6 +31,8 @@ class ReceiptImport implements ToCollection, WithStartRow
         $logistics = Logistics::whereIn('package_sn', $receipts)
         ->get(['package_sn'])
         ->pluck('package_sn');
+
+        $cur_time = time();
 
         $data = [];
         foreach ($rows as $row) {
@@ -54,8 +56,8 @@ class ReceiptImport implements ToCollection, WithStartRow
                 ]),
                 'provider_id' => 1,
                 'status' => 1,
-                'create_time' => time(),
-                'update_time' => time()
+                'create_time' => $cur_time,
+                'update_time' => $cur_time
             ];
         }
         if (!$data) {
@@ -63,13 +65,16 @@ class ReceiptImport implements ToCollection, WithStartRow
             return [];
         }
 
-        // Receipt::whereIn('receipt_id', $receipt_ids)->update([
-        //     'status' => 8, 'complete_time' => time(), 'dispatch_time' => time()
-        // ]);
         Package::whereIn('package_sn', $receipts)->update([
-            'status' => 3,
-            'print_time' => time(),
-            'track_time' => time()
+            'status' => 8,
+            'print_time' => $cur_time,
+            'track_time' => $cur_time,
+            'complete_time' => $cur_time,
+            'dispatch_time' => $cur_time,
+        ]);
+
+        Receipt::whereIn('package_sn', $receipts)->update([
+            'status' => 8, 'complete_time' => $cur_time, 'dispatch_time' => $cur_time
         ]);
 
         Logistics::insert($data);
