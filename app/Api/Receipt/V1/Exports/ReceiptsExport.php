@@ -70,6 +70,10 @@ class ReceiptsExport implements FromCollection, WithHeadings, WithMapping, Shoul
         if (1 > strlen($state)) {
             $state = $receipt->consignee->city;
         }
+        $remark = $receipt->receipt->remark;
+        if ($receipt->receipt->buyer_msg) {
+            $remark .= '-' . $receipt->receipt->buyer_msg;
+        }
 
         return [
             $receipt->receipt_id,
@@ -91,7 +95,7 @@ class ReceiptsExport implements FromCollection, WithHeadings, WithMapping, Shoul
             '', // 税号
             '', // 门牌号
             '', // 公司名
-            $receipt->receipt->remark . '-' . $receipt->receipt->buyer_msg, // 订单备注
+            $remark,
             $receipt->image,
             '',
             '桌游用品',
