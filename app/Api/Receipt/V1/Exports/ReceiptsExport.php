@@ -71,8 +71,11 @@ class ReceiptsExport implements FromCollection, WithHeadings, WithMapping, Shoul
             $state = $receipt->consignee->city;
         }
         $remark = $receipt->receipt->remark;
+        if ($remark) {
+            $remark .= '-'; 
+        }
         if ($receipt->receipt->buyer_msg) {
-            $remark .= '-' . $receipt->receipt->buyer_msg;
+            $remark .= $receipt->receipt->buyer_msg;
         }
 
         return [
