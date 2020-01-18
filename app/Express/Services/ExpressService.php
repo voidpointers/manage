@@ -82,7 +82,7 @@ class ExpressService
                 'Street' => str_replace('&#39;', '', 
                     $package->consignee->first_line . ' ' . $package->consignee->second_line
                 ),
-                // 'City' => $package->consignee->city,
+                'City' => $package->consignee->city,
                 'City' => $package->consignee->state,
                 'State' => $package->consignee->state,
                 'Zip' => $package->consignee->zip,
