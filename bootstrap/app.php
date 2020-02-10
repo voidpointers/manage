@@ -66,7 +66,7 @@ $app->singleton(
 */
 
 $app->middleware([
-    \Barryvdh\Cors\HandleCors::class,
+    \Fruitcake\Cors\HandleCors::class,
 ]);
 
 $app->routeMiddleware([
@@ -90,9 +90,9 @@ $app->register(App\Providers\EventServiceProvider::class);
 $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 $app->register(Dingo\Api\Provider\LumenServiceProvider::class);
 $app->register(\Voidpointers\Yunexpress\Provider\LumenServiceProvider::class);
-$app->register(Barryvdh\Cors\ServiceProvider::class);
 $app->register(Maatwebsite\Excel\ExcelServiceProvider::class);
 $app->register(Illuminate\Redis\RedisServiceProvider::class);
+$app->register(\Fruitcake\Cors\CorsServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
